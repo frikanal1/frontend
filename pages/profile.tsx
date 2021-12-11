@@ -17,6 +17,8 @@ import { Section } from "modules/ui/components/Section";
 import { OrganizationRoleItem } from "modules/user/components/OrganizationRoleItem";
 import { Meta } from "modules/core/components/Meta";
 import { useRouter } from "next/router";
+import { ListTail } from "modules/state/components/ListTail";
+import { useResourceList } from "modules/state/hooks/useResourceList";
 
 const breakpoint = 800;
 
@@ -72,14 +74,24 @@ function Profile() {
   const router = useRouter();
   const manager = useManager();
 
-  const { authStore, networkStore } = manager.stores;
+  const { authStore, networkStore, listStore, organizationStore } = manager.stores;
   const { api } = networkStore;
   const user = authStore.user!;
+
+  // TODO: This is temporary until there is a separate User model
+  const organizationList = listStore.ensure(`profile-organizations-${user.id}`, "organization", {
+    path: "/organizations",
+    params: {
+      editor: user.id,
+    },
+  });
+
+  const organizations = useResourceList(organizationList, organizationStore);
 
   const [form] = useState(() => createProfileForm(user, manager));
 
   const [status, handleSubmit] = useFormSubmission(form, async (serialized) => {
-    const { data } = await api.put<User>("/user", serialized);
+    const { data } = await api.put<User>(`/users/${user.id}`, serialized);
 
     // TODO: Fix this, users should be in a resource store
     Object.assign(authStore.user, data);
@@ -102,9 +114,6 @@ function Profile() {
           <Field area="lastName" label="Etternavn" name="lastName">
             <ControlledTextInput name="lastName" />
           </Field>
-          <Field area="phoneNumber" label="Mobilnummer" name="phoneNumber">
-            <ControlledTextInput name="phoneNumber" />
-          </Field>
           <FormFooter>
             <StatusLine {...status} />
             <GenericButton variant="primary" onClick={handleSubmit} label="Lagre" />
@@ -112,9 +121,10 @@ function Profile() {
         </FormContainer>
         <OrganizationSection icon="officeBuilding" title="Organisasjoner du er medlem av">
           <OrganizationList>
-            {user.organizationRoles.map((r) => (
-              <OrganizationRoleItem key={r.organizationId} role={r} />
+            {organizations.map((o) => (
+              <OrganizationRoleItem key={o.data.id} organization={o} />
             ))}
+            <ListTail list={organizationList} />
           </OrganizationList>
           <GenericButton variant="secondary" label="Ny organisasjon" onClick={() => router.push("/organization/new")} />
         </OrganizationSection>

@@ -5,7 +5,9 @@ export const useObserver = <T>(fn: () => T) => {
   const [value, setValue] = useState(fn());
 
   useEffect(() => {
-    return autorun(() => setValue(fn()));
+    return autorun(() => {
+      setValue(fn());
+    });
   }, []);
 
   return value;

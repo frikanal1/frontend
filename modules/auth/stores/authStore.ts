@@ -1,14 +1,14 @@
 import { AxiosError } from "axios";
 import { computed, observable, makeObservable } from "mobx";
 import { createStoreFactory, Store } from "modules/state/classes/Store";
-import { User } from "modules/user/schemas";
+import { AuthUser } from "../types";
 
 export type SerializedAuthStore = {
-  user?: User;
+  user?: AuthUser;
 };
 
 export class AuthStore extends Store<SerializedAuthStore> {
-  public user?: User;
+  public user?: AuthUser;
 
   public make() {
     makeObservable(this, {
@@ -32,9 +32,9 @@ export class AuthStore extends Store<SerializedAuthStore> {
     if (this.isAuthenticated) return;
 
     try {
-      const response = await api.get<User>("/user");
+      const response = await api.get<{ user: AuthUser }>("/auth/user");
 
-      this.user = response.data;
+      this.user = response.data.user;
     } catch (error) {
       const { response } = error as AxiosError;
 
@@ -50,7 +50,7 @@ export class AuthStore extends Store<SerializedAuthStore> {
     const { api } = networkStore;
 
     try {
-      await api.post("/user/logout");
+      await api.post("/auth/logout");
       this.user = undefined;
     } catch (e) {}
   }

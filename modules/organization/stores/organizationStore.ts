@@ -40,7 +40,7 @@ export class OrganizationStore extends Store<SerializedResourceStore<Organizatio
   }
 
   public get add() {
-    return this.store.prepopulate.bind(this.store);
+    return this.store.add.bind(this.store);
   }
 }
 

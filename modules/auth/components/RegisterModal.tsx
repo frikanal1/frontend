@@ -32,7 +32,7 @@ export function RegisterModal(props: RegisterModalProps) {
   const { api } = networkStore;
 
   const [status, handleSubmit] = useFormSubmission(form, async (serialized) => {
-    await api.post("/user/register", {
+    await api.post("/auth/register", {
       ...serialized,
 
       // Hardcoded awaiting change of database schema

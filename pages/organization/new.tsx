@@ -85,7 +85,7 @@ const Content = observer(() => {
 
   const [status, setStatus] = useStatusLine();
 
-  const organizationNumber = form.fields.orgnr.value;
+  const organizationNumber = form.fields.brregNumber.value;
 
   useEffect(() => {
     const doFetch = async () => {
@@ -113,7 +113,7 @@ const Content = observer(() => {
   }, [organizationNumber, form, setStatus]);
 
   const [formStatus, handleSubmit] = useFormSubmission(form, async (serialized) => {
-    const { data } = await api.post<OrganizationData>("/organization/", serialized);
+    const { data } = await api.post<OrganizationData>("/organizations/", serialized);
 
     organizationStore.add(data);
     router.push(`/organization/${data.id}/admin`);
@@ -135,8 +135,8 @@ const Content = observer(() => {
       />
       <Container>
         <FormContainer>
-          <Field area="number" label="Organisasjonsnummer" name="orgnr">
-            <ControlledTextInput placeholder="9 siffer" autoFocus name="orgnr" />
+          <Field area="number" label="Organisasjonsnummer" name="brregNumber">
+            <ControlledTextInput placeholder="9 siffer" autoFocus name="brregNumber" />
           </Field>
           <Field area="name" label="Organisasjonsnavn" name="name">
             <ControlledTextInput name="name" />

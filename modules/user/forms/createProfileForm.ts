@@ -12,9 +12,6 @@ export const createProfileForm = (user: User, manager: Manager) => {
       lastName: string({
         value: user.lastName,
       }),
-      phoneNumber: string({
-        value: user.phoneNumber,
-      }),
     },
     manager
   );

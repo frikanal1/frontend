@@ -33,7 +33,7 @@ export class ScheduleStore extends Store<SerializedScheduleStore> {
       const { networkStore } = this.manager.stores;
       const { api } = networkStore;
 
-      const { data } = await api.get<ScheduleItemData>(`/scheduleitems/${id}`);
+      const { data } = await api.get<ScheduleItemData>(`/schedule-entries/${id}`);
       return data;
     },
   });
@@ -48,13 +48,13 @@ export class ScheduleStore extends Store<SerializedScheduleStore> {
 
     if (this.latestItems.length > 0) return;
 
-    const response = await api.get<ApiCollection<ScheduleItemData>>("/scheduleitems", {
+    const response = await api.get<ApiCollection<ScheduleItemData>>("/schedule-entries", {
       params: {
         days: 1,
       },
     });
 
-    this.latestItems = response.data.results.map((i) => this.store.add(i));
+    this.latestItems = response.data.rows.map((i) => this.store.add(i));
   }
 
   public async fetchByDate(date: Date) {
@@ -67,7 +67,7 @@ export class ScheduleStore extends Store<SerializedScheduleStore> {
     this.itemsByDate[date.toISOString()] = [];
 
     const [response] = await Promise.all([
-      await api.get<ApiCollection<ScheduleItemData>>("/scheduleitems", {
+      await api.get<ApiCollection<ScheduleItemData>>("/schedule-entries", {
         params: {
           days: 1,
           date: format(date, "yyyy-M-d"),
@@ -76,7 +76,7 @@ export class ScheduleStore extends Store<SerializedScheduleStore> {
       wait(ARTIFICIAL_DELAY),
     ]);
 
-    this.itemsByDate[date.toISOString()] = response.data.results.map((i) => this.store.add(i));
+    this.itemsByDate[date.toISOString()] = response.data.rows.map((i) => this.store.add(i));
   }
 
   public serialize() {

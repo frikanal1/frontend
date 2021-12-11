@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
+import { Organization } from "modules/organization/resources/Organization";
 import { InternalLink } from "modules/ui/components/InternalLink";
 import Link from "next/link";
 import React from "react";
-import { OrganizationRole } from "../schemas";
 
 const Container = styled.li`
   & + & {
@@ -29,24 +29,25 @@ const Options = styled.div`
 `;
 
 export type OrganizationRoleItemProps = {
-  role: OrganizationRole;
+  organization: Organization;
+  editor?: boolean;
 };
 
 export function OrganizationRoleItem(props: OrganizationRoleItemProps) {
-  const { role } = props;
+  const { organization, editor } = props;
 
-  const roleText = role.role === "editor" ? "Redaktør" : "Medlem";
+  const roleText = editor ? "Redaktør" : "Medlem";
 
   return (
     <Container>
       <Name>
-        <Link href={`/organization/${role.organizationId}`} passHref>
-          <a>{role.organizationName}</a>
+        <Link href={`/organization/${organization.data.id}`} passHref>
+          <a>{organization.data.name}</a>
         </Link>
       </Name>
       <RoleText>{roleText}</RoleText>
       <Options>
-        <InternalLink href={`/organization/${role.organizationId}/upload`}>Last opp video</InternalLink>
+        <InternalLink href={`/organization/${organization.data.id}/upload`}>Last opp video</InternalLink>
       </Options>
     </Container>
   );

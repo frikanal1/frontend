@@ -38,7 +38,7 @@ export function LoginModal(props: LoginModalProps) {
   const [status, handleSubmit] = useFormSubmission(
     form,
     async (serialized) => {
-      await api.post("/user/login", serialized);
+      await api.post("/auth/login", serialized);
       await authStore.authenticate();
 
       modal.dismiss();

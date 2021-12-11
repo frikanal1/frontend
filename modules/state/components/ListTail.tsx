@@ -1,6 +1,6 @@
-import { useCallback } from "react";
 import { ScrollTrigger, ScrollTriggerProps } from "modules/ui/components/ScrollTrigger";
 import { List } from "../classes/List";
+import { useObserver } from "../hooks/useObserver";
 
 export type ListTailProps = {
   list: List<any, any>;
@@ -9,15 +9,16 @@ export type ListTailProps = {
 export function ListTail(props: ListTailProps) {
   const { list, ...rest } = props;
 
-  const safelyFetch = useCallback(
-    async (recheck: () => void) => {
-      if (list.status === "idle" && list.hasMore) {
-        await list.more();
-        recheck();
-      }
-    },
-    [list]
-  );
+  const { status, hasMore } = useObserver(() => ({
+    status: list.status,
+    hasMore: list.hasMore,
+  }));
 
-  return <ScrollTrigger onTrigger={safelyFetch} {...rest} />;
+  const handleTrigger = async () => {
+    if (status === "idle" && hasMore) {
+      await list.more();
+    }
+  };
+
+  return <ScrollTrigger onTrigger={handleTrigger} {...rest} />;
 }

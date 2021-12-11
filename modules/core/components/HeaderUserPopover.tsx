@@ -53,7 +53,7 @@ export function HeaderUserPopover() {
   };
 
   const renderPlayoutOption = () => {
-    if (!authStore.user?.isStaff) return null;
+    if (!authStore.user?.permissions.includes("ATEM_CONTROL")) return null;
 
     return (
       <Option onClick={handleGoToPlayout}>
