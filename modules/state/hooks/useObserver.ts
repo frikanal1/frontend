@@ -6,7 +6,7 @@ export const useObserver = <T>(fn: () => T) => {
 
   useEffect(() => {
     return autorun(() => setValue(fn()));
-  });
+  }, []);
 
   return value;
 };
