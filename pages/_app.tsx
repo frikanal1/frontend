@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react";
 import type { AppContext, AppProps } from "next/app";
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
+// import * as Sentry from "@sentry/react";
+// import { Integrations } from "@sentry/tracing";
 import "shaka-player/dist/controls.css";
 import { Header } from "modules/core/components/Header";
 import { Global } from "@emotion/react";
@@ -22,7 +22,7 @@ import { ThemeContext } from "modules/styling/components/ThemeContext";
 // eslint-disable-next-line react-hooks/rules-of-hooks
 enableStaticRendering(IS_SERVER);
 
-Sentry.init({
+/*Sentry.init({
   dsn: "https://41ab0b4801094dfd8ecd84eafc947380@o310671.ingest.sentry.io/5701229",
   integrations: [new Integrations.BrowserTracing()],
 
@@ -30,7 +30,7 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
-});
+});*/
 
 export type CustomAppProps = AppProps & { serialized: any };
 
