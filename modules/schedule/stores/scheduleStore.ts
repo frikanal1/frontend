@@ -47,7 +47,7 @@ export class ScheduleStore extends Store<SerializedScheduleStore> {
 
   public async fetchLatest() {
     if (!this.latestItems.data) return
-    this.latestItems.handleData(this.fetch())
+    return this.latestItems.handleData(this.fetch())
   }
 
   public async fetchByDate(date: Date) {
