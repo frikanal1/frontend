@@ -22,6 +22,18 @@ export class ConfigStore extends Store {
   public get config() {
     return config!
   }
+
+  public get media() {
+    return this.config.servers.media
+  }
+
+  public serialize() {
+    return config
+  }
+
+  public hydrate(data: ConfigData) {
+    config = data
+  }
 }
 
 export const configStore = createStoreFactory(ConfigStore)
