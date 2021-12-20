@@ -1,4 +1,5 @@
 import { authStore, AuthStore } from "modules/auth/stores/authStore"
+import { configStore, ConfigStore } from "modules/core/stores/configStore"
 import { ModalStore, modalStore } from "modules/modal/stores/modalStore"
 import { NetworkStore, networkStore } from "modules/network/stores/networkStore"
 import { organizationStore, OrganizationStore } from "modules/organization/stores/organizationStore"
@@ -16,6 +17,7 @@ export type Stores = {
   videoStore: VideoStore
   modalStore: ModalStore
   cookieStore: CookieStore
+  configStore: ConfigStore
   networkStore: NetworkStore
   popoverStore: PopoverStore
   scheduleStore: ScheduleStore
@@ -28,6 +30,7 @@ export const stores: StoreFactories = {
   listStore,
   videoStore,
   modalStore,
+  configStore,
   cookieStore,
   popoverStore,
   networkStore,
