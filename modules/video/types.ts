@@ -2,7 +2,7 @@ import { OrganizationData } from "modules/organization/resources/Organization"
 
 export type VideoData = {
   id: number
-  name: string
+  title: string
   header: string
   organization: OrganizationData
   ogvUrl: string

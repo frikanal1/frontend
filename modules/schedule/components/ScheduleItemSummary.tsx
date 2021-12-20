@@ -1,7 +1,8 @@
 import styled from "@emotion/styled"
+import { useStores } from "modules/state/manager"
 import Link from "next/link"
 import { humanizeScheduleItemDate } from "../helpers/humanizeScheduleItemDate"
-import { ScheduleItem } from "../resources/ScheduleItem"
+import { ScheduleEntry } from "../types"
 
 const Container = styled.div`
   display: flex;
@@ -47,24 +48,26 @@ const Time = styled.span`
 `
 
 export type ScheduleItemSummary = {
-  item: ScheduleItem
+  entry: ScheduleEntry
 }
 
 export function ScheduleItemSummary(props: ScheduleItemSummary) {
-  const { item } = props
-  const { video } = item
+  const { videoStore } = useStores()
+  const { entry } = props
+
+  const video = videoStore.getResourceById(entry.video.id)
 
   return (
     <Container>
       <PrimaryInfo>
-        <Link href={`/video/${item.video.data.id}`} passHref>
-          <Title>{video.data.name}</Title>
+        <Link href={`/video/${video.data.id}`} passHref>
+          <Title>{video.data.title}</Title>
         </Link>
-        <Link href={`/organization/${item.video.organization.data.id}`} passHref>
-          <Organization>{item.video.organization.data.name}</Organization>
+        <Link href={`/organization/${video.organization.data.id}`} passHref>
+          <Organization>{video.organization.data.name}</Organization>
         </Link>
       </PrimaryInfo>
-      <Time>{humanizeScheduleItemDate(new Date(item.data.starttime))}</Time>
+      <Time>{humanizeScheduleItemDate(new Date(entry.startsAt))}</Time>
     </Container>
   )
 }

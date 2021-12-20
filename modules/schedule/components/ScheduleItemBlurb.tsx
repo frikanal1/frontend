@@ -1,6 +1,7 @@
 import styled from "@emotion/styled"
+import { useStores } from "modules/state/manager"
 import Link from "next/link"
-import { ScheduleItem } from "../resources/ScheduleItem"
+import { ScheduleEntry } from "../types"
 
 const Container = styled.div``
 
@@ -22,26 +23,29 @@ const Description = styled.p`
 `
 
 export type ScheduleItemBlurbProps = {
-  item: ScheduleItem
+  entry: ScheduleEntry
   className?: string
 }
 
 export function ScheduleItemBlurb(props: ScheduleItemBlurbProps) {
-  const { className, item } = props
+  const { videoStore } = useStores()
+  const { entry, className } = props
+
+  const video = videoStore.getResourceById(entry.video.id)
 
   return (
     <Container className={className}>
       <Title>
-        <Link href={`/video/${item.video.data.id}`} passHref>
-          <a>{item.video.data.name}</a>
+        <Link href={`/video/${video.data.id}`} passHref>
+          <a>{video.data.title}</a>
         </Link>
       </Title>
       <Organization>
-        <Link href={`/organization/${item.video.organization.data.id}`} passHref>
-          <a>{item.video.organization.data.name}</a>
+        <Link href={`/organization/${video.organization.data.id}`} passHref>
+          <a>{video.organization.data.name}</a>
         </Link>
       </Organization>
-      <Description>{item.video.data.header}</Description>
+      <Description>{video.data.header}</Description>
     </Container>
   )
 }

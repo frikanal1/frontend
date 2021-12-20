@@ -1,8 +1,9 @@
 import styled from "@emotion/styled"
 import { format } from "date-fns"
+import { useStores } from "modules/state/manager"
 import Link from "next/link"
 import React from "react"
-import { ScheduleItem } from "../resources/ScheduleItem"
+import { ScheduleEntry } from "../types"
 
 const Container = styled.div`
   display: flex;
@@ -43,24 +44,27 @@ const Organization = styled.div`
 `
 
 export type ScheduleTimelineItemProps = {
-  item: ScheduleItem
+  entry: ScheduleEntry
 }
 
 export function ScheduleTimelineItem(props: ScheduleTimelineItemProps) {
-  const { item } = props
+  const { videoStore } = useStores()
+  const { entry } = props
+
+  const video = videoStore.getResourceById(entry.video.id)
 
   return (
     <Container>
-      <Time>{format(new Date(item.data.starttime), "HH:mm")}</Time>
+      <Time>{format(new Date(entry.startsAt), "HH:mm")}</Time>
       <PrimaryInfo>
         <Title>
-          <Link href={`/video/${item.video.data.id}`} passHref>
-            <a>{item.video.data.name}</a>
+          <Link href={`/video/${video.data.id}`} passHref>
+            <a>{video.data.title}</a>
           </Link>
         </Title>
         <Organization>
-          <Link href={`/organization/${item.video.organization.data.id}`} passHref>
-            <a>{item.video.organization.data.name}</a>
+          <Link href={`/organization/${video.organization.data.id}`} passHref>
+            <a>{video.organization.data.name}</a>
           </Link>
         </Organization>
       </PrimaryInfo>

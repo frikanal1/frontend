@@ -58,11 +58,11 @@ function Index() {
 
     return (
       <>
-        <NowPlaying item={now} />
+        <NowPlaying entry={now} />
         <NextTitle>Senere</NextTitle>
         <Schedule>
           {later.map((x) => (
-            <ScheduleItemSummary key={x.data.id} item={x} />
+            <ScheduleItemSummary key={x.startsAt} entry={x} />
           ))}
         </Schedule>
       </>

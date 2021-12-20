@@ -1,17 +1,14 @@
-import { format, startOfDay } from "date-fns"
+import { startOfDay } from "date-fns"
 import { computed, makeObservable, observable } from "mobx"
 import { ARTIFICIAL_DELAY } from "modules/core/constants"
 import { wait } from "modules/lang/async"
-import { ApiCollection } from "modules/network/types"
-import { ResourceFetcher } from "modules/state/classes/ResourceFetcher"
-import { ResourceStore, SerializedResourceStore } from "modules/state/classes/ResourceStore"
+import { AsyncState, SerializedAsyncState } from "modules/state/classes/AsyncState"
 import { createStoreFactory, Store } from "modules/state/classes/Store"
-import { createScheduleItem, ScheduleItemData } from "../resources/ScheduleItem"
+import { ScheduleEntry } from "../types"
 
 export type SerializedScheduleStore = {
-  store: SerializedResourceStore<ScheduleItemData>
-  latestItems: number[]
-  itemsByDate: Record<string, number[]>
+  latestItems: SerializedAsyncState<ScheduleEntry[]>
+  itemsByDate: Record<string, SerializedAsyncState<ScheduleEntry[]>>
 }
 
 export class ScheduleStore extends Store<SerializedScheduleStore> {
@@ -25,83 +22,63 @@ export class ScheduleStore extends Store<SerializedScheduleStore> {
     })
   }
 
-  private store = new ResourceStore({
-    manager: this.manager,
-    getId: (d: ScheduleItemData) => d.id,
-    createFetcher: (manager, fetch) => new ResourceFetcher({ createResource: createScheduleItem, fetch, manager }),
-    createCanonicalFetchData: (id) => async () => {
-      const { networkStore } = this.manager.stores
-      const { api } = networkStore
-
-      const { data } = await api.get<ScheduleItemData>(`/schedule-entries/${id}`)
-      return data
-    },
-  })
-
   public selectedDate = startOfDay(new Date())
-  public itemsByDate: Record<string, number[]> = {}
-  public latestItems: number[] = []
+  public itemsByDate: Record<string, AsyncState<ScheduleEntry[]>> = {}
+  public latestItems = new AsyncState<ScheduleEntry[]>([])
 
-  public async fetchLatest() {
-    const { networkStore } = this.manager.stores
+  private async fetch(from?: Date) {
+    const { networkStore, videoStore } = this.manager.stores
     const { api } = networkStore
-
-    if (this.latestItems.length > 0) return
-
-    const response = await api.get<ApiCollection<ScheduleItemData>>("/schedule-entries", {
-      params: {
-        days: 1,
-      },
-    })
-
-    this.latestItems = response.data.rows.map((i) => this.store.add(i))
-  }
-
-  public async fetchByDate(date: Date) {
-    const { networkStore } = this.manager.stores
-    const { api } = networkStore
-
-    const existingList = this.itemsByDate[date.toISOString()]
-    if (existingList) return existingList
-
-    this.itemsByDate[date.toISOString()] = []
 
     const [response] = await Promise.all([
-      await api.get<ApiCollection<ScheduleItemData>>("/schedule-entries", {
+      await api.get<ScheduleEntry[]>("/scheduling/entries", {
         params: {
-          days: 1,
-          date: format(date, "yyyy-M-d"),
+          from: from ? from.toISOString() : undefined,
         },
       }),
       wait(ARTIFICIAL_DELAY),
     ])
 
-    this.itemsByDate[date.toISOString()] = response.data.rows.map((i) => this.store.add(i))
+    const entries = response.data
+    entries.map((e) => videoStore.add(e.video))
+
+    return entries
+  }
+
+  public async fetchLatest() {
+    if (!this.latestItems.data) return
+    this.latestItems.handleData(this.fetch())
+  }
+
+  public async fetchByDate(date: Date) {
+    const existingList = this.itemsByDate[date.toISOString()]
+    if (existingList) return existingList
+
+    const state = (this.itemsByDate[date.toISOString()] = new AsyncState<ScheduleEntry[]>([]))
+    return state.handleData(this.fetch(date))
   }
 
   public serialize() {
     return {
       latestItems: this.latestItems,
       itemsByDate: this.itemsByDate,
-      store: this.store.serialize(),
     }
   }
 
   public hydrate(data: SerializedScheduleStore) {
-    this.latestItems = data.latestItems
-    this.itemsByDate = data.itemsByDate
-    this.store.hydrate(data.store)
+    this.latestItems.hydrate(data.latestItems)
+
+    for (const [key, value] of Object.entries(data.itemsByDate)) {
+      this.itemsByDate[key] = AsyncState.from(value)
+    }
   }
 
   public get selectedDateItems() {
-    return (this.itemsByDate[this.selectedDate.toISOString()] ?? []).map((id) => this.store.getResourceById(id))
+    return this.itemsByDate[this.selectedDate.toISOString()] ?? new AsyncState([])
   }
 
   public get upcoming() {
-    return this.latestItems
-      .map((id) => this.store.getResourceById(id))
-      .filter((x) => new Date() < new Date(x.data.endtime))
-      .slice(0, 4)
+    return this.latestItems.data!.filter((x) => new Date() < new Date(x.endsAt)).slice(0, 4)
   }
 }
 

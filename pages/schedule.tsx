@@ -65,7 +65,7 @@ function Schedule() {
   }
 
   const renderSpinner = () => {
-    if (selectedDateItems.length > 0) return null
+    if (selectedDateItems.status !== "fetching") return null
 
     return (
       <SpinnerContainer>
@@ -85,8 +85,8 @@ function Schedule() {
       <Result>
         <DayTitle>{humanizeSelectedScheduleDate(selectedDate)}</DayTitle>
         {renderSpinner()}
-        {selectedDateItems.map((i) => (
-          <ScheduleTimelineItem key={i.data.id} item={i} />
+        {selectedDateItems.data!.map((i) => (
+          <ScheduleTimelineItem key={i.startsAt + i.video.id} entry={i} />
         ))}
       </Result>
       <Sidebar>
