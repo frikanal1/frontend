@@ -75,33 +75,42 @@ export type ContentProps = {
 }
 
 function VideoView(props: ContentProps) {
-  const { videoStore } = useStores()
+  const { videoStore, configStore } = useStores()
   const { video } = props
-  const { name, createdTime, header, organization, ogvUrl, files } = video.data
+  const { title, description, organization, createdAt } = video.data
 
   const videos = useResourceList(video.latestVideosByOrganization, videoStore)
+
+  const thumbnail = video.getAsset("thumbnail-large")
+  const stream = video.getAsset("webm")
 
   return (
     <Container>
       <Meta
         meta={{
-          title: name,
-          description: header,
+          title,
+          description,
           author: organization.name,
         }}
       />
       <Content>
-        <VideoPlayer width={1280} height={720} src={ogvUrl} thumbnail={files.largeThumb} />
+        <VideoPlayer
+          key={video.data.id}
+          width={1280}
+          height={720}
+          src={configStore.media + stream.url}
+          thumbnail={configStore.media + thumbnail.url}
+        />
         <PrimaryInfo>
-          <Title>{name}</Title>
+          <Title>{title}</Title>
           <Organization>
             <Link href={`/organization/${organization.id}`} passHref>
               <a>{organization.name}</a>
             </Link>
           </Organization>
         </PrimaryInfo>
-        <Description>{header}</Description>
-        <UploadedDate>lastet opp {format(new Date(createdTime), "d. MMM yyyy", { locale: nb })}</UploadedDate>
+        <Description>{description}</Description>
+        <UploadedDate>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</UploadedDate>
       </Content>
       <Sidebar>
         <SidebarTitle>Nyeste videoer fra {video.organization.data.name}</SidebarTitle>
@@ -122,13 +131,12 @@ const VideoPage = createResourcePageWrapper<Video>({
     return videoStore.fetchById(safeVideoId)
   },
   renderContent: (v) => <VideoView video={v} />,
-  getInitialProps: async (v, context) => {
-    const { videoStore } = context.manager.stores
+  getInitialProps: async (v) => {
+    const { latestVideosByOrganization } = v
 
-    // Temporary fix for partial data
-    await videoStore.fetchById(v.data.id).fetch()
-
-    await v.latestVideosByOrganization.more()
+    if (latestVideosByOrganization.items.length === 0) {
+      await v.latestVideosByOrganization.more()
+    }
   },
 })
 

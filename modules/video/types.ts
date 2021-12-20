@@ -1,15 +1,21 @@
 import { OrganizationData } from "modules/organization/resources/Organization"
 
+export type VideoAsset = {
+  type: `thumbnail-${"small" | "medium" | "large"}` | "broadcastable" | "theora" | "webm"
+  url: string
+}
+
 export type VideoData = {
   id: number
   title: string
-  header: string
+  description: string
+  duration: number
+
+  createdAt: string
+  updatedAt: string
+
   organization: OrganizationData
-  ogvUrl: string
-  createdTime: string
-  files: {
-    largeThumb: string
-  }
+  assets: VideoAsset[]
 }
 
 export type VideoCategoryData = {

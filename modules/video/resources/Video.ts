@@ -1,6 +1,6 @@
 import { Resource, ResourceFactory } from "modules/state/classes/Resource"
 import { Manager } from "modules/state/types"
-import { VideoData } from "../types"
+import { VideoAsset, VideoData } from "../types"
 
 export class Video extends Resource<VideoData> {
   constructor(data: VideoData, manager: Manager) {
@@ -28,6 +28,16 @@ export class Video extends Resource<VideoData> {
         organization: id,
       },
     })
+  }
+
+  public getAsset(type: VideoAsset["type"]) {
+    const asset = this.data.assets.find((a) => a.type === type)
+
+    if (!asset) {
+      throw new Error(`Asset ${type} is missing!`)
+    }
+
+    return asset
   }
 }
 

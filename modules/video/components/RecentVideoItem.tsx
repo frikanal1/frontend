@@ -2,6 +2,7 @@ import styled from "@emotion/styled"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import { AspectContainer } from "modules/core/components/AspectContainer"
+import { useStores } from "modules/state/manager"
 import { Video } from "modules/video/resources/Video"
 import Link from "next/link"
 import React from "react"
@@ -55,8 +56,12 @@ export type RecentVideoItemProps = {
 }
 
 export function RecentVideoItem(props: RecentVideoItemProps) {
+  const { configStore } = useStores()
+
   const { video } = props
-  const { id, files, createdTime, name } = video.data
+  const { id, createdAt, title } = video.data
+
+  const thumbnail = video.getAsset("thumbnail-medium")
 
   return (
     <Container>
@@ -64,7 +69,7 @@ export function RecentVideoItem(props: RecentVideoItemProps) {
         <AspectContainer width={1280} height={720}>
           <Link href={`/video/${id}`} passHref>
             <a>
-              <Thumbnail src={files.largeThumb} />
+              <Thumbnail src={configStore.media + thumbnail.url} />
             </a>
           </Link>
         </AspectContainer>
@@ -72,10 +77,10 @@ export function RecentVideoItem(props: RecentVideoItemProps) {
       <Content>
         <Title>
           <Link href={`/video/${id}`} passHref>
-            <a>{name}</a>
+            <a>{title}</a>
           </Link>
         </Title>
-        <UploadedDate>lastet opp {format(new Date(createdTime), "d. MMM yyyy", { locale: nb })}</UploadedDate>
+        <UploadedDate>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</UploadedDate>
       </Content>
     </Container>
   )

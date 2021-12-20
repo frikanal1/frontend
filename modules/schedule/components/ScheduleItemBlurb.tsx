@@ -45,7 +45,7 @@ export function ScheduleItemBlurb(props: ScheduleItemBlurbProps) {
           <a>{video.organization.data.name}</a>
         </Link>
       </Organization>
-      <Description>{video.data.header}</Description>
+      <Description>{video.data.description}</Description>
     </Container>
   )
 }

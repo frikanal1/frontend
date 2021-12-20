@@ -2,6 +2,7 @@ import styled from "@emotion/styled"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import { AspectContainer } from "modules/core/components/AspectContainer"
+import { useStores } from "modules/state/manager"
 import Link from "next/link"
 import React from "react"
 import { Video } from "../resources/Video"
@@ -46,8 +47,12 @@ export type VideoGridItemProps = {
 }
 
 export function VideoGridItem(props: VideoGridItemProps) {
+  const { configStore } = useStores()
+
   const { video } = props
-  const { id, files, createdTime, name } = video.data
+  const { id, title, createdAt } = video.data
+
+  const thumbnail = video.getAsset("thumbnail-large")
 
   return (
     <Container>
@@ -55,7 +60,7 @@ export function VideoGridItem(props: VideoGridItemProps) {
         <AspectContainer width={1280} height={720}>
           <Link href={`/video/${id}`} passHref>
             <a>
-              <Thumbnail src={files.largeThumb} />
+              <Thumbnail src={configStore.media + thumbnail.url} />
             </a>
           </Link>
         </AspectContainer>
@@ -63,11 +68,11 @@ export function VideoGridItem(props: VideoGridItemProps) {
       <PrimaryInfo>
         <Title>
           <Link href={`/video/${id}`} passHref>
-            <a>{name}</a>
+            <a>{title}</a>
           </Link>
         </Title>
       </PrimaryInfo>
-      <UploadedDate>lastet opp {format(new Date(createdTime), "d. MMM yyyy", { locale: nb })}</UploadedDate>
+      <UploadedDate>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</UploadedDate>
     </Container>
   )
 }

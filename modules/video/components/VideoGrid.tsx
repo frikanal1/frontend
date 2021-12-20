@@ -8,7 +8,7 @@ const Container = styled.div``
 const Grid = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-  gap: 16px;
+  gap: 32px;
 `
 
 export type VideoGridProps = {
