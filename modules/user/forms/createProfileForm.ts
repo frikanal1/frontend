@@ -1,7 +1,7 @@
-import { ObservableForm } from "modules/form/classes/ObservableForm";
-import { string } from "modules/form/fields/string";
-import { Manager } from "modules/state/types";
-import { User } from "../schemas";
+import { ObservableForm } from "modules/form/classes/ObservableForm"
+import { string } from "modules/form/fields/string"
+import { Manager } from "modules/state/types"
+import { User } from "../schemas"
 
 export const createProfileForm = (user: User, manager: Manager) => {
   return new ObservableForm(
@@ -14,7 +14,7 @@ export const createProfileForm = (user: User, manager: Manager) => {
       }),
     },
     manager
-  );
-};
+  )
+}
 
-export type ProfileForm = ReturnType<typeof createProfileForm>;
+export type ProfileForm = ReturnType<typeof createProfileForm>

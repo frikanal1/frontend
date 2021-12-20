@@ -1,23 +1,23 @@
-import styled from "@emotion/styled";
-import { Organization } from "modules/organization/resources/Organization";
-import { InternalLink } from "modules/ui/components/InternalLink";
-import Link from "next/link";
-import React from "react";
+import styled from "@emotion/styled"
+import { Organization } from "modules/organization/resources/Organization"
+import { InternalLink } from "modules/ui/components/InternalLink"
+import Link from "next/link"
+import React from "react"
 
 const Container = styled.li`
   & + & {
     margin-top: 24px;
   }
-`;
+`
 
 const Name = styled.h1`
   font-size: 1.1em;
-`;
+`
 
 const RoleText = styled.h2`
   font-size: 1em;
   font-weight: 400;
-`;
+`
 
 const Options = styled.div`
   margin-top: 8px;
@@ -26,17 +26,17 @@ const Options = styled.div`
   > a {
     margin-right: 12px;
   }
-`;
+`
 
 export type OrganizationRoleItemProps = {
-  organization: Organization;
-  editor?: boolean;
-};
+  organization: Organization
+  editor?: boolean
+}
 
 export function OrganizationRoleItem(props: OrganizationRoleItemProps) {
-  const { organization, editor } = props;
+  const { organization, editor } = props
 
-  const roleText = editor ? "Redaktør" : "Medlem";
+  const roleText = editor ? "Redaktør" : "Medlem"
 
   return (
     <Container>
@@ -50,5 +50,5 @@ export function OrganizationRoleItem(props: OrganizationRoleItemProps) {
         <InternalLink href={`/organization/${organization.data.id}/upload`}>Last opp video</InternalLink>
       </Options>
     </Container>
-  );
+  )
 }

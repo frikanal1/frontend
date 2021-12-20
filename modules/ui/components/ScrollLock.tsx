@@ -1,27 +1,27 @@
-import React from "react";
-import { CSSProperties } from "react";
+import React from "react"
+import { CSSProperties } from "react"
 
 export type ScrollLockProps = {
-  locked: boolean;
-  children: (style?: CSSProperties) => React.ReactNode;
-};
+  locked: boolean
+  children: (style?: CSSProperties) => React.ReactNode
+}
 
-export const ScrollLockContext = React.createContext<[boolean, number]>([false, 0]);
+export const ScrollLockContext = React.createContext<[boolean, number]>([false, 0])
 
-const { Provider, Consumer } = ScrollLockContext;
+const { Provider, Consumer } = ScrollLockContext
 
 // This needs to be a class component, as it relies on some hacky ways of getting the scroll position before re-render
 // If you can figure out how to convert it to a function component, that'd be great
 export class ScrollLock extends React.Component<ScrollLockProps> {
-  public static Consumer = Consumer;
-  private scrollY = 0;
+  public static Consumer = Consumer
+  private scrollY = 0
 
   public shouldComponentUpdate() {
     if (!this.props.locked) {
-      this.scrollY = window.scrollY;
+      this.scrollY = window.scrollY
     }
 
-    return true;
+    return true
   }
 
   public componentDidUpdate() {
@@ -29,12 +29,12 @@ export class ScrollLock extends React.Component<ScrollLockProps> {
       window.scrollTo({
         top: this.scrollY,
         behavior: "auto",
-      });
+      })
     }
   }
 
   public render() {
-    const { locked, children } = this.props;
+    const { locked, children } = this.props
 
     const style: CSSProperties | undefined = locked
       ? {
@@ -43,8 +43,8 @@ export class ScrollLock extends React.Component<ScrollLockProps> {
           right: "0px",
           top: `-${this.scrollY}px`,
         }
-      : undefined;
+      : undefined
 
-    return <Provider value={[locked, this.scrollY]}>{children(style)}</Provider>;
+    return <Provider value={[locked, this.scrollY]}>{children(style)}</Provider>
   }
 }

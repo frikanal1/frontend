@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { PropsWithChildren } from "react";
+import styled from "@emotion/styled"
+import { PropsWithChildren } from "react"
 
 const Root = styled.aside`
   width: 460px;
@@ -17,10 +17,10 @@ const Root = styled.aside`
   @media (max-width: 460px) {
     border-radius: 0px;
   }
-`;
+`
 
 export function Container(props: PropsWithChildren<{ className?: string }>) {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
 
-  return <Root {...rest}>{children}</Root>;
+  return <Root {...rest}>{children}</Root>
 }

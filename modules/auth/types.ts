@@ -1,7 +1,7 @@
-import { User } from "modules/user/schemas";
+import { User } from "modules/user/schemas"
 
-export type RolePermission = "ATEM_CONTROL";
+export type RolePermission = "ATEM_CONTROL"
 
 export type AuthUser = User & {
-  permissions: RolePermission[];
-};
+  permissions: RolePermission[]
+}

@@ -1,15 +1,15 @@
-import styled from "@emotion/styled";
-import { format } from "date-fns";
-import Link from "next/link";
-import React from "react";
-import { ScheduleItem } from "../resources/ScheduleItem";
+import styled from "@emotion/styled"
+import { format } from "date-fns"
+import Link from "next/link"
+import React from "react"
+import { ScheduleItem } from "../resources/ScheduleItem"
 
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
 
   margin-bottom: 32px;
-`;
+`
 
 const Time = styled.span`
   font-size: 1em;
@@ -18,7 +18,7 @@ const Time = styled.span`
   color: ${(props) => props.theme.fontColor.subdued};
 
   margin-top: 1px;
-`;
+`
 
 const PrimaryInfo = styled.div`
   display: flex;
@@ -28,26 +28,26 @@ const PrimaryInfo = styled.div`
   width: 0;
 
   margin-left: 16px;
-`;
+`
 
 const Title = styled.div`
   display: inline;
 
   font-size: 1.1em;
   font-weight: 700;
-`;
+`
 
 const Organization = styled.div`
   font-size: 1.1em;
   font-weight: 400;
-`;
+`
 
 export type ScheduleTimelineItemProps = {
-  item: ScheduleItem;
-};
+  item: ScheduleItem
+}
 
 export function ScheduleTimelineItem(props: ScheduleTimelineItemProps) {
-  const { item } = props;
+  const { item } = props
 
   return (
     <Container>
@@ -65,5 +65,5 @@ export function ScheduleTimelineItem(props: ScheduleTimelineItemProps) {
         </Organization>
       </PrimaryInfo>
     </Container>
-  );
+  )
 }

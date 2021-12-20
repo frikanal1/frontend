@@ -1,39 +1,39 @@
-import React from "react";
-import Head from "next/head";
-import { useTheme } from "@emotion/react";
-import { useRouter } from "next/router";
-import { CANONICAL_HOST, WEBSITE_NAME } from "../constants";
+import React from "react"
+import Head from "next/head"
+import { useTheme } from "@emotion/react"
+import { useRouter } from "next/router"
+import { CANONICAL_HOST, WEBSITE_NAME } from "../constants"
 
-const MAX_LENGTH = 300;
+const MAX_LENGTH = 300
 
 const getSafeString = (str = "") => {
-  if (!str) return "";
-  if (str.length > MAX_LENGTH) return str.slice(0, MAX_LENGTH).trim() + "...";
+  if (!str) return ""
+  if (str.length > MAX_LENGTH) return str.slice(0, MAX_LENGTH).trim() + "..."
 
-  return str;
-};
+  return str
+}
 
 export type MetaInformation = {
-  title: string;
-  description: string;
-  author?: string;
-  image?: string;
-  url?: string;
-  type?: "website" | "article" | "object";
-};
+  title: string
+  description: string
+  author?: string
+  image?: string
+  url?: string
+  type?: "website" | "article" | "object"
+}
 
 export type MetaProps = {
-  meta: MetaInformation;
-};
+  meta: MetaInformation
+}
 
 export function Meta(props: MetaProps) {
-  const router = useRouter();
-  const theme = useTheme();
+  const router = useRouter()
+  const theme = useTheme()
 
-  const { meta } = props;
-  const { title, description, image, type, author } = meta;
+  const { meta } = props
+  const { title, description, image, type, author } = meta
 
-  const keywords = [""];
+  const keywords = [""]
 
   const renderDescription = (description: string) => {
     return (
@@ -42,8 +42,8 @@ export function Meta(props: MetaProps) {
         <meta property="og:description" content={description} />
         <meta name="twitter:description" content={description} />
       </>
-    );
-  };
+    )
+  }
 
   const ogTags = (
     <>
@@ -54,7 +54,7 @@ export function Meta(props: MetaProps) {
       {image && <meta property="og:image" content={image} />}
       {author && <meta property="article:author" content={author} />}
     </>
-  );
+  )
 
   const twitterTags = (
     <>
@@ -62,7 +62,7 @@ export function Meta(props: MetaProps) {
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
     </>
-  );
+  )
 
   return (
     <Head>
@@ -76,5 +76,5 @@ export function Meta(props: MetaProps) {
       {renderDescription(getSafeString(description))}
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     </Head>
-  );
+  )
 }

@@ -1,55 +1,55 @@
-import styled from "@emotion/styled";
-import { observer } from "mobx-react-lite";
-import { AspectContainer } from "modules/core/components/AspectContainer";
-import { Form } from "modules/form/components/Form";
-import { FormField } from "modules/form/components/FormField";
-import { useFormSubmission } from "modules/form/hooks/useFormSubmission";
-import { ControlledTextInput } from "modules/input/components/ControlledTextInput";
-import { PrimaryModal } from "modules/modal/components/PrimaryModal";
-import { useModal } from "modules/modal/hooks/useModal";
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { StatusLine } from "modules/ui/components/StatusLine";
-import React from "react";
-import { TextSlideForm } from "../forms/createTextSlideForm";
-import {useManager} from "../../state/manager";
+import styled from "@emotion/styled"
+import { observer } from "mobx-react-lite"
+import { AspectContainer } from "modules/core/components/AspectContainer"
+import { Form } from "modules/form/components/Form"
+import { FormField } from "modules/form/components/FormField"
+import { useFormSubmission } from "modules/form/hooks/useFormSubmission"
+import { ControlledTextInput } from "modules/input/components/ControlledTextInput"
+import { PrimaryModal } from "modules/modal/components/PrimaryModal"
+import { useModal } from "modules/modal/hooks/useModal"
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { StatusLine } from "modules/ui/components/StatusLine"
+import React from "react"
+import { TextSlideForm } from "../forms/createTextSlideForm"
+import { useManager } from "../../state/manager"
 
 const Container = styled(PrimaryModal.Container)`
   width: 650px;
-`;
+`
 
 const Field = styled(FormField)`
   margin-bottom: 16px;
-`;
+`
 
 const Preview = styled.div`
   width: 100%;
   height: 100%;
 
   background-size: cover;
-`;
+`
 
 export type TextSlideModalProps = {
-  form: TextSlideForm;
-};
+  form: TextSlideForm
+}
 
 export const TextSlideModal = observer((props: TextSlideModalProps) => {
-  const { form } = props;
-  const { heading, text } = form.fields;
-  const manager = useManager();
-  const { networkStore } = manager.stores;
-  const { api } = networkStore;
+  const { form } = props
+  const { heading, text } = form.fields
+  const manager = useManager()
+  const { networkStore } = manager.stores
+  const { api } = networkStore
 
-  const modal = useModal();
+  const modal = useModal()
 
   const [status, handleSubmit] = useFormSubmission(form, async (serialized) => {
-    await api.post("/playout/atem/poster/upload", serialized);
+    await api.post("/playout/atem/poster/upload", serialized)
 
-    modal.dismiss();
-  });
+    modal.dismiss()
+  })
 
   const previewURL = `/api/playout/atem/poster/preview?text=${encodeURIComponent(
     text.value
-  )}&heading=${encodeURIComponent(heading.value)}`;
+  )}&heading=${encodeURIComponent(heading.value)}`
 
   return (
     <Container>
@@ -75,5 +75,5 @@ export const TextSlideModal = observer((props: TextSlideModalProps) => {
         </PrimaryModal.Actions>
       </PrimaryModal.Footer>
     </Container>
-  );
-});
+  )
+})

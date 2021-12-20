@@ -1,25 +1,25 @@
-import { RefObject, useState, useEffect, useCallback } from "react";
-import { Placement } from "@popperjs/core";
-import { getHash } from "modules/lang/string";
-import { useStores } from "modules/state/manager";
+import { RefObject, useState, useEffect, useCallback } from "react"
+import { Placement } from "@popperjs/core"
+import { getHash } from "modules/lang/string"
+import { useStores } from "modules/state/manager"
 
 export type UsePopoverOptions = {
-  ref: RefObject<HTMLElement>;
-  render: () => React.ReactNode;
-  placement?: Placement;
-  autoDismiss?: boolean;
-};
+  ref: RefObject<HTMLElement>
+  render: () => React.ReactNode
+  placement?: Placement
+  autoDismiss?: boolean
+}
 
 export const usePopover = (options: UsePopoverOptions) => {
-  const { ref, render, autoDismiss = true, placement = "auto" } = options;
-  const [name] = useState(() => getHash(8));
+  const { ref, render, autoDismiss = true, placement = "auto" } = options
+  const [name] = useState(() => getHash(8))
 
-  const { popoverStore } = useStores();
-  const [popoverName, setPopoverName] = useState("");
+  const { popoverStore } = useStores()
+  const [popoverName, setPopoverName] = useState("")
 
   const spawn = () => {
-    const { current: anchor } = ref;
-    if (!anchor || popoverName) return;
+    const { current: anchor } = ref
+    if (!anchor || popoverName) return
 
     popoverStore.spawn({
       onDismiss: () => setPopoverName(""),
@@ -28,42 +28,42 @@ export const usePopover = (options: UsePopoverOptions) => {
       render,
       anchor,
       name,
-    });
+    })
 
-    setPopoverName(name);
-  };
+    setPopoverName(name)
+  }
 
   const dismiss = useCallback(() => {
     if (popoverName) {
-      popoverStore.dismiss(popoverName);
-      setPopoverName("");
+      popoverStore.dismiss(popoverName)
+      setPopoverName("")
     }
-  }, [popoverName, popoverStore]);
+  }, [popoverName, popoverStore])
 
   const toggle = () => {
     if (!popoverName) {
-      spawn();
+      spawn()
     } else {
-      dismiss();
+      dismiss()
     }
-  };
+  }
 
   useEffect(() => {
     if (popoverName) {
-      popoverStore.update(popoverName, { render });
+      popoverStore.update(popoverName, { render })
     }
-  }, [render, popoverStore, popoverName]);
+  }, [render, popoverStore, popoverName])
 
   useEffect(() => {
     return () => {
-      dismiss();
-    };
-  }, [dismiss]);
+      dismiss()
+    }
+  }, [dismiss])
 
   return {
     active: !!popoverName,
     dismiss,
     toggle,
     spawn,
-  };
-};
+  }
+}

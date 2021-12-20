@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
-import { format } from "date-fns";
-import { nb } from "date-fns/locale";
-import { AspectContainer } from "modules/core/components/AspectContainer";
-import { Video } from "modules/video/resources/Video";
-import Link from "next/link";
-import React from "react";
+import styled from "@emotion/styled"
+import { format } from "date-fns"
+import { nb } from "date-fns/locale"
+import { AspectContainer } from "modules/core/components/AspectContainer"
+import { Video } from "modules/video/resources/Video"
+import Link from "next/link"
+import React from "react"
 
 const Container = styled.div`
   display: flex;
@@ -12,11 +12,11 @@ const Container = styled.div`
   & + & {
     margin-top: 32px;
   }
-`;
+`
 
 const ThumbnailContainer = styled.div`
   flex: 1;
-`;
+`
 
 const Thumbnail = styled.img`
   width: 100%;
@@ -29,7 +29,7 @@ const Thumbnail = styled.img`
   width: 100%;
 
   box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
-`;
+`
 
 const Content = styled.div`
   width: 60%;
@@ -38,25 +38,25 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-`;
+`
 
 const Title = styled.h3`
   font-size: 1em;
   font-weight: 600;
-`;
+`
 
 const UploadedDate = styled.span`
   font-size: 1em;
   color: ${(props) => props.theme.fontColor.muted};
-`;
+`
 
 export type RecentVideoItemProps = {
-  video: Video;
-};
+  video: Video
+}
 
 export function RecentVideoItem(props: RecentVideoItemProps) {
-  const { video } = props;
-  const { id, files, createdTime, name } = video.data;
+  const { video } = props
+  const { id, files, createdTime, name } = video.data
 
   return (
     <Container>
@@ -78,5 +78,5 @@ export function RecentVideoItem(props: RecentVideoItemProps) {
         <UploadedDate>lastet opp {format(new Date(createdTime), "d. MMM yyyy", { locale: nb })}</UploadedDate>
       </Content>
     </Container>
-  );
+  )
 }

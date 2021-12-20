@@ -1,26 +1,26 @@
-import { ApiCollection } from "modules/network/types";
-import { List } from "modules/state/classes/List";
-import { ListFactory } from "modules/state/types";
-import { VideoData } from "../types";
+import { ApiCollection } from "modules/network/types"
+import { List } from "modules/state/classes/List"
+import { ListFactory } from "modules/state/types"
+import { VideoData } from "../types"
 
 export type Params = {
-  q: string;
-  organization: number;
-};
+  q: string
+  organization: number
+}
 
 export type Data = {
-  path: string;
-  params: Partial<Params>;
-};
+  path: string
+  params: Partial<Params>
+}
 
 export const createVideoList: ListFactory<Data, Params> = (data, manager) => {
-  const { path, params } = data;
-  const { videoStore, networkStore } = manager.stores;
+  const { path, params } = data
+  const { videoStore, networkStore } = manager.stores
 
   return new List<number, Params>({
     fetch: async (options) => {
-      const { api } = networkStore;
-      const { params, limit, offset } = options;
+      const { api } = networkStore
+      const { params, limit, offset } = options
 
       const result = await api.get<ApiCollection<VideoData>>(path, {
         params: {
@@ -28,20 +28,20 @@ export const createVideoList: ListFactory<Data, Params> = (data, manager) => {
           limit,
           offset,
         },
-      });
+      })
 
-      const { rows, count } = result.data;
-      const mappedIds = rows.map((r) => videoStore.add(r));
-      const newOffset = offset + rows.length;
+      const { rows, count } = result.data
+      const mappedIds = rows.map((r) => videoStore.add(r))
+      const newOffset = offset + rows.length
 
       return {
         newItems: mappedIds,
         newOffset: offset + rows.length,
         hasMore: count > newOffset,
-      };
+      }
     },
     initialParams: params,
-  });
-};
+  })
+}
 
-export type VideoList = ReturnType<typeof createVideoList>;
+export type VideoList = ReturnType<typeof createVideoList>

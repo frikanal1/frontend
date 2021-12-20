@@ -1,7 +1,7 @@
-import { Meta } from "modules/core/components/Meta";
-import { Document } from "modules/ui/components/Document";
-import { ExternalLink } from "modules/ui/components/ExternalLink";
-import { Quote } from "modules/ui/components/Quote";
+import { Meta } from "modules/core/components/Meta"
+import { Document } from "modules/ui/components/Document"
+import { ExternalLink } from "modules/ui/components/ExternalLink"
+import { Quote } from "modules/ui/components/Quote"
 
 export default function About() {
   return (
@@ -67,5 +67,5 @@ export default function About() {
         <ExternalLink href="mailto:toresbe@protonmail.com">toresbe@protonmail.com</ExternalLink>
       </p>
     </Document>
-  );
+  )
 }

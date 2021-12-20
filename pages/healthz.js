@@ -1,3 +1,3 @@
-export const HealthCheck = () => <p>All good!</p>;
+export const HealthCheck = () => <p>All good!</p>
 
-export default HealthCheck;
+export default HealthCheck

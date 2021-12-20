@@ -1,11 +1,11 @@
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { observer } from "mobx-react-lite";
-import { usePopover } from "modules/popover/hooks/usePopover";
-import { SVGIcon, SVGIconWithProps } from "modules/ui/components/SVGIcon";
-import { User } from "modules/user/schemas";
-import { useRef } from "react";
-import { HeaderUserPopover } from "./HeaderUserPopover";
+import { css } from "@emotion/react"
+import styled from "@emotion/styled"
+import { observer } from "mobx-react-lite"
+import { usePopover } from "modules/popover/hooks/usePopover"
+import { SVGIcon, SVGIconWithProps } from "modules/ui/components/SVGIcon"
+import { User } from "modules/user/schemas"
+import { useRef } from "react"
+import { HeaderUserPopover } from "./HeaderUserPopover"
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const Container = styled.div`
   &:hover {
     color: ${(props) => props.theme.fontColor.normal};
   }
-`;
+`
 
 const Name = styled.span`
   font-size: 1.2em;
@@ -33,7 +33,7 @@ const Name = styled.span`
   @media (max-width: 730px) {
     max-width: 170px;
   }
-`;
+`
 
 const Icon = styled(SVGIcon as SVGIconWithProps<{ flipped: boolean }>)`
   width: 24px;
@@ -48,28 +48,28 @@ const Icon = styled(SVGIcon as SVGIconWithProps<{ flipped: boolean }>)`
           transform: rotate(180deg);
         `
       : null}
-`;
+`
 
 export type HeaderUserDropdownProps = {
-  user: User;
-};
+  user: User
+}
 
 export const HeaderUserDropdown = observer((props: HeaderUserDropdownProps) => {
-  const { user } = props;
-  const { firstName, email } = user;
+  const { user } = props
+  const { firstName, email } = user
 
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null)
 
   const { toggle, active } = usePopover({
     ref,
     render: () => <HeaderUserPopover />,
     placement: "bottom-end",
-  });
+  })
 
   return (
     <Container onClick={toggle} ref={ref}>
       <Name>Hei, {firstName || email}!</Name>
       <Icon flipped={active} name="chevronDown" />
     </Container>
-  );
-});
+  )
+})

@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import { AspectContainer } from "modules/core/components/AspectContainer";
-import React from "react";
+import styled from "@emotion/styled"
+import { AspectContainer } from "modules/core/components/AspectContainer"
+import React from "react"
 
 const Container = styled.video`
   width: 100%;
@@ -13,17 +13,17 @@ const Container = styled.video`
   width: 100%;
 
   box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
-`;
+`
 
 export type VideoPlayerProps = {
-  src: string;
-  thumbnail: string;
-  width: number;
-  height: number;
-};
+  src: string
+  thumbnail: string
+  width: number
+  height: number
+}
 
 export function VideoPlayer(props: VideoPlayerProps) {
-  const { src, thumbnail, width, height } = props;
+  const { src, thumbnail, width, height } = props
 
   return (
     <AspectContainer width={width} height={height}>
@@ -31,5 +31,5 @@ export function VideoPlayer(props: VideoPlayerProps) {
         <source src={src} />
       </Container>
     </AspectContainer>
-  );
+  )
 }

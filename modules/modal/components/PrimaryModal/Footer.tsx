@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from "@emotion/styled"
 
 export const Footer = styled.div`
   padding: 24px;
@@ -7,4 +7,4 @@ export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`

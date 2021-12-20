@@ -1,29 +1,29 @@
-import styled from "@emotion/styled";
-import { observer } from "mobx-react-lite";
+import styled from "@emotion/styled"
+import { observer } from "mobx-react-lite"
 import {
   getInitialRequireAuthenticationProps,
   RequireAuthentication,
-} from "modules/auth/components/RequireAuthentication";
-import { Meta } from "modules/core/components/Meta";
-import { Form } from "modules/form/components/Form";
-import { FormField, FormFieldWithProps } from "modules/form/components/FormField";
-import { useFormSubmission } from "modules/form/hooks/useFormSubmission";
-import { ControlledTextInput } from "modules/input/components/ControlledTextInput";
-import { toTitleCase } from "modules/lang/string";
-import { createNewOrganizationForm } from "modules/organization/forms/createNewOrganizationForm";
-import { fetchBrregData } from "modules/organization/helpers/fetchBrregData";
-import { formatAddress } from "modules/organization/helpers/formatAddress";
-import { OrganizationData } from "modules/organization/resources/Organization";
-import { useManager } from "modules/state/manager";
-import { ExternalLink } from "modules/ui/components/ExternalLink";
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { Notice } from "modules/ui/components/Notice";
-import { StatusLine } from "modules/ui/components/StatusLine";
-import { useStatusLine } from "modules/ui/hooks/useStatusLine";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+} from "modules/auth/components/RequireAuthentication"
+import { Meta } from "modules/core/components/Meta"
+import { Form } from "modules/form/components/Form"
+import { FormField, FormFieldWithProps } from "modules/form/components/FormField"
+import { useFormSubmission } from "modules/form/hooks/useFormSubmission"
+import { ControlledTextInput } from "modules/input/components/ControlledTextInput"
+import { toTitleCase } from "modules/lang/string"
+import { createNewOrganizationForm } from "modules/organization/forms/createNewOrganizationForm"
+import { fetchBrregData } from "modules/organization/helpers/fetchBrregData"
+import { formatAddress } from "modules/organization/helpers/formatAddress"
+import { OrganizationData } from "modules/organization/resources/Organization"
+import { useManager } from "modules/state/manager"
+import { ExternalLink } from "modules/ui/components/ExternalLink"
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { Notice } from "modules/ui/components/Notice"
+import { StatusLine } from "modules/ui/components/StatusLine"
+import { useStatusLine } from "modules/ui/hooks/useStatusLine"
+import { useRouter } from "next/router"
+import React, { useEffect, useState } from "react"
 
-const breakpoint = 900;
+const breakpoint = 900
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const Container = styled.div`
   @media (max-width: ${breakpoint}px) {
     flex-direction: column;
   }
-`;
+`
 
 const FormContainer = styled.div`
   flex: 1;
@@ -46,7 +46,7 @@ const FormContainer = styled.div`
   @media (max-width: ${breakpoint}px) {
     grid-template-areas: "number number" "name name" "homepage homepage" "postal street" "footer footer";
   }
-`;
+`
 
 const FormFooter = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ const FormFooter = styled.div`
   align-items: center;
 
   grid-area: footer;
-`;
+`
 
 const Info = styled.div`
   width: 700px;
@@ -68,62 +68,62 @@ const Info = styled.div`
 
     order: -1;
   }
-`;
+`
 
 const Field = styled(FormField as FormFieldWithProps<{ area: string }>)`
   grid-area: ${(props) => props.area};
-`;
+`
 
 const Content = observer(() => {
-  const router = useRouter();
-  const manager = useManager();
+  const router = useRouter()
+  const manager = useManager()
 
-  const { networkStore, organizationStore } = manager.stores;
-  const { api } = networkStore;
+  const { networkStore, organizationStore } = manager.stores
+  const { api } = networkStore
 
-  const [form] = useState(() => createNewOrganizationForm(manager));
+  const [form] = useState(() => createNewOrganizationForm(manager))
 
-  const [status, setStatus] = useStatusLine();
+  const [status, setStatus] = useStatusLine()
 
-  const organizationNumber = form.fields.brregNumber.value;
+  const organizationNumber = form.fields.brregNumber.value
 
   useEffect(() => {
     const doFetch = async () => {
-      setStatus("loading", "Henter data fra registeret...");
+      setStatus("loading", "Henter data fra registeret...")
 
-      const data = await fetchBrregData(organizationNumber);
+      const data = await fetchBrregData(organizationNumber)
 
       if (!data) {
-        setStatus("error", "Kunne ikke hente data fra register, er organisasjonsnummer riktig?");
-        return;
+        setStatus("error", "Kunne ikke hente data fra register, er organisasjonsnummer riktig?")
+        return
       }
 
-      const safeName = toTitleCase(data.navn);
-      const { name, postalAddress, streetAddress, homepage } = form.fields;
+      const safeName = toTitleCase(data.navn)
+      const { name, postalAddress, streetAddress, homepage } = form.fields
 
-      name.setValue(safeName);
-      postalAddress.setValue(`${safeName}\n${formatAddress(data.postadresse)}`);
-      streetAddress.setValue(`${safeName}\n${formatAddress(data.forretningsadresse)}`);
-      homepage.setValue(data.hjemmeside);
-    };
+      name.setValue(safeName)
+      postalAddress.setValue(`${safeName}\n${formatAddress(data.postadresse)}`)
+      streetAddress.setValue(`${safeName}\n${formatAddress(data.forretningsadresse)}`)
+      homepage.setValue(data.hjemmeside)
+    }
 
     if (organizationNumber.length === 9 && Number.isInteger(Number(organizationNumber))) {
-      doFetch();
+      doFetch()
     }
-  }, [organizationNumber, form, setStatus]);
+  }, [organizationNumber, form, setStatus])
 
   const [formStatus, handleSubmit] = useFormSubmission(form, async (serialized) => {
-    const { data } = await api.post<OrganizationData>("/organizations/", serialized);
+    const { data } = await api.post<OrganizationData>("/organizations/", serialized)
 
-    organizationStore.add(data);
-    router.push(`/organization/${data.id}/admin`);
-  });
+    organizationStore.add(data)
+    router.push(`/organization/${data.id}/admin`)
+  })
 
   // Pass automatic form status along to manual one
   useEffect(() => {
-    const { type, message } = formStatus;
-    setStatus(type, message);
-  }, [formStatus, setStatus]);
+    const { type, message } = formStatus
+    setStatus(type, message)
+  }, [formStatus, setStatus])
 
   return (
     <Form onSubmit={handleSubmit} form={form}>
@@ -179,15 +179,15 @@ const Content = observer(() => {
         </Info>
       </Container>
     </Form>
-  );
-});
+  )
+})
 
 export default function NewOrganization() {
   return (
     <RequireAuthentication>
       <Content />
     </RequireAuthentication>
-  );
+  )
 }
 
-NewOrganization.getInitialProps = getInitialRequireAuthenticationProps;
+NewOrganization.getInitialProps = getInitialRequireAuthenticationProps

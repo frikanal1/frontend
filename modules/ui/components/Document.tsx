@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from "@emotion/styled"
 
 export const Document = styled.div`
   h2 {
@@ -21,4 +21,4 @@ export const Document = styled.div`
   ul > li {
     list-style-type: disc;
   }
-`;
+`

@@ -1,14 +1,14 @@
-import styled from "@emotion/styled";
-import { observer } from "mobx-react-lite";
-import { Meta } from "modules/core/components/Meta";
-import { ScheduleItemBlurb } from "modules/schedule/components/ScheduleItemBlurb";
-import { ScheduleItemSummary } from "modules/schedule/components/ScheduleItemSummary";
-import { useStores } from "modules/state/manager";
-import { LiveVideoPlayer } from "modules/video/components/LiveVideoPlayer";
-import { NextPageContext } from "next";
-import React from "react";
+import styled from "@emotion/styled"
+import { observer } from "mobx-react-lite"
+import { Meta } from "modules/core/components/Meta"
+import { ScheduleItemBlurb } from "modules/schedule/components/ScheduleItemBlurb"
+import { ScheduleItemSummary } from "modules/schedule/components/ScheduleItemSummary"
+import { useStores } from "modules/state/manager"
+import { LiveVideoPlayer } from "modules/video/components/LiveVideoPlayer"
+import { NextPageContext } from "next"
+import React from "react"
 
-const breakpoint = 880;
+const breakpoint = 880
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Container = styled.div`
   @media (max-width: ${breakpoint}px) {
     flex-direction: column;
   }
-`;
+`
 
 const Main = styled.div`
   width: 60%;
@@ -24,7 +24,7 @@ const Main = styled.div`
   @media (max-width: ${breakpoint}px) {
     width: 100%;
   }
-`;
+`
 
 const Sidebar = styled.div`
   flex: 1;
@@ -34,27 +34,27 @@ const Sidebar = styled.div`
     margin-top: 32px;
     margin-left: 0px;
   }
-`;
+`
 
 const NowPlaying = styled(ScheduleItemBlurb)`
   margin-top: 16px;
-`;
+`
 
 const NextTitle = styled.h3`
   margin-top: 32px;
   font-size: 1.5em;
-`;
+`
 
 const Schedule = styled.div`
   margin-top: 16px;
-`;
+`
 
 function Index() {
-  const { scheduleStore } = useStores();
-  const [now, ...later] = scheduleStore.upcoming;
+  const { scheduleStore } = useStores()
+  const [now, ...later] = scheduleStore.upcoming
 
   const renderSchedule = () => {
-    if (!now) return null;
+    if (!now) return null
 
     return (
       <>
@@ -66,8 +66,8 @@ function Index() {
           ))}
         </Schedule>
       </>
-    );
-  };
+    )
+  }
 
   return (
     <Container>
@@ -92,15 +92,15 @@ function Index() {
         </p>
       </Sidebar>
     </Container>
-  );
+  )
 }
 
 Index.getInitialProps = async (context: NextPageContext) => {
-  const { scheduleStore } = context.manager.stores;
-  await scheduleStore.fetchLatest();
+  const { scheduleStore } = context.manager.stores
+  await scheduleStore.fetchLatest()
 
   // Needs to return non empty object to silence error
-  return { _: "" };
-};
+  return { _: "" }
+}
 
-export default observer(Index);
+export default observer(Index)

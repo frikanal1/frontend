@@ -1,58 +1,58 @@
-import { makeAutoObservable } from "mobx";
-import axios, { AxiosRequestConfig, AxiosError } from "axios";
-import { TUS_CHUNK_SIZE, TUS_RESUMABLE, UPLOAD_RETRY_COUNT } from "../constants";
-import { StoredArray } from "modules/state/classes/StoredArray";
-import { toSafeAsciiString } from "modules/lang/string";
-import { Manager } from "modules/state/types";
+import { makeAutoObservable } from "mobx"
+import axios, { AxiosRequestConfig, AxiosError } from "axios"
+import { TUS_CHUNK_SIZE, TUS_RESUMABLE, UPLOAD_RETRY_COUNT } from "../constants"
+import { StoredArray } from "modules/state/classes/StoredArray"
+import { toSafeAsciiString } from "modules/lang/string"
+import { Manager } from "modules/state/types"
 
-const storage = new StoredArray<string>("resumable-uploads", 10);
+const storage = new StoredArray<string>("resumable-uploads", 10)
 
-export type FileUploadStatus = "idle" | "uploading" | "failed" | "completed";
+export type FileUploadStatus = "idle" | "uploading" | "failed" | "completed"
 
 export type FileUploadResult = {
-  id: number;
-  key: string;
-};
+  id: number
+  key: string
+}
 
 export type FileUploadOptions = {
-  file: File;
-  destination: string;
-  metadata: object;
-};
+  file: File
+  destination: string
+  metadata: object
+}
 
 const TUS_HEADERS = {
   "Tus-Resumable": TUS_RESUMABLE,
-};
+}
 
 export class FileUpload {
-  public status: FileUploadStatus = "idle";
-  public uploaded = 0;
-  public referenceId?: number;
-  public error?: any;
+  public status: FileUploadStatus = "idle"
+  public uploaded = 0
+  public referenceId?: number
+  public error?: any
 
-  private offset = 0;
-  private retries = 0;
+  private offset = 0
+  private retries = 0
 
-  private file: File;
-  private destination: string;
-  private metadata: object;
-  private location?: string;
-  private canceler = axios.CancelToken.source();
+  private file: File
+  private destination: string
+  private metadata: object
+  private location?: string
+  private canceler = axios.CancelToken.source()
 
   public constructor(options: FileUploadOptions, private manager: Manager) {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
 
-    this.file = options.file;
-    this.destination = options.destination;
-    this.metadata = options.metadata;
+    this.file = options.file
+    this.destination = options.destination
+    this.metadata = options.metadata
   }
 
   public async upload() {
-    const { offset, file, location } = this;
+    const { offset, file, location } = this
 
-    const start = offset;
-    const end = offset + TUS_CHUNK_SIZE;
-    const chunk = file.slice(start, end);
+    const start = offset
+    const end = offset + TUS_CHUNK_SIZE
+    const chunk = file.slice(start, end)
 
     const config: AxiosRequestConfig = {
       ...this.cancelOptions,
@@ -62,171 +62,171 @@ export class FileUpload {
         "content-type": "application/offset+octet-stream",
         "upload-offset": String(this.offset),
       },
-    };
+    }
 
-    this.status = "uploading";
-    const request = this.server.patch<FileUploadResult>(location!, chunk, config);
+    this.status = "uploading"
+    const request = this.server.patch<FileUploadResult>(location!, chunk, config)
 
     try {
-      const response = await request;
+      const response = await request
 
-      const offset = response.headers["upload-offset"];
-      this.offset = Number(offset);
+      const offset = response.headers["upload-offset"]
+      this.offset = Number(offset)
 
       if (this.offset === file.size) {
-        this.status = "completed";
-        this.referenceId = response.data.id;
-        this.uploaded = file.size;
+        this.status = "completed"
+        this.referenceId = response.data.id
+        this.uploaded = file.size
 
-        return;
+        return
       }
 
-      await this.upload();
+      await this.upload()
     } catch (error: any) {
-      this.handleChunkError(error);
+      this.handleChunkError(error)
     }
   }
 
   private encodeMetadata(metadata: Record<string, any>) {
-    let encoded = [];
+    let encoded = []
 
     for (const key in metadata) {
-      encoded.push(`${key} ${window.btoa(metadata[key])}`);
+      encoded.push(`${key} ${window.btoa(metadata[key])}`)
     }
 
-    return encoded.join(",");
+    return encoded.join(",")
   }
 
   private async prepare() {
-    const { destination, metadata } = this;
-    const { size } = this.file;
+    const { destination, metadata } = this
+    const { size } = this.file
 
     const headers = {
       ...TUS_HEADERS,
       "Upload-Length": String(size),
       "Upload-Metadata": this.encodeMetadata(metadata),
-    };
+    }
 
     const request = this.server.post<any>(destination, null, {
       ...this.cancelOptions,
       headers,
-    });
+    })
 
     try {
-      const response = await request;
-      const location = response.headers.location!;
+      const response = await request
+      const location = response.headers.location!
 
-      this.location = location;
-      storage.set(this.fingerprint, location);
+      this.location = location
+      storage.set(this.fingerprint, location)
 
-      this.upload();
+      this.upload()
     } catch (e) {
-      this.status = "failed";
-      console.error(e);
+      this.status = "failed"
+      console.error(e)
     }
   }
 
   private async restore(location: string) {
-    const request = this.server.head(location, { ...this.cancelOptions, headers: TUS_HEADERS });
+    const request = this.server.head(location, { ...this.cancelOptions, headers: TUS_HEADERS })
 
     try {
-      const response = await request;
-      const offset = response.headers["upload-offset"];
+      const response = await request
+      const offset = response.headers["upload-offset"]
 
-      this.offset = Number(offset);
-      this.upload();
+      this.offset = Number(offset)
+      this.upload()
     } catch (error) {
-      const { response } = error as AxiosError;
+      const { response } = error as AxiosError
 
       if (response) {
-        const { status } = response;
+        const { status } = response
 
-        if (status === 410) return this.retry();
-        if (status === 404) return await this.prepare();
+        if (status === 410) return this.retry()
+        if (status === 404) return await this.prepare()
 
-        this.error = response.data;
+        this.error = response.data
       }
 
-      this.status = "failed";
+      this.status = "failed"
     }
   }
 
   public start() {
-    const location = storage.get(this.fingerprint);
+    const location = storage.get(this.fingerprint)
 
     if (location) {
-      this.restore(location);
+      this.restore(location)
     } else {
-      this.prepare();
+      this.prepare()
     }
   }
 
   public retry() {
-    this.retries += 1;
+    this.retries += 1
 
     if (this.retries > UPLOAD_RETRY_COUNT) {
-      this.status = "failed";
-      return;
+      this.status = "failed"
+      return
     }
 
-    storage.remove(this.fingerprint);
+    storage.remove(this.fingerprint)
 
-    this.offset = 0;
-    this.location = undefined;
+    this.offset = 0
+    this.location = undefined
 
-    this.start();
+    this.start()
   }
 
   public stop() {
-    this.canceler?.cancel("Upload cancelled");
-    this.status = "idle";
+    this.canceler?.cancel("Upload cancelled")
+    this.status = "idle"
   }
 
   private handleProgress = (event: ProgressEvent) => {
-    const { loaded } = event;
-    this.uploaded = this.offset + loaded;
-  };
+    const { loaded } = event
+    this.uploaded = this.offset + loaded
+  }
 
   private handleChunkError = (error: AxiosError) => {
-    const { response } = error;
+    const { response } = error
 
     if (response?.status === 400) {
-      this.status = "failed";
-      this.error = response.data;
-      return;
+      this.status = "failed"
+      this.error = response.data
+      return
     }
 
-    return this.retry();
-  };
+    return this.retry()
+  }
 
   public get fingerprint(): string {
-    const { name, size, lastModified } = this.file;
+    const { name, size, lastModified } = this.file
 
-    const rawFingerprint = `tus-${name}-${size}-${lastModified}`;
-    const escapedFingerprint = toSafeAsciiString(rawFingerprint);
+    const rawFingerprint = `tus-${name}-${size}-${lastModified}`
+    const escapedFingerprint = toSafeAsciiString(rawFingerprint)
 
-    return btoa(escapedFingerprint);
+    return btoa(escapedFingerprint)
   }
 
   private get cancelOptions() {
     return {
       cancelToken: this.canceler.token,
-    };
+    }
   }
 
   private get server() {
-    return this.manager.stores.networkStore.upload;
+    return this.manager.stores.networkStore.upload
   }
 
   public get progress() {
-    return this.uploaded / this.file.size;
+    return this.uploaded / this.file.size
   }
 
   public get name() {
-    return this.file.name;
+    return this.file.name
   }
 
   public get size() {
-    return this.file.size;
+    return this.file.size
   }
 }

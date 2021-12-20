@@ -1,4 +1,4 @@
-import { Theme } from "@emotion/react";
+import { Theme } from "@emotion/react"
 
 export const lightTheme: Theme = {
   color: {
@@ -22,7 +22,7 @@ export const lightTheme: Theme = {
     muted: "rgba(0, 0, 0, 0.7)",
     subdued: "rgba(0, 0, 0, 0.5)",
   },
-};
+}
 
 export const darkTheme: Theme = {
   ...lightTheme,
@@ -38,4 +38,4 @@ export const darkTheme: Theme = {
     muted: "rgba(255, 255, 255, 0.7)",
     subdued: "rgba(255, 255, 255, 0.5)",
   },
-};
+}

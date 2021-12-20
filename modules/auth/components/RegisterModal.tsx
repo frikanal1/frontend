@@ -1,35 +1,35 @@
-import React from "react";
-import styled from "@emotion/styled";
-import { Form } from "modules/form/components/Form";
-import { FormField } from "modules/form/components/FormField";
-import { useFormSubmission } from "modules/form/hooks/useFormSubmission";
-import { ControlledTextInput } from "modules/input/components/ControlledTextInput";
-import { PrimaryModal } from "modules/modal/components/PrimaryModal";
-import { useModal } from "modules/modal/hooks/useModal";
-import { useStores } from "modules/state/manager";
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { StatusLine } from "modules/ui/components/StatusLine";
-import { RegisterForm } from "../forms/createRegisterForm";
+import React from "react"
+import styled from "@emotion/styled"
+import { Form } from "modules/form/components/Form"
+import { FormField } from "modules/form/components/FormField"
+import { useFormSubmission } from "modules/form/hooks/useFormSubmission"
+import { ControlledTextInput } from "modules/input/components/ControlledTextInput"
+import { PrimaryModal } from "modules/modal/components/PrimaryModal"
+import { useModal } from "modules/modal/hooks/useModal"
+import { useStores } from "modules/state/manager"
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { StatusLine } from "modules/ui/components/StatusLine"
+import { RegisterForm } from "../forms/createRegisterForm"
 
 const Field = styled(FormField)`
   margin-bottom: 16px;
-`;
+`
 
 const Info = styled.p`
   margin-top: 0px;
-`;
+`
 
 export type RegisterModalProps = {
-  form: RegisterForm;
-};
+  form: RegisterForm
+}
 
 export function RegisterModal(props: RegisterModalProps) {
-  const { form } = props;
+  const { form } = props
 
-  const modal = useModal();
+  const modal = useModal()
 
-  const { authStore, networkStore } = useStores();
-  const { api } = networkStore;
+  const { authStore, networkStore } = useStores()
+  const { api } = networkStore
 
   const [status, handleSubmit] = useFormSubmission(form, async (serialized) => {
     await api.post("/auth/register", {
@@ -37,12 +37,12 @@ export function RegisterModal(props: RegisterModalProps) {
 
       // Hardcoded awaiting change of database schema
       dateOfBirth: "2020-07-24",
-    });
+    })
 
-    await authStore.authenticate();
+    await authStore.authenticate()
 
-    modal.dismiss();
-  });
+    modal.dismiss()
+  })
 
   return (
     <PrimaryModal.Container>
@@ -74,5 +74,5 @@ export function RegisterModal(props: RegisterModalProps) {
         </PrimaryModal.Actions>
       </PrimaryModal.Footer>
     </PrimaryModal.Container>
-  );
+  )
 }

@@ -1,15 +1,15 @@
-import styled from "@emotion/styled";
-import { observer } from "mobx-react-lite";
-import { Meta } from "modules/core/components/Meta";
-import { CalendarInput } from "modules/input/components/CalendarInput";
-import { ScheduleTimelineItem } from "modules/schedule/components/ScheduleTimelineItem";
-import { humanizeSelectedScheduleDate } from "modules/schedule/helpers/humanizeSelectedScheduleDate";
-import { useStores } from "modules/state/manager";
-import { Spinner } from "modules/ui/components/Spinner";
-import { NextPageContext } from "next";
-import React from "react";
+import styled from "@emotion/styled"
+import { observer } from "mobx-react-lite"
+import { Meta } from "modules/core/components/Meta"
+import { CalendarInput } from "modules/input/components/CalendarInput"
+import { ScheduleTimelineItem } from "modules/schedule/components/ScheduleTimelineItem"
+import { humanizeSelectedScheduleDate } from "modules/schedule/helpers/humanizeSelectedScheduleDate"
+import { useStores } from "modules/state/manager"
+import { Spinner } from "modules/ui/components/Spinner"
+import { NextPageContext } from "next"
+import React from "react"
 
-const breakpoint = 700;
+const breakpoint = 700
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const Container = styled.div`
   @media (max-width: ${breakpoint}px) {
     flex-direction: column;
   }
-`;
+`
 
 const Sidebar = styled.div`
   width: 320px;
@@ -36,15 +36,15 @@ const Sidebar = styled.div`
 
     margin-bottom: 32px;
   }
-`;
+`
 
 const Result = styled.div`
   flex: 1;
-`;
+`
 
 const DayTitle = styled.h1`
   margin-bottom: 16px;
-`;
+`
 
 const SpinnerContainer = styled.div`
   display: flex;
@@ -53,26 +53,26 @@ const SpinnerContainer = styled.div`
   align-items: center;
 
   height: calc(100vh - 400px);
-`;
+`
 
 function Schedule() {
-  const { scheduleStore } = useStores();
-  const { selectedDate, selectedDateItems } = scheduleStore;
+  const { scheduleStore } = useStores()
+  const { selectedDate, selectedDateItems } = scheduleStore
 
   const handleSelect = (date: Date) => {
-    scheduleStore.selectedDate = date;
-    scheduleStore.fetchByDate(date);
-  };
+    scheduleStore.selectedDate = date
+    scheduleStore.fetchByDate(date)
+  }
 
   const renderSpinner = () => {
-    if (selectedDateItems.length > 0) return null;
+    if (selectedDateItems.length > 0) return null
 
     return (
       <SpinnerContainer>
         <Spinner size="normal" />
       </SpinnerContainer>
-    );
-  };
+    )
+  }
 
   return (
     <Container>
@@ -93,14 +93,14 @@ function Schedule() {
         <CalendarInput value={selectedDate} onChange={handleSelect} />
       </Sidebar>
     </Container>
-  );
+  )
 }
 
 Schedule.getInitialProps = async (context: NextPageContext) => {
-  const { scheduleStore } = context.manager.stores;
-  await scheduleStore.fetchByDate(scheduleStore.selectedDate);
+  const { scheduleStore } = context.manager.stores
+  await scheduleStore.fetchByDate(scheduleStore.selectedDate)
 
-  return {};
-};
+  return {}
+}
 
-export default observer(Schedule);
+export default observer(Schedule)

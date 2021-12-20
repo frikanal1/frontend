@@ -1,33 +1,33 @@
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { useRef } from "react";
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { useRef } from "react"
 
 export type FileInputProps = {
-  label: string;
-  accept?: string;
-  multiple?: boolean;
-  onChange?: (files: File[]) => void;
-};
+  label: string
+  accept?: string
+  multiple?: boolean
+  onChange?: (files: File[]) => void
+}
 
 export function FileInput(props: FileInputProps) {
-  const { label, accept, multiple, onChange } = props;
-  const ref = useRef<HTMLInputElement>(null);
+  const { label, accept, multiple, onChange } = props
+  const ref = useRef<HTMLInputElement>(null)
 
   const handleFiles = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.currentTarget;
-    if (!files || !onChange) return;
+    const { files } = event.currentTarget
+    if (!files || !onChange) return
 
-    onChange([...files]);
-  };
+    onChange([...files])
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const { current: input } = ref;
-    if (!input) return;
+    const { current: input } = ref
+    if (!input) return
 
-    input.value = "";
-    input.click();
-  };
+    input.value = ""
+    input.click()
+  }
 
   return (
     <>
@@ -42,5 +42,5 @@ export function FileInput(props: FileInputProps) {
         onChange={handleFiles}
       />
     </>
-  );
+  )
 }

@@ -1,14 +1,14 @@
-import { autorun } from "mobx";
-import { useEffect, useState } from "react";
+import { autorun } from "mobx"
+import { useEffect, useState } from "react"
 
 export const useObserver = <T>(fn: () => T) => {
-  const [value, setValue] = useState(fn());
+  const [value, setValue] = useState(fn())
 
   useEffect(() => {
     return autorun(() => {
-      setValue(fn());
-    });
-  }, []);
+      setValue(fn())
+    })
+  }, [])
 
-  return value;
-};
+  return value
+}

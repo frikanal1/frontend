@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 
-const foo = (): JSX.Element => <p>Not in use</p>;
-export default foo;
+const foo = (): JSX.Element => <p>Not in use</p>
+export default foo
 
 /*
 import React, { useEffect, useState } from "react";

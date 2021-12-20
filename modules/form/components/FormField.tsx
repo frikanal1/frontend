@@ -1,17 +1,17 @@
-import React, { PropsWithChildren } from "react";
-import { FieldError } from "./FieldError";
-import styled from "@emotion/styled";
+import React, { PropsWithChildren } from "react"
+import { FieldError } from "./FieldError"
+import styled from "@emotion/styled"
 
 export type FormFieldProps = PropsWithChildren<{
-  className?: string;
-  name: string;
-  label: string;
-}>;
+  className?: string
+  name: string
+  label: string
+}>
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 const Label = styled.label`
   font-weight: 600;
@@ -20,10 +20,10 @@ const Label = styled.label`
 
   margin-bottom: 12px;
   color: ${(props) => props.theme.fontColor.normal};
-`;
+`
 
 export function FormField(props: FormFieldProps) {
-  const { children, name, label, className } = props;
+  const { children, name, label, className } = props
 
   return (
     <Container className={className}>
@@ -31,7 +31,7 @@ export function FormField(props: FormFieldProps) {
       {children}
       <FieldError name={name} />
     </Container>
-  );
+  )
 }
 
-export type FormFieldWithProps<T extends object> = (props: FormFieldProps & T) => JSX.Element;
+export type FormFieldWithProps<T extends object> = (props: FormFieldProps & T) => JSX.Element

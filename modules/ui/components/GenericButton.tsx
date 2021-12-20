@@ -1,16 +1,16 @@
-import { css, Theme } from "@emotion/react";
-import styled from "@emotion/styled";
-import { Button, ButtonProps, ButtonWithProps } from "./Button";
+import { css, Theme } from "@emotion/react"
+import styled from "@emotion/styled"
+import { Button, ButtonProps, ButtonWithProps } from "./Button"
 
-export type GenericButtonVariant = "primary" | "secondary";
-export type GenericButtonColor = "accent" | "warning" | "success" | "danger";
+export type GenericButtonVariant = "primary" | "secondary"
+export type GenericButtonColor = "accent" | "warning" | "success" | "danger"
 
 const getColorFromTheme = (theme: Theme, name: GenericButtonColor) => {
-  const { color, stateColor } = theme;
+  const { color, stateColor } = theme
 
-  if (name === "accent") return color.accent;
-  return stateColor[name];
-};
+  if (name === "accent") return color.accent
+  return stateColor[name]
+}
 
 const Container = styled(Button as ButtonWithProps<{ variant: GenericButtonVariant; color: GenericButtonColor }>)`
   align-items: center;
@@ -47,13 +47,13 @@ const Container = styled(Button as ButtonWithProps<{ variant: GenericButtonVaria
         return css`
           border: solid 2px ${getColorFromTheme(props.theme, props.color)};
           opacity: 0.6;
-        `;
+        `
       }
 
       return css`
         background: ${getColorFromTheme(props.theme, props.color)};
         box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.1);
-      `;
+      `
     }}
   }
 
@@ -61,32 +61,32 @@ const Container = styled(Button as ButtonWithProps<{ variant: GenericButtonVaria
     if (props.variant === "secondary") {
       return css`
         color: ${getColorFromTheme(props.theme, props.color)};
-      `;
+      `
     }
 
     return css`
       color: ${props.theme.fontColor.overlay};
-    `;
+    `
   }}
-`;
+`
 
 const Label = styled.span`
   font-weight: 500;
   font-size: 0.9em;
-`;
+`
 
 export type GenericButtonProps = ButtonProps & {
-  label: string;
-  variant: GenericButtonVariant;
-  color?: GenericButtonColor;
-};
+  label: string
+  variant: GenericButtonVariant
+  color?: GenericButtonColor
+}
 
 export function GenericButton(props: GenericButtonProps) {
-  const { label, color = "accent", ...rest } = props;
+  const { label, color = "accent", ...rest } = props
 
   return (
     <Container color={color} {...rest}>
       <Label>{label}</Label>
     </Container>
-  );
+  )
 }

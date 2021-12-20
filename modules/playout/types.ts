@@ -1,1 +1,1 @@
-export type MixEffectsBusInput = { index: number; name: string };
+export type MixEffectsBusInput = { index: number; name: string }

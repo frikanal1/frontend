@@ -1,4 +1,4 @@
-import { Manager } from "../types";
+import { Manager } from "../types"
 
 export class Store<T = any> {
   constructor(protected manager: Manager) {}
@@ -7,12 +7,12 @@ export class Store<T = any> {
   public make(): void {}
 
   public init(): void | Promise<void> {}
-  public reset?(): void;
-  public hydrate?(data: T): void;
-  public serialize?(): T;
+  public reset?(): void
+  public hydrate?(data: T): void
+  public serialize?(): T
 }
 
 export const createStoreFactory =
   <S extends Store>(storeClass: new (manager: Manager) => S) =>
   (manager: Manager) =>
-    new storeClass(manager);
+    new storeClass(manager)

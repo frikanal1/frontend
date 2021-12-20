@@ -1,19 +1,19 @@
-import { useState } from "react";
-import styled from "@emotion/styled";
-import { ATEMControls } from "modules/playout/components/ATEMControls";
-import { MonitoringStream } from "modules/playout/components/MonitoringStream";
-import { ATEM_INPUTS } from "modules/playout/constants";
-import { Section } from "modules/ui/components/Section";
-import { useManager } from "modules/state/manager";
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { spawnTextSlideModal } from "modules/playout/helpers/spawnTextSlideModal";
-import { Meta } from "modules/core/components/Meta";
-import { NextPageContext } from "next";
+import { useState } from "react"
+import styled from "@emotion/styled"
+import { ATEMControls } from "modules/playout/components/ATEMControls"
+import { MonitoringStream } from "modules/playout/components/MonitoringStream"
+import { ATEM_INPUTS } from "modules/playout/constants"
+import { Section } from "modules/ui/components/Section"
+import { useManager } from "modules/state/manager"
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { spawnTextSlideModal } from "modules/playout/helpers/spawnTextSlideModal"
+import { Meta } from "modules/core/components/Meta"
+import { NextPageContext } from "next"
 // import { NextPageContext } from "next";
 
-const breakpoint = 830;
+const breakpoint = 830
 
-const Container = styled.div``;
+const Container = styled.div``
 
 const Content = styled.div`
   margin-top: 16px;
@@ -24,7 +24,7 @@ const Content = styled.div`
   @media (max-width: ${breakpoint}px) {
     padding: 0px;
   }
-`;
+`
 
 const Controls = styled.div`
   margin: 0px -24px;
@@ -50,24 +50,24 @@ const Controls = styled.div`
       margin-bottom: 32px;
     }
   }
-`;
+`
 
 export type PlayoutProps = {
-  initialIndex: number;
-};
+  initialIndex: number
+}
 
 export default function Playout(props: PlayoutProps) {
-  const manager = useManager();
-  const { networkStore } = manager.stores;
-  const { api } = networkStore;
+  const manager = useManager()
+  const { networkStore } = manager.stores
+  const { api } = networkStore
 
-  const { initialIndex } = props;
-  const [index, setIndex] = useState(initialIndex);
+  const { initialIndex } = props
+  const [index, setIndex] = useState(initialIndex)
 
   const setProgram = async (index: number) => {
-    await api.post("/playout/atem/program", { inputIndex: index });
-    setIndex(index);
-  };
+    await api.post("/playout/atem/program", { inputIndex: index })
+    setIndex(index)
+  }
 
   return (
     <Container>
@@ -94,16 +94,16 @@ export default function Playout(props: PlayoutProps) {
         </Controls>
       </Content>
     </Container>
-  );
+  )
 }
 
 Playout.getInitialProps = async (context: NextPageContext) => {
-  const { manager } = context;
-  const { networkStore } = manager.stores;
-  const { api } = networkStore;
+  const { manager } = context
+  const { networkStore } = manager.stores
+  const { api } = networkStore
 
-  const { data } = await api.get<{ inputIndex: number }>("/playout/atem/program");
-  const { inputIndex } = data;
+  const { data } = await api.get<{ inputIndex: number }>("/playout/atem/program")
+  const { inputIndex } = data
 
-  return { initialIndex: inputIndex };
-};
+  return { initialIndex: inputIndex }
+}

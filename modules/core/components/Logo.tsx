@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export function Logo(props: { className?: string }) {
   return (
@@ -88,5 +88,5 @@ export function Logo(props: { className?: string }) {
         </clipPath>
       </defs>
     </svg>
-  );
+  )
 }

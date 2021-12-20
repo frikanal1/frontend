@@ -1,15 +1,15 @@
-import { ButtonList } from "modules/ui/components/ButtonList";
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { MixEffectsBusInput } from "../types";
+import { ButtonList } from "modules/ui/components/ButtonList"
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { MixEffectsBusInput } from "../types"
 
 export type ATEMControlsProps = {
-  inputs: MixEffectsBusInput[];
-  index: number;
-  onChange: (index: number) => void;
-};
+  inputs: MixEffectsBusInput[]
+  index: number
+  onChange: (index: number) => void
+}
 
 export function ATEMControls(props: ATEMControlsProps) {
-  const { inputs, index, onChange } = props;
+  const { inputs, index, onChange } = props
 
   return (
     <ButtonList horizontal>
@@ -23,5 +23,5 @@ export function ATEMControls(props: ATEMControlsProps) {
         />
       ))}
     </ButtonList>
-  );
+  )
 }

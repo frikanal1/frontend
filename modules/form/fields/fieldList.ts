@@ -1,32 +1,32 @@
-import { action, computed, makeObservable, observable } from "mobx";
-import { Field } from "../classes/ObservableForm";
-import { checkIfFieldIsReady } from "../helpers/checkIfFieldIsReady";
-import { ValidatorList } from "../classes/ValidatorList";
-import { Manager } from "modules/state/types";
+import { action, computed, makeObservable, observable } from "mobx"
+import { Field } from "../classes/ObservableForm"
+import { checkIfFieldIsReady } from "../helpers/checkIfFieldIsReady"
+import { ValidatorList } from "../classes/ValidatorList"
+import { Manager } from "modules/state/types"
 
 export type ObservableFieldListOptions<F extends Field> = {
-  fields?: F[];
-  create: () => F;
-  min?: number;
-  max: number;
-  minWarning?: string;
-  maxWarning?: string;
-  fieldInvalidWarning?: string;
-};
+  fields?: F[]
+  create: () => F
+  min?: number
+  max: number
+  minWarning?: string
+  maxWarning?: string
+  fieldInvalidWarning?: string
+}
 
 /** Represents a list of fields */
 export class ObservableFieldList<F extends Field> {
-  protected manager!: Manager;
-  protected validators: ValidatorList<F[]>;
+  protected manager!: Manager
+  protected validators: ValidatorList<F[]>
 
-  public fields: F[];
-  public touched = false;
-  public dirty = false;
+  public fields: F[]
+  public touched = false
+  public dirty = false
 
-  private create: () => F;
+  private create: () => F
 
-  public min: number;
-  public max: number;
+  public min: number
+  public max: number
 
   public constructor(options: ObservableFieldListOptions<F>) {
     makeObservable(this, {
@@ -46,125 +46,125 @@ export class ObservableFieldList<F extends Field> {
       error: computed,
       serializedValue: computed,
       ready: computed,
-    });
+    })
 
-    this.fields = options.fields ?? [];
-    this.create = () => options.create();
+    this.fields = options.fields ?? []
+    this.create = () => options.create()
 
-    this.min = options.min ?? 0;
-    this.max = options.max;
+    this.min = options.min ?? 0
+    this.max = options.max
 
-    this.validators = new ValidatorList(this.fields);
+    this.validators = new ValidatorList(this.fields)
 
     // Validate min and max
     this.validators.add(async (value) => {
-      if (value.length < this.min) return options.minWarning ?? `Minimum ${this.min}`;
-      if (value.length > this.max) return options.maxWarning ?? `Maximum ${this.max}`;
+      if (value.length < this.min) return options.minWarning ?? `Minimum ${this.min}`
+      if (value.length > this.max) return options.maxWarning ?? `Maximum ${this.max}`
 
-      return "";
-    });
+      return ""
+    })
 
     // Validate all fields within
     this.validators.add(async (value) => {
-      let invalid = false;
+      let invalid = false
 
       for (const field of value) {
-        await field.validate();
+        await field.validate()
 
         if (field.error) {
-          invalid = true;
-          break;
+          invalid = true
+          break
         }
       }
 
-      return invalid ? options.fieldInvalidWarning ?? "One or more fields are invalid" : "";
-    });
+      return invalid ? options.fieldInvalidWarning ?? "One or more fields are invalid" : ""
+    })
   }
 
   /** Must be called first before doing anything else */
   public setManager(manager: Manager) {
-    this.manager = manager;
-    this.fields.forEach((x) => x.setManager(manager));
+    this.manager = manager
+    this.fields.forEach((x) => x.setManager(manager))
   }
 
   public add() {
-    const field = this.create();
-    field.setManager(this.manager);
+    const field = this.create()
+    field.setManager(this.manager)
 
-    this.fields.push(field);
-    this.validators.validate(this.fields);
+    this.fields.push(field)
+    this.validators.validate(this.fields)
 
-    return field;
+    return field
   }
 
   public remove(index: number) {
-    this.fields = this.fields.filter((_, i) => i !== index);
-    this.validators.validate(this.fields);
+    this.fields = this.fields.filter((_, i) => i !== index)
+    this.validators.validate(this.fields)
   }
 
   public move(index: number, newIndex: number) {
-    const field = this.fields[index];
+    const field = this.fields[index]
 
-    this.fields.splice(index, 1);
-    this.fields.splice(newIndex, 0, field);
+    this.fields.splice(index, 1)
+    this.fields.splice(newIndex, 0, field)
   }
 
   public validate = async () => {
-    await this.validators.validate(this.fields);
-  };
+    await this.validators.validate(this.fields)
+  }
 
   public touch = () => {
-    this.touched = true;
+    this.touched = true
 
     for (const field of this.fields) {
-      field.touch();
+      field.touch()
     }
 
-    this.validators.validate(this.fields);
-  };
+    this.validators.validate(this.fields)
+  }
 
   public reset = () => {
-    this.touched = false;
-    this.validators.validate(this.fields);
-  };
+    this.touched = false
+    this.validators.validate(this.fields)
+  }
 
   public destroy() {
     for (const field of this.fields) {
-      field.destroy();
+      field.destroy()
     }
   }
 
   public get error() {
-    return this.validators.error;
+    return this.validators.error
   }
 
   public get serializedValue(): any[] {
-    return this.fields.map((x) => x.serializedValue);
+    return this.fields.map((x) => x.serializedValue)
   }
 
   public get ready() {
     for (const field of this.fields) {
-      const ready = checkIfFieldIsReady(field);
+      const ready = checkIfFieldIsReady(field)
 
       if (!ready) {
-        return false;
+        return false
       }
     }
 
-    return true;
+    return true
   }
 }
 
 export type FieldListFactoryOptions<F extends Field> = {
-  fields: F[];
-  create: () => F;
-  min?: number;
-  max: number;
-  minWarning?: string;
-  maxWarning?: string;
-  fieldInvalidWarning?: string;
-};
+  fields: F[]
+  create: () => F
+  min?: number
+  max: number
+  minWarning?: string
+  maxWarning?: string
+  fieldInvalidWarning?: string
+}
 
 export const fieldList = <F extends Field>(options: FieldListFactoryOptions<F>) => {
-  return new ObservableFieldList(options);
-};
+  return new ObservableFieldList(options)
+}

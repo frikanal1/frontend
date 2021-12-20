@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import { ExternalLink } from "modules/ui/components/ExternalLink";
-import { mainContentStyle } from "../styles/mainContentStyle";
+import styled from "@emotion/styled"
+import { ExternalLink } from "modules/ui/components/ExternalLink"
+import { mainContentStyle } from "../styles/mainContentStyle"
 
 export const Container = styled.footer`
   margin-top: 32px;
@@ -8,24 +8,24 @@ export const Container = styled.footer`
 
   display: flex;
   justify-content: center;
-`;
+`
 
 const Content = styled.div`
   ${mainContentStyle}
 
   display: flex;
-`;
+`
 
 const Copyright = styled.span`
   flex: 1;
   color: ${(props) => props.theme.fontColor.muted};
-`;
+`
 
-const Links = styled.nav``;
+const Links = styled.nav``
 
 const Link = styled(ExternalLink)`
   margin-left: 16px;
-`;
+`
 
 export function Footer() {
   return (
@@ -39,5 +39,5 @@ export function Footer() {
         </Links>
       </Content>
     </Container>
-  );
+  )
 }

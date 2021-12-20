@@ -1,6 +1,6 @@
-import { Meta } from "modules/core/components/Meta";
-import { Document } from "modules/ui/components/Document";
-import React from "react";
+import { Meta } from "modules/core/components/Meta"
+import { Document } from "modules/ui/components/Document"
+import React from "react"
 
 export default function About() {
   return (
@@ -175,5 +175,5 @@ export default function About() {
         stemmeflertall. Årsmøtet bestemmer hvordan eventuelle disponible midler og eiendeler skal fordeles.
       </p>
     </Document>
-  );
+  )
 }

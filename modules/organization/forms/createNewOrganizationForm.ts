@@ -1,6 +1,6 @@
-import { ObservableForm } from "modules/form/classes/ObservableForm";
-import { string } from "modules/form/fields/string";
-import { Manager } from "modules/state/types";
+import { ObservableForm } from "modules/form/classes/ObservableForm"
+import { string } from "modules/form/fields/string"
+import { Manager } from "modules/state/types"
 
 export const createNewOrganizationForm = (manager: Manager) => {
   return new ObservableForm(
@@ -12,7 +12,7 @@ export const createNewOrganizationForm = (manager: Manager) => {
       homepage: string().required().url(),
     },
     manager
-  );
-};
+  )
+}
 
-export type NewOrganizationForm = ReturnType<typeof createNewOrganizationForm>;
+export type NewOrganizationForm = ReturnType<typeof createNewOrganizationForm>

@@ -1,42 +1,42 @@
-import { observable, computed, makeObservable } from "mobx";
-import { Manager } from "modules/state/types";
-import { ValidatorList } from "./ValidatorList";
+import { observable, computed, makeObservable } from "mobx"
+import { Manager } from "modules/state/types"
+import { ValidatorList } from "./ValidatorList"
 
 export type ObservableFormFieldLike<V, SV = V> = {
-  setManager: (m: Manager) => void;
+  setManager: (m: Manager) => void
 
-  value: V;
-  setValue: (v: V) => void;
-  serializedValue: SV;
+  value: V
+  setValue: (v: V) => void
+  serializedValue: SV
 
-  touched: boolean;
-  touch: () => void;
+  touched: boolean
+  touch: () => void
 
-  dirty: boolean;
-  reset: () => void;
+  dirty: boolean
+  reset: () => void
 
-  destroy: () => void;
-  error?: string;
-};
+  destroy: () => void
+  error?: string
+}
 
 export type ObservableFormFieldOptions<V> = {
-  value: V;
-};
+  value: V
+}
 
 export class ObservableFormField<V, SV = V> implements ObservableFormFieldLike<V, SV> {
-  protected manager!: Manager;
-  protected validators: ValidatorList<V>;
+  protected manager!: Manager
+  protected validators: ValidatorList<V>
 
-  public touched = false;
-  public dirty = false;
-  public value: V;
+  public touched = false
+  public dirty = false
+  public value: V
 
-  private defaultValue: V;
+  private defaultValue: V
 
   public constructor(options: ObservableFormFieldOptions<V>) {
-    this.value = options.value;
-    this.defaultValue = options.value;
-    this.validators = new ValidatorList(this.value);
+    this.value = options.value
+    this.defaultValue = options.value
+    this.validators = new ValidatorList(this.value)
 
     makeObservable(this, {
       touched: observable,
@@ -44,47 +44,47 @@ export class ObservableFormField<V, SV = V> implements ObservableFormFieldLike<V
       value: observable,
       serializedValue: computed,
       error: computed,
-    });
+    })
   }
 
   public get serializedValue(): SV {
-    return this.value as any;
+    return this.value as any
   }
 
   /** Must be called first before doing anything else */
   public setManager(manager: Manager) {
-    this.manager = manager;
+    this.manager = manager
   }
 
   public setValue(v: V) {
-    this.value = v;
-    this.dirty = true;
-    this.validators.validate(v);
+    this.value = v
+    this.dirty = true
+    this.validators.validate(v)
   }
 
   public touch = () => {
-    this.touched = true;
-    this.validators.validate(this.value);
-  };
+    this.touched = true
+    this.validators.validate(this.value)
+  }
 
   public makeDirty = () => {
-    this.dirty = true;
-  };
+    this.dirty = true
+  }
 
   public reset = () => {
-    this.value = this.defaultValue;
-    this.touched = false;
-    this.dirty = false;
-    this.validators.validate(this.value);
-  };
+    this.value = this.defaultValue
+    this.touched = false
+    this.dirty = false
+    this.validators.validate(this.value)
+  }
 
   public validate = async () => {
-    await this.validators.validate(this.value);
-  };
+    await this.validators.validate(this.value)
+  }
 
   public destroy() {}
 
   public get error() {
-    return this.validators.error;
+    return this.validators.error
   }
 }

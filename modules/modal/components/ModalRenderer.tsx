@@ -1,18 +1,18 @@
-import React from "react";
+import React from "react"
 
-import { ModalItem } from "../stores/modalStore";
-import styled from "@emotion/styled";
-import { useStores } from "modules/state/manager";
-import { modalContext } from "../contexts";
-import { css, keyframes } from "@emotion/react";
-import { TransitionStatus } from "react-transition-group";
+import { ModalItem } from "../stores/modalStore"
+import styled from "@emotion/styled"
+import { useStores } from "modules/state/manager"
+import { modalContext } from "../contexts"
+import { css, keyframes } from "@emotion/react"
+import { TransitionStatus } from "react-transition-group"
 
-const { Provider } = modalContext;
+const { Provider } = modalContext
 
 export type ModalRendererProps = {
-  transitionStatus: TransitionStatus;
-  item: ModalItem;
-};
+  transitionStatus: TransitionStatus
+  item: ModalItem
+}
 
 const ContainerAnimation = keyframes`
   0% {
@@ -22,7 +22,7 @@ const ContainerAnimation = keyframes`
   100% {
     opacity: 1;
   }
-`;
+`
 
 const ContentAnimation = keyframes`
   0% {
@@ -32,7 +32,7 @@ const ContentAnimation = keyframes`
   100% {
     transform: scale(1);
   }
-`;
+`
 
 const Container = styled.div<{ status: TransitionStatus }>`
   position: fixed;
@@ -53,15 +53,15 @@ const Container = styled.div<{ status: TransitionStatus }>`
     if (props.status === "entering")
       return css`
         animation: ${ContainerAnimation} 150ms linear forwards;
-      `;
+      `
 
     if (props.status === "exiting") {
       return css`
         animation: ${ContainerAnimation} 150ms linear forwards reverse;
-      `;
+      `
     }
   }}
-`;
+`
 
 const Content = styled.div<{ status: TransitionStatus }>`
   max-width: 100vw;
@@ -70,34 +70,34 @@ const Content = styled.div<{ status: TransitionStatus }>`
     if (props.status === "entering")
       return css`
         animation: ${ContentAnimation} 150ms ease forwards;
-      `;
+      `
 
     if (props.status === "exiting") {
       return css`
         animation: ${ContentAnimation} 150ms ease forwards reverse;
-      `;
+      `
     }
   }}
-`;
+`
 
 export function ModalRenderer(props: ModalRendererProps) {
-  const { render, clickout, dismissOnClickout, key } = props.item;
-  const { modalStore } = useStores();
+  const { render, clickout, dismissOnClickout, key } = props.item
+  const { modalStore } = useStores()
 
   const context = {
     dismiss: () => modalStore.dismiss(key, true),
     close: () => modalStore.dismiss(key),
-  };
+  }
 
   const onClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget && clickout) {
       if (dismissOnClickout) {
-        context.dismiss();
+        context.dismiss()
       } else {
-        context.close();
+        context.close()
       }
     }
-  };
+  }
 
   return (
     <Container status={props.transitionStatus} onClick={onClick}>
@@ -105,5 +105,5 @@ export function ModalRenderer(props: ModalRendererProps) {
         <Provider value={context}>{render()}</Provider>
       </Content>
     </Container>
-  );
+  )
 }

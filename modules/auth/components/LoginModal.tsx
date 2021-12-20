@@ -1,63 +1,63 @@
-import styled from "@emotion/styled";
-import { AxiosError } from "axios";
-import { Form } from "modules/form/components/Form";
-import { FormField } from "modules/form/components/FormField";
-import { useFormSubmission } from "modules/form/hooks/useFormSubmission";
-import { ControlledTextInput } from "modules/input/components/ControlledTextInput";
-import { PrimaryModal } from "modules/modal/components/PrimaryModal";
-import { useModal } from "modules/modal/hooks/useModal";
-import { useManager } from "modules/state/manager";
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { StatusLine } from "modules/ui/components/StatusLine";
-import { linkStyle } from "modules/ui/styles/linkStyle";
-import { LoginForm } from "../forms/createLoginForm";
-import { spawnRegisterModal } from "../helpers/spawnRegisterModal";
+import styled from "@emotion/styled"
+import { AxiosError } from "axios"
+import { Form } from "modules/form/components/Form"
+import { FormField } from "modules/form/components/FormField"
+import { useFormSubmission } from "modules/form/hooks/useFormSubmission"
+import { ControlledTextInput } from "modules/input/components/ControlledTextInput"
+import { PrimaryModal } from "modules/modal/components/PrimaryModal"
+import { useModal } from "modules/modal/hooks/useModal"
+import { useManager } from "modules/state/manager"
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { StatusLine } from "modules/ui/components/StatusLine"
+import { linkStyle } from "modules/ui/styles/linkStyle"
+import { LoginForm } from "../forms/createLoginForm"
+import { spawnRegisterModal } from "../helpers/spawnRegisterModal"
 
 export type LoginModalProps = {
-  form: LoginForm;
-};
+  form: LoginForm
+}
 
 const Field = styled(FormField)`
   margin-bottom: 16px;
-`;
+`
 
 const RegisterLink = styled.a`
   cursor: pointer;
   ${linkStyle}
-`;
+`
 
 export function LoginModal(props: LoginModalProps) {
-  const { form } = props;
+  const { form } = props
 
-  const manager = useManager();
-  const modal = useModal();
+  const manager = useManager()
+  const modal = useModal()
 
-  const { authStore, networkStore } = manager.stores;
-  const { api } = networkStore;
+  const { authStore, networkStore } = manager.stores
+  const { api } = networkStore
 
   const [status, handleSubmit] = useFormSubmission(
     form,
     async (serialized) => {
-      await api.post("/auth/login", serialized);
-      await authStore.authenticate();
+      await api.post("/auth/login", serialized)
+      await authStore.authenticate()
 
-      modal.dismiss();
+      modal.dismiss()
     },
     (e) => {
-      const { response } = e as AxiosError;
+      const { response } = e as AxiosError
 
       if (response?.status === 400) {
-        return ["error", "Feil brukernavn eller passord"];
+        return ["error", "Feil brukernavn eller passord"]
       }
 
-      return ["error", "Noe gikk galt, prøv igjen senere"];
+      return ["error", "Noe gikk galt, prøv igjen senere"]
     }
-  );
+  )
 
   const handleRegisterClick = () => {
-    modal.dismiss();
-    spawnRegisterModal(manager);
-  };
+    modal.dismiss()
+    spawnRegisterModal(manager)
+  }
 
   return (
     <PrimaryModal.Container>
@@ -81,5 +81,5 @@ export function LoginModal(props: LoginModalProps) {
         </PrimaryModal.Actions>
       </PrimaryModal.Footer>
     </PrimaryModal.Container>
-  );
+  )
 }

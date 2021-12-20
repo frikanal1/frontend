@@ -1,25 +1,25 @@
-import styled from "@emotion/styled";
-import { IconType } from "../types";
-import { SVGIcon } from "./SVGIcon";
+import styled from "@emotion/styled"
+import { IconType } from "../types"
+import { SVGIcon } from "./SVGIcon"
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 64px 0px;
-`;
+`
 
 const Title = styled.h1`
   font-size: 1.4em;
   font-weight: 600;
-`;
+`
 
 const Subtitle = styled.h2`
   font-size: 1.1em;
   font-weight: 500;
 
   margin-top: 8px;
-`;
+`
 
 const Icon = styled(SVGIcon)`
   color: ${(props) => props.theme.fontColor.subdued};
@@ -27,16 +27,16 @@ const Icon = styled(SVGIcon)`
   height: 64px;
 
   margin-bottom: 32px;
-`;
+`
 
 export type EmptyStateProps = {
-  icon: IconType;
-  title: string;
-  subtitle?: string;
-};
+  icon: IconType
+  title: string
+  subtitle?: string
+}
 
 export function EmptyState(props: EmptyStateProps) {
-  const { icon, title, subtitle } = props;
+  const { icon, title, subtitle } = props
 
   return (
     <Container>
@@ -44,5 +44,5 @@ export function EmptyState(props: EmptyStateProps) {
       <Title>{title}</Title>
       <Subtitle>{subtitle}</Subtitle>
     </Container>
-  );
+  )
 }

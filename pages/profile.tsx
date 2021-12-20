@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import styled from "@emotion/styled";
+import React, { useState } from "react"
+import styled from "@emotion/styled"
 import {
   getInitialRequireAuthenticationProps,
   RequireAuthentication,
-} from "modules/auth/components/RequireAuthentication";
-import { Form } from "modules/form/components/Form";
-import { FormField, FormFieldWithProps } from "modules/form/components/FormField";
-import { ControlledTextInput } from "modules/input/components/ControlledTextInput";
-import { useManager } from "modules/state/manager";
-import { createProfileForm } from "modules/user/forms/createProfileForm";
-import { GenericButton } from "modules/ui/components/GenericButton";
-import { StatusLine } from "modules/ui/components/StatusLine";
-import { useFormSubmission } from "modules/form/hooks/useFormSubmission";
-import { User } from "modules/user/schemas";
-import { Section } from "modules/ui/components/Section";
-import { OrganizationRoleItem } from "modules/user/components/OrganizationRoleItem";
-import { Meta } from "modules/core/components/Meta";
-import { useRouter } from "next/router";
-import { ListTail } from "modules/state/components/ListTail";
-import { useResourceList } from "modules/state/hooks/useResourceList";
+} from "modules/auth/components/RequireAuthentication"
+import { Form } from "modules/form/components/Form"
+import { FormField, FormFieldWithProps } from "modules/form/components/FormField"
+import { ControlledTextInput } from "modules/input/components/ControlledTextInput"
+import { useManager } from "modules/state/manager"
+import { createProfileForm } from "modules/user/forms/createProfileForm"
+import { GenericButton } from "modules/ui/components/GenericButton"
+import { StatusLine } from "modules/ui/components/StatusLine"
+import { useFormSubmission } from "modules/form/hooks/useFormSubmission"
+import { User } from "modules/user/schemas"
+import { Section } from "modules/ui/components/Section"
+import { OrganizationRoleItem } from "modules/user/components/OrganizationRoleItem"
+import { Meta } from "modules/core/components/Meta"
+import { useRouter } from "next/router"
+import { ListTail } from "modules/state/components/ListTail"
+import { useResourceList } from "modules/state/hooks/useResourceList"
 
-const breakpoint = 800;
+const breakpoint = 800
 
-const Container = styled.div``;
+const Container = styled.div``
 
 const Content = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Content = styled.div`
   @media (max-width: ${breakpoint}px) {
     flex-direction: column;
   }
-`;
+`
 
 const FormContainer = styled(Form)`
   margin-top: 16px;
@@ -42,7 +42,7 @@ const FormContainer = styled(Form)`
   grid-template-columns: 1fr;
   grid-template-areas: "firstName" "lastName" "phoneNumber" "footer";
   gap: 24px;
-`;
+`
 
 const FormFooter = styled.div`
   display: flex;
@@ -50,11 +50,11 @@ const FormFooter = styled.div`
   align-items: center;
 
   grid-area: footer;
-`;
+`
 
 const Field = styled(FormField as FormFieldWithProps<{ area: string }>)`
   grid-area: ${(props) => props.area};
-`;
+`
 
 const OrganizationSection = styled(Section)`
   width: 400px;
@@ -64,19 +64,19 @@ const OrganizationSection = styled(Section)`
     margin-left: 0px;
     margin-top: 32px;
   }
-`;
+`
 
 const OrganizationList = styled.ul`
   margin-bottom: 32px;
-`;
+`
 
 function Profile() {
-  const router = useRouter();
-  const manager = useManager();
+  const router = useRouter()
+  const manager = useManager()
 
-  const { authStore, networkStore, listStore, organizationStore } = manager.stores;
-  const { api } = networkStore;
-  const user = authStore.user!;
+  const { authStore, networkStore, listStore, organizationStore } = manager.stores
+  const { api } = networkStore
+  const user = authStore.user!
 
   // TODO: This is temporary until there is a separate User model
   const organizationList = listStore.ensure(`profile-organizations-${user.id}`, "organization", {
@@ -84,18 +84,18 @@ function Profile() {
     params: {
       editor: user.id,
     },
-  });
+  })
 
-  const organizations = useResourceList(organizationList, organizationStore);
+  const organizations = useResourceList(organizationList, organizationStore)
 
-  const [form] = useState(() => createProfileForm(user, manager));
+  const [form] = useState(() => createProfileForm(user, manager))
 
   const [status, handleSubmit] = useFormSubmission(form, async (serialized) => {
-    const { data } = await api.put<User>(`/users/${user.id}`, serialized);
+    const { data } = await api.put<User>(`/users/${user.id}`, serialized)
 
     // TODO: Fix this, users should be in a resource store
-    Object.assign(authStore.user, data);
-  });
+    Object.assign(authStore.user, data)
+  })
 
   return (
     <Container>
@@ -130,7 +130,7 @@ function Profile() {
         </OrganizationSection>
       </Content>
     </Container>
-  );
+  )
 }
 
 export default function Page() {
@@ -138,7 +138,7 @@ export default function Page() {
     <RequireAuthentication>
       <Profile />
     </RequireAuthentication>
-  );
+  )
 }
 
-Page.getInitialProps = getInitialRequireAuthenticationProps;
+Page.getInitialProps = getInitialRequireAuthenticationProps

@@ -1,5 +1,5 @@
-import { css } from "@emotion/react";
-import { CONTENT_WIDTH, CONTENT_WIDTH_PADDING } from "../constants";
+import { css } from "@emotion/react"
+import { CONTENT_WIDTH, CONTENT_WIDTH_PADDING } from "../constants"
 
 export const mainContentStyle = css`
   max-width: ${CONTENT_WIDTH}px;
@@ -11,4 +11,4 @@ export const mainContentStyle = css`
 
     padding: 0px 24px;
   }
-`;
+`

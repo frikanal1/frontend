@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { humanizeScheduleItemDate } from "../helpers/humanizeScheduleItemDate";
-import { ScheduleItem } from "../resources/ScheduleItem";
+import styled from "@emotion/styled"
+import Link from "next/link"
+import { humanizeScheduleItemDate } from "../helpers/humanizeScheduleItemDate"
+import { ScheduleItem } from "../resources/ScheduleItem"
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const Container = styled.div`
     border-top: solid 2px ${(props) => props.theme.color.divider};
     padding-top: 16px;
   }
-`;
+`
 
 const PrimaryInfo = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const PrimaryInfo = styled.div`
 
   flex: 1;
   width: 0;
-`;
+`
 
 const Title = styled.a`
   font-size: 1.1em;
@@ -29,14 +29,14 @@ const Title = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
+`
 
 const Organization = styled.a`
   font-size: 1.1em;
   font-weight: 400;
 
   margin-top: 2px;
-`;
+`
 
 const Time = styled.span`
   font-size: 1em;
@@ -44,15 +44,15 @@ const Time = styled.span`
   color: ${(props) => props.theme.fontColor.muted};
 
   margin-left: 24px;
-`;
+`
 
 export type ScheduleItemSummary = {
-  item: ScheduleItem;
-};
+  item: ScheduleItem
+}
 
 export function ScheduleItemSummary(props: ScheduleItemSummary) {
-  const { item } = props;
-  const { video } = item;
+  const { item } = props
+  const { video } = item
 
   return (
     <Container>
@@ -66,5 +66,5 @@ export function ScheduleItemSummary(props: ScheduleItemSummary) {
       </PrimaryInfo>
       <Time>{humanizeScheduleItemDate(new Date(item.data.starttime))}</Time>
     </Container>
-  );
+  )
 }

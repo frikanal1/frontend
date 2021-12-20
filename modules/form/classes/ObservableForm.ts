@@ -1,16 +1,16 @@
-import { ObservableFormField } from "./ObservableFormField";
-import { computed, makeObservable } from "mobx";
-import { ObservableFieldList } from "../fields/fieldList";
-import { ObservableFieldObject } from "../fields/fieldObject";
-import { checkIfFieldIsReady } from "../helpers/checkIfFieldIsReady";
-import { checkFieldMeta } from "../helpers/checkFieldMeta";
-import { Manager } from "modules/state/types";
+import { ObservableFormField } from "./ObservableFormField"
+import { computed, makeObservable } from "mobx"
+import { ObservableFieldList } from "../fields/fieldList"
+import { ObservableFieldObject } from "../fields/fieldObject"
+import { checkIfFieldIsReady } from "../helpers/checkIfFieldIsReady"
+import { checkFieldMeta } from "../helpers/checkFieldMeta"
+import { Manager } from "modules/state/types"
 
-export type Field = ObservableFormField<any> | ObservableFieldList<any> | ObservableFieldObject<any>;
+export type Field = ObservableFormField<any> | ObservableFieldList<any> | ObservableFieldObject<any>
 
 export type FieldsType = {
-  [field: string]: Field;
-};
+  [field: string]: Field
+}
 
 export class ObservableForm<F extends FieldsType> {
   public constructor(public fields: F, manager: Manager) {
@@ -18,77 +18,77 @@ export class ObservableForm<F extends FieldsType> {
       serialized: computed,
       ready: computed,
       valid: computed,
-    });
+    })
 
-    Object.values(fields).map((f) => f.setManager(manager));
+    Object.values(fields).map((f) => f.setManager(manager))
   }
 
   public get serialized() {
-    const result: any = {};
+    const result: any = {}
 
     for (const [key, field] of Object.entries(this.fields)) {
-      result[key] = field.serializedValue;
+      result[key] = field.serializedValue
     }
 
-    return result;
+    return result
   }
 
   public get ready() {
     for (const field of Object.values(this.fields)) {
-      const ready = checkIfFieldIsReady(field);
+      const ready = checkIfFieldIsReady(field)
 
       if (!ready) {
-        return false;
+        return false
       }
     }
 
-    return true;
+    return true
   }
 
   public get valid() {
     for (const field of Object.values(this.fields)) {
-      const meta = checkFieldMeta(field);
+      const meta = checkFieldMeta(field)
 
       if (meta.error) {
-        return false;
+        return false
       }
     }
 
-    return true;
+    return true
   }
 
   public async validate() {
     for (const field of Object.values(this.fields)) {
-      const meta = checkFieldMeta(field);
-      await meta.validate();
+      const meta = checkFieldMeta(field)
+      await meta.validate()
     }
   }
 
   public touch() {
     for (const field of Object.values(this.fields)) {
-      const meta = checkFieldMeta(field);
-      meta.touch();
+      const meta = checkFieldMeta(field)
+      meta.touch()
     }
   }
 
   public makeDirty() {
     for (const field of Object.values(this.fields)) {
-      const meta = checkFieldMeta(field);
-      meta.makeDirty();
+      const meta = checkFieldMeta(field)
+      meta.makeDirty()
     }
   }
 
   public async ensureValidity() {
-    this.touch();
-    this.makeDirty();
+    this.touch()
+    this.makeDirty()
 
-    await this.validate();
-    return this.valid;
+    await this.validate()
+    return this.valid
   }
 
   public destroy() {
     for (const field of Object.values(this.fields)) {
-      field.destroy();
+      field.destroy()
     }
   }
 }

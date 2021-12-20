@@ -1,8 +1,8 @@
-import { css, Theme } from "@emotion/react";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import "@fontsource/roboto/900.css";
+import { css, Theme } from "@emotion/react"
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
+import "@fontsource/roboto/900.css"
 
 export const global = (theme: Theme) => css`
   * {
@@ -100,4 +100,4 @@ export const global = (theme: Theme) => css`
     background: none;
     line-height: 1;
   }
-`;
+`

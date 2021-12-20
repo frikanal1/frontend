@@ -1,5 +1,5 @@
-import React from "react";
-import { HeaderLink } from "./HeaderLink";
+import React from "react"
+import { HeaderLink } from "./HeaderLink"
 
 export function NavLinks() {
   return (
@@ -8,5 +8,5 @@ export function NavLinks() {
       <HeaderLink accent="accent" to="/schedule" label="Sendeplan" />
       <HeaderLink accent="thirdAccent" to="/about" label="Om oss" />
     </>
-  );
+  )
 }

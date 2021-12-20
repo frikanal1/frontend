@@ -1,7 +1,4 @@
-import {
-  ObservableFormField,
-  ObservableFormFieldOptions,
-} from "../classes/ObservableFormField"
+import { ObservableFormField, ObservableFormFieldOptions } from "../classes/ObservableFormField"
 
 export class ObservableArrayField<T> extends ObservableFormField<T[]> {
   public min(min: number, message = `Minimum ${min} items`) {

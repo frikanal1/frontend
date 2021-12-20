@@ -1,15 +1,15 @@
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { Option } from "modules/form/fields/select";
-import { toggleArrayItem } from "modules/lang/array";
-import { PrimaryPopover } from "modules/popover/components/PrimaryPopover";
-import { usePopover } from "modules/popover/hooks/usePopover";
-import { usePopoverContext } from "modules/popover/hooks/usePopoverContext";
-import { Button, ButtonWithProps } from "modules/ui/components/Button";
-import { SVGIcon, SVGIconWithProps } from "modules/ui/components/SVGIcon";
-import { useWindowEvent } from "modules/ui/hooks/useWindowEvent";
-import { useEffect, useRef, useState } from "react";
-import { FIELDSET_HEIGHT } from "../constants";
+import { css } from "@emotion/react"
+import styled from "@emotion/styled"
+import { Option } from "modules/form/fields/select"
+import { toggleArrayItem } from "modules/lang/array"
+import { PrimaryPopover } from "modules/popover/components/PrimaryPopover"
+import { usePopover } from "modules/popover/hooks/usePopover"
+import { usePopoverContext } from "modules/popover/hooks/usePopoverContext"
+import { Button, ButtonWithProps } from "modules/ui/components/Button"
+import { SVGIcon, SVGIconWithProps } from "modules/ui/components/SVGIcon"
+import { useWindowEvent } from "modules/ui/hooks/useWindowEvent"
+import { useEffect, useRef, useState } from "react"
+import { FIELDSET_HEIGHT } from "../constants"
 
 const PopoverContainer = styled(PrimaryPopover)`
   margin: 16px 0px;
@@ -20,7 +20,7 @@ const PopoverContainer = styled(PrimaryPopover)`
 
   max-height: ${38 * 6}px;
   overflow-y: auto;
-`;
+`
 
 const OptionContainer = styled(Button as ButtonWithProps<{ active: boolean }>)`
   padding: 12px 16px;
@@ -36,31 +36,31 @@ const OptionContainer = styled(Button as ButtonWithProps<{ active: boolean }>)`
         &:hover {
           color: ${props.theme.fontColor.normal};
         }
-      `;
+      `
 
     return css`
       color: ${props.theme.color.accent};
       pointer-events: none;
-    `;
+    `
   }}
-`;
+`
 
 type PopoverProps = {
-  selected: any[];
-  options: Option[];
-  onSelect: (value: any) => void;
-};
+  selected: any[]
+  options: Option[]
+  onSelect: (value: any) => void
+}
 
 function Popover(props: PopoverProps) {
-  const { selected, options, onSelect } = props;
+  const { selected, options, onSelect } = props
 
-  const { popover } = usePopoverContext();
-  const { anchor } = popover;
-  const [width, setWidth] = useState(anchor.getBoundingClientRect().width);
+  const { popover } = usePopoverContext()
+  const { anchor } = popover
+  const [width, setWidth] = useState(anchor.getBoundingClientRect().width)
 
   useWindowEvent("resize", () => {
-    setWidth(anchor.getBoundingClientRect().width);
-  });
+    setWidth(anchor.getBoundingClientRect().width)
+  })
 
   return (
     <PopoverContainer style={{ width }}>
@@ -70,7 +70,7 @@ function Popover(props: PopoverProps) {
         </OptionContainer>
       ))}
     </PopoverContainer>
-  );
+  )
 }
 
 const Container = styled(Button as ButtonWithProps<{ active: boolean }>)`
@@ -88,7 +88,7 @@ const Container = styled(Button as ButtonWithProps<{ active: boolean }>)`
 
   border: solid 1px ${(props) => (props.active ? props.theme.color.accent : props.theme.color.divider)};
   transition: 200ms ease border-color;
-`;
+`
 
 const Chevron = styled(SVGIcon as SVGIconWithProps<{ flipped: boolean }>)`
   margin-left: 16px;
@@ -104,70 +104,70 @@ const Chevron = styled(SVGIcon as SVGIconWithProps<{ flipped: boolean }>)`
           transform: rotate(180deg);
         `
       : null}
-`;
+`
 
 const LongestLabel = styled.span`
   opacity: 0;
   user-select: none;
-`;
+`
 
 const Label = styled.span`
   position: absolute;
   left: 12px;
-`;
+`
 
-const DEFAULT_LABEL = "Klikk for å velge";
+const DEFAULT_LABEL = "Klikk for å velge"
 
 export type DropdownInputProps = {
-  className?: string;
-  multiple?: boolean;
-  options: Option[];
-  value?: any[];
-  onChange?: (value: any[]) => void;
-};
+  className?: string
+  multiple?: boolean
+  options: Option[]
+  value?: any[]
+  onChange?: (value: any[]) => void
+}
 
 export function DropdownInput(props: DropdownInputProps) {
-  const { className, multiple, options, value, onChange } = props;
-  const ref = useRef<HTMLButtonElement>(null);
+  const { className, multiple, options, value, onChange } = props
+  const ref = useRef<HTMLButtonElement>(null)
 
-  const [selected, setSelected] = useState<any[]>([]);
-  const longestLabel = [...options.map((o) => o.label), DEFAULT_LABEL].reduce((a, b) => (a.length > b.length ? a : b));
+  const [selected, setSelected] = useState<any[]>([])
+  const longestLabel = [...options.map((o) => o.label), DEFAULT_LABEL].reduce((a, b) => (a.length > b.length ? a : b))
 
   useEffect(() => {
-    setSelected(value || []);
-  }, [value]);
+    setSelected(value || [])
+  }, [value])
 
   const select = (value: any) => {
     if (!multiple) {
-      const newValue = [value];
+      const newValue = [value]
 
-      setSelected(newValue);
-      onChange?.(newValue);
-      dismiss();
+      setSelected(newValue)
+      onChange?.(newValue)
+      dismiss()
 
-      return;
+      return
     }
 
-    const newSelected = toggleArrayItem(selected, value);
+    const newSelected = toggleArrayItem(selected, value)
 
-    setSelected(newSelected);
-    onChange?.(newSelected);
-  };
+    setSelected(newSelected)
+    onChange?.(newSelected)
+  }
 
   const { active, toggle, dismiss } = usePopover({
     ref,
     render: () => <Popover selected={selected} options={options} onSelect={select} />,
     placement: "bottom-start",
-  });
+  })
 
   const renderSelected = () => {
-    if (selected.length === 0) return DEFAULT_LABEL;
+    if (selected.length === 0) return DEFAULT_LABEL
 
     return options
       .filter((o) => selected.includes(o.value))
       .map((o) => o.label)
-      .join(", ");
-  };
+      .join(", ")
+  }
 
   return (
     <Container className={className} onClick={toggle} ref={ref} active={active}>
@@ -175,5 +175,5 @@ export function DropdownInput(props: DropdownInputProps) {
       <Label>{renderSelected()}</Label>
       <Chevron flipped={active} name="chevronDown" />
     </Container>
-  );
+  )
 }

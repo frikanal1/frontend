@@ -1,3 +1,3 @@
-let increment = 0;
+let increment = 0
 
-export const getUniqueId = () => increment++;
+export const getUniqueId = () => increment++

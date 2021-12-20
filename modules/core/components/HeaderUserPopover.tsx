@@ -1,15 +1,15 @@
-import styled from "@emotion/styled";
-import { PrimaryPopover } from "modules/popover/components/PrimaryPopover";
-import { usePopoverContext } from "modules/popover/hooks/usePopoverContext";
-import { useStores } from "modules/state/manager";
-import { SVGIcon } from "modules/ui/components/SVGIcon";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import styled from "@emotion/styled"
+import { PrimaryPopover } from "modules/popover/components/PrimaryPopover"
+import { usePopoverContext } from "modules/popover/hooks/usePopoverContext"
+import { useStores } from "modules/state/manager"
+import { SVGIcon } from "modules/ui/components/SVGIcon"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 const Container = styled(PrimaryPopover)`
   margin: 16px 0px;
   padding: 8px 0px;
-`;
+`
 
 const Option = styled.a`
   display: flex;
@@ -26,42 +26,42 @@ const Option = styled.a`
   &:hover {
     color: ${(props) => props.theme.color.accent};
   }
-`;
+`
 
 const Label = styled.span`
   margin-left: 16px;
-`;
+`
 
 const Icon = styled(SVGIcon)`
   width: 24px;
   height: 24px;
-`;
+`
 
 export function HeaderUserPopover() {
-  const router = useRouter();
-  const { authStore } = useStores();
-  const popover = usePopoverContext();
+  const router = useRouter()
+  const { authStore } = useStores()
+  const popover = usePopoverContext()
 
   const handleLogout = async () => {
-    await authStore.logout();
-    popover.dismiss();
-  };
+    await authStore.logout()
+    popover.dismiss()
+  }
 
   const handleGoToPlayout = () => {
-    router.push("/playout");
-    popover.dismiss();
-  };
+    router.push("/playout")
+    popover.dismiss()
+  }
 
   const renderPlayoutOption = () => {
-    if (!authStore.user?.permissions.includes("ATEM_CONTROL")) return null;
+    if (!authStore.user?.permissions.includes("ATEM_CONTROL")) return null
 
     return (
       <Option onClick={handleGoToPlayout}>
         <Icon name="film" />
         <Label>Playout</Label>
       </Option>
-    );
-  };
+    )
+  }
 
   return (
     <Container>
@@ -77,5 +77,5 @@ export function HeaderUserPopover() {
         <Label>Logg ut</Label>
       </Option>
     </Container>
-  );
+  )
 }

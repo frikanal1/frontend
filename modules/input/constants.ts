@@ -1,1 +1,1 @@
-export const FIELDSET_HEIGHT = "38px";
+export const FIELDSET_HEIGHT = "38px"

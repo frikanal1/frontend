@@ -1,6 +1,6 @@
-import { ObservableForm } from "modules/form/classes/ObservableForm";
-import { string } from "modules/form/fields/string";
-import { Manager } from "modules/state/types";
+import { ObservableForm } from "modules/form/classes/ObservableForm"
+import { string } from "modules/form/fields/string"
+import { Manager } from "modules/state/types"
 
 export const createRegisterForm = (manager: Manager) => {
   return new ObservableForm(
@@ -14,7 +14,7 @@ export const createRegisterForm = (manager: Manager) => {
         .max(64, "Imponerende, men ditt passord må være maksimalt 64 tegn"),
     },
     manager
-  );
-};
+  )
+}
 
-export type RegisterForm = ReturnType<typeof createRegisterForm>;
+export type RegisterForm = ReturnType<typeof createRegisterForm>

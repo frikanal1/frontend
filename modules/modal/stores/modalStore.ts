@@ -1,16 +1,16 @@
-import { createStoreFactory, Store } from "modules/state/classes/Store";
-import { observable, computed, makeObservable, action } from "mobx";
+import { createStoreFactory, Store } from "modules/state/classes/Store"
+import { observable, computed, makeObservable, action } from "mobx"
 
 export type ModalItem = {
-  key: string;
-  visible?: boolean;
-  render: () => JSX.Element;
-  clickout?: boolean;
-  dismissOnClickout?: boolean;
-};
+  key: string
+  visible?: boolean
+  render: () => JSX.Element
+  clickout?: boolean
+  dismissOnClickout?: boolean
+}
 
 export class ModalStore extends Store {
-  public items: ModalItem[] = [];
+  public items: ModalItem[] = []
 
   public make() {
     makeObservable(this, {
@@ -18,45 +18,45 @@ export class ModalStore extends Store {
       spawn: action,
       dismiss: action,
       hasItems: computed,
-    });
+    })
   }
 
   public spawn(item: ModalItem) {
-    const existingItem = this.getByKey(item.key);
+    const existingItem = this.getByKey(item.key)
 
     if (existingItem) {
-      existingItem.visible = true;
-      return;
+      existingItem.visible = true
+      return
     }
 
     const safeItem = {
       visible: true,
       ...item,
-    };
+    }
 
-    this.items = [...this.items, safeItem];
+    this.items = [...this.items, safeItem]
   }
 
   public dismiss(key: string, destroy = false) {
     if (destroy) {
-      this.items = this.items.filter((x) => x.key !== key);
-      return;
+      this.items = this.items.filter((x) => x.key !== key)
+      return
     }
 
-    const item = this.getByKey(key);
+    const item = this.getByKey(key)
 
     if (item) {
-      item.visible = false;
+      item.visible = false
     }
   }
 
   private getByKey(key: string) {
-    return this.items.find((x) => x.key === key);
+    return this.items.find((x) => x.key === key)
   }
 
   public get hasItems() {
-    return this.items.filter((x) => x.visible).length > 0;
+    return this.items.filter((x) => x.visible).length > 0
   }
 }
 
-export const modalStore = createStoreFactory(ModalStore);
+export const modalStore = createStoreFactory(ModalStore)

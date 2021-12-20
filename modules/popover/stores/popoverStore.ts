@@ -1,9 +1,9 @@
-import { action, makeObservable, observable } from "mobx";
-import { createStoreFactory, Store } from "modules/state/classes/Store";
-import { Popover } from "../types/Popover";
+import { action, makeObservable, observable } from "mobx"
+import { createStoreFactory, Store } from "modules/state/classes/Store"
+import { Popover } from "../types/Popover"
 
 export class PopoverStore extends Store {
-  public popovers: Popover[] = [];
+  public popovers: Popover[] = []
 
   public make() {
     makeObservable(this, {
@@ -11,33 +11,33 @@ export class PopoverStore extends Store {
       spawn: action,
       update: action,
       dismiss: action,
-    });
+    })
   }
 
   public spawn(popover: Popover) {
-    this.popovers.push(popover);
+    this.popovers.push(popover)
 
     return () => {
-      this.dismiss(popover.name);
-    };
+      this.dismiss(popover.name)
+    }
   }
 
   public update(name: string, popover: Partial<Popover>) {
-    const index = this.popovers.findIndex((p) => p.name === name);
+    const index = this.popovers.findIndex((p) => p.name === name)
 
     if (index !== -1) {
-      this.popovers[index] = { ...this.popovers[index], ...popover };
+      this.popovers[index] = { ...this.popovers[index], ...popover }
     }
   }
 
   public dismiss(name: string) {
-    const popover = this.popovers.find((popover) => popover.name === name);
+    const popover = this.popovers.find((popover) => popover.name === name)
 
-    if (!popover) return;
-    if (popover.onDismiss) popover.onDismiss();
+    if (!popover) return
+    if (popover.onDismiss) popover.onDismiss()
 
-    this.popovers = this.popovers.filter((p) => p !== popover);
+    this.popovers = this.popovers.filter((p) => p !== popover)
   }
 }
 
-export const popoverStore = createStoreFactory(PopoverStore);
+export const popoverStore = createStoreFactory(PopoverStore)

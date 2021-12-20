@@ -1,23 +1,23 @@
-import React from "react";
-import { TextInput, TextInputProps } from "./TextInput";
-import { useField } from "../../form/hooks/useField";
-import { ObservableStringField } from "../../form/fields/string";
-import { observer } from "mobx-react-lite";
+import React from "react"
+import { TextInput, TextInputProps } from "./TextInput"
+import { useField } from "../../form/hooks/useField"
+import { ObservableStringField } from "../../form/fields/string"
+import { observer } from "mobx-react-lite"
 
 export type ControlledTextInputProps = Omit<TextInputProps, "value"> & {
-  type?: "text" | "password" | "number";
-  name: string;
-};
+  type?: "text" | "password" | "number"
+  name: string
+}
 
 export const ControlledTextInput = observer((props: ControlledTextInputProps) => {
-  const { name, ...rest } = props;
+  const { name, ...rest } = props
 
-  const field = useField<ObservableStringField>(name);
+  const field = useField<ObservableStringField>(name)
 
   const inputProps = {
     value: field.value,
     invalid: !!(field.error && field.touched),
-  };
+  }
 
   return (
     <TextInput
@@ -26,5 +26,5 @@ export const ControlledTextInput = observer((props: ControlledTextInputProps) =>
       {...inputProps}
       {...rest}
     />
-  );
-});
+  )
+})
