@@ -42,7 +42,7 @@ export class VideoUploadStore extends Store<SerializedVideoUploadStore> {
     const { api } = networkStore
 
     const { data } = await api.get<ApiCollection<VideoCategoryData>>("/categories")
-    this.categories = data.results
+    this.categories = data.rows
   }
 
   public async start() {
