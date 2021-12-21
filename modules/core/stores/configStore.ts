@@ -1,9 +1,16 @@
 import { createStoreFactory, Store } from "modules/state/classes/Store"
 
+export type Category = {
+  id: number
+  key: string
+  name: string
+}
+
 export type ConfigData = {
   servers: {
     media: string
   }
+  categories: Category[]
 }
 
 let config: ConfigData | undefined
