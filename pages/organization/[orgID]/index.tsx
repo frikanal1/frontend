@@ -77,7 +77,7 @@ function OrganizationView(props: OrganizationViewProps) {
   const { videoStore } = useStores()
 
   const { organization } = props
-  const { name, description, postalAddress, streetAddress, editorName, editorEmail, editorMsisdn } = organization.data
+  const { name, description, postalAddress, streetAddress, editor } = organization.data
 
   const videos = useResourceList(organization.videos, videoStore)
 
@@ -102,12 +102,11 @@ function OrganizationView(props: OrganizationViewProps) {
         </PrimaryInfo>
         <SecondaryInfo>
           <InfoSection icon="pencil" title="Redaktør">
-            <InfoSectionLine>{editorName}</InfoSectionLine>
             <InfoSectionLine>
-              <ExternalLink href={`mailto:${editorEmail}`}>{editorEmail}</ExternalLink>
+              {editor.firstName} {editor.lastName}
             </InfoSectionLine>
             <InfoSectionLine>
-              <ExternalLink href={`tel:${editorMsisdn}`}>{editorMsisdn}</ExternalLink>
+              <ExternalLink href={`mailto:${editor.email}`}>{editor.email}</ExternalLink>
             </InfoSectionLine>
           </InfoSection>
           <InfoSection icon="mail" title="Postadresse">

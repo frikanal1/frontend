@@ -1,4 +1,5 @@
 import { Resource, ResourceFactory } from "modules/state/classes/Resource"
+import { User } from "modules/user/schemas"
 
 export type OrganizationData = {
   id: number
@@ -7,11 +8,7 @@ export type OrganizationData = {
   postalAddress: string
   streetAddress: string
 
-  // Temporary
-  editorId: number
-  editorName: string
-  editorEmail: string
-  editorMsisdn: string
+  editor: User
 }
 
 export class Organization extends Resource<OrganizationData> {

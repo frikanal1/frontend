@@ -12,7 +12,7 @@ export class OrganizationStore extends Store<SerializedResourceStore<Organizatio
       const { networkStore } = this.manager.stores
       const { api } = networkStore
 
-      const { data } = await api.get<OrganizationData>(`/organization/${id}`)
+      const { data } = await api.get<OrganizationData>(`/organizations/${id}`)
       return data
     },
   })
@@ -22,7 +22,7 @@ export class OrganizationStore extends Store<SerializedResourceStore<Organizatio
     const { api } = networkStore
 
     return this.store.getOrCreateById(id, async () => {
-      const { data } = await api.get<OrganizationData>(`/organization/${id}`)
+      const { data } = await api.get<OrganizationData>(`/organizations/${id}`)
       return data
     })
   }
