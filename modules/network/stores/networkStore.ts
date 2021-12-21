@@ -55,7 +55,7 @@ export class NetworkStore extends Store {
   private createInstances() {
     if (this.hasCreated) return
 
-    const csrf = IS_SERVER ? undefined : this.getCookie("fk:csrf")
+    const csrf = IS_SERVER ? undefined : this.getCookie("fk-csrf")
     const headers = IS_SERVER ? this.incomingHeaders : { "X-CSRF-Token": csrf || "" }
 
     this.apiInstance = this.addInterceptors(
