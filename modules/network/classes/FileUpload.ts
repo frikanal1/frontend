@@ -11,7 +11,6 @@ export type FileUploadStatus = "idle" | "uploading" | "failed" | "completed"
 
 export type FileUploadResult = {
   id: number
-  key: string
 }
 
 export type FileUploadOptions = {
@@ -27,7 +26,7 @@ const TUS_HEADERS = {
 export class FileUpload {
   public status: FileUploadStatus = "idle"
   public uploaded = 0
-  public referenceId?: number
+  public mediaId?: number
   public error?: any
 
   private offset = 0
@@ -75,7 +74,7 @@ export class FileUpload {
 
       if (this.offset === file.size) {
         this.status = "completed"
-        this.referenceId = response.data.id
+        this.mediaId = response.data.id
         this.uploaded = file.size
 
         return
