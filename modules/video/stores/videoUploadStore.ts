@@ -1,116 +1,34 @@
-import { FileUpload } from "modules/network/classes/FileUpload"
-import { ApiCollection } from "modules/network/types"
-import { VideoCategoryData, VideoData, VideoUploadTokenData } from "../types"
 import { createStoreFactory, Store } from "modules/state/classes/Store"
-import { createNewVideoForm, NewVideoForm } from "../forms/createNewVideoForm"
 import { action, makeObservable, observable } from "mobx"
+import { VideoUpload } from "../classes/VideoUpload"
 
 export type SerializedVideoUploadStore = {
-  categories: VideoCategoryData[]
   organizationId: number
 }
 
 export class VideoUploadStore extends Store<SerializedVideoUploadStore> {
-  public file?: File
-  public upload?: FileUpload
-
-  public form!: NewVideoForm
-
-  public organizationId = 0
-  public videoId = 0
-
-  public categories: VideoCategoryData[] = []
+  public uploads: VideoUpload[] = []
 
   public make() {
     makeObservable(this, {
-      file: observable,
-      upload: observable,
+      uploads: observable,
 
-      fetchCategories: action,
-      start: action,
-      cancel: action,
-      prepare: action,
-      hydrate: action,
+      add: action,
+      remove: action,
     })
   }
 
-  public async fetchCategories() {
-    // Don't refetch categories
-    if (this.categories.length > 0) return
-
-    const { networkStore } = this.manager.stores
-    const { api } = networkStore
-
-    const { data } = await api.get<ApiCollection<VideoCategoryData>>("/categories")
-    this.categories = data.rows
+  public add(organization: number, file: File) {
+    this.uploads.push(new VideoUpload(file, organization, this.manager))
   }
 
-  public async start() {
-    const { form, file, organizationId } = this
-
-    if (!file) {
-      throw new Error("start() was called without a file")
-    }
-
-    const { networkStore } = this.manager.stores
-    const { api } = networkStore
-
-    const { data: video } = await api.post<VideoData>("/videos/", {
-      ...form.serialized,
-      organization: organizationId,
-    })
-
-    const { data: token } = await api.get<VideoUploadTokenData>(`/videos/${video.id}/upload_token`)
-
-    this.videoId = video.id
-    this.upload = new FileUpload(
-      {
-        file,
-        destination: "/",
-        metadata: {
-          origFileName: file.name,
-          videoID: video.id,
-          uploadToken: token.uploadToken,
-        },
-      },
-      this.manager
-    )
-
-    this.upload.start()
+  public remove(id: number) {
+    this.uploads = this.uploads.filter((u) => u.id !== id)
   }
 
-  public cancel() {
-    if (this.upload) {
-      this.upload.stop()
-    }
-
-    this.form = createNewVideoForm(this.categories, this.manager)
-    this.upload = undefined
-    this.file = undefined
-    this.videoId = 0
-  }
-
-  public async prepare(organizationId: number) {
-    await this.fetchCategories()
-
-    if (this.organizationId !== organizationId) {
-      this.form = createNewVideoForm(this.categories, this.manager)
-      this.upload = undefined
-      this.organizationId = organizationId
-    }
-  }
-
-  public serialize() {
-    const { categories, organizationId } = this
-    return { categories, organizationId }
-  }
-
-  public hydrate(data: SerializedVideoUploadStore) {
-    this.categories = data.categories
-    this.organizationId = data.organizationId
-
-    // This is a workaround due to the fact that there's a mismatch between manager instances on server side
-    this.form = createNewVideoForm(this.categories, this.manager)
+  public get categories() {
+    const { configStore } = this.manager.stores
+    return configStore.config.categories
   }
 }
 

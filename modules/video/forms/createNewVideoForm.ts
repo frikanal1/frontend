@@ -1,21 +1,25 @@
 import { ObservableForm } from "modules/form/classes/ObservableForm"
+import { file } from "modules/form/fields/file"
 import { Option, select } from "modules/form/fields/select"
 import { string } from "modules/form/fields/string"
 import { Manager } from "modules/state/types"
-import { VideoCategoryData } from "../types"
 
-export const createNewVideoForm = (categories: VideoCategoryData[], manager: Manager) => {
-  const categoryOptions: Option[] = categories.map((c) => ({
-    // FIXME: API expects a string (name) rather than an id
-    value: c.name,
+export const createNewVideoForm = (manager: Manager) => {
+  const { configStore } = manager.stores
+
+  const categoryOptions: Option[] = configStore.config.categories.map((c) => ({
+    value: c.id,
     label: c.name,
   }))
 
   return new ObservableForm(
     {
-      name: string().required(),
-      header: string(),
+      title: string().required(),
       description: string(),
+      mediaId: file({
+        path: "/upload/video",
+        value: undefined,
+      }),
       categories: select({
         options: categoryOptions,
         multiple: true,

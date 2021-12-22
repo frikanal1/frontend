@@ -110,11 +110,12 @@ export type StatusLineProps = {
   type: StatusType
   fingerprint: number
   message?: string
+  fadeOut?: boolean
   className?: string
 }
 
 export function StatusLine(props: StatusLineProps) {
-  const { type, className, message, fingerprint } = props
+  const { type, className, message, fingerprint, fadeOut = true } = props
   const icon = typeToIconMap[type]
 
   const timeoutRef = useRef<number>()
@@ -122,7 +123,9 @@ export function StatusLine(props: StatusLineProps) {
 
   useEffect(() => {
     timeoutRef.current = window.setTimeout(() => {
-      setVisible(false)
+      if (fadeOut) {
+        setVisible(false)
+      }
     }, statusTimeout)
 
     setVisible(true)
@@ -130,7 +133,7 @@ export function StatusLine(props: StatusLineProps) {
     return () => {
       clearTimeout(timeoutRef.current)
     }
-  }, [fingerprint])
+  }, [fingerprint, fadeOut])
 
   const renderSpinner = () => {
     if (type !== "loading") return null

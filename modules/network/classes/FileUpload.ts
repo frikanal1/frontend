@@ -115,6 +115,8 @@ export class FileUpload {
       const response = await request
       const location = response.headers.location!
 
+      console.log(response.headers)
+
       this.location = location
       storage.set(this.fingerprint, location)
 
