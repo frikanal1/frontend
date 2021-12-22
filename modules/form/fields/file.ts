@@ -35,7 +35,6 @@ export class ObservableFileField extends ObservableFormField<FileFieldValue, Ser
       size: computed,
       ready: computed,
       name: computed,
-      serializedValue: computed,
       uploadError: computed,
 
       // @ts-ignore
