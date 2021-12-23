@@ -120,7 +120,7 @@ export function VideoUploadView(props: VideoUploadViewProps) {
           <FooterContent>
             {renderStatus()}
             <ButtonList horizontal>
-              <GenericButton variant="primary" onClick={handleSubmit} label="Last opp" />
+              <GenericButton variant="primary" onClick={handleSubmit} label="Lagre" disabled={submitting} />
               <GenericButton variant="secondary" onClick={() => upload.cancel()} label="Avbryt" />
             </ButtonList>
           </FooterContent>
