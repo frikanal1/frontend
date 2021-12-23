@@ -122,7 +122,7 @@ function Profile() {
         <OrganizationSection icon="officeBuilding" title="Organisasjoner du er medlem av">
           <OrganizationList>
             {organizations.map((o) => (
-              <OrganizationRoleItem key={o.data.id} organization={o} />
+              <OrganizationRoleItem key={o.data.id} editor={user.id === o.data.editor.id} organization={o} />
             ))}
             <ListTail list={organizationList} />
           </OrganizationList>
