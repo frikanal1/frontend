@@ -97,13 +97,13 @@ export default function Playout(props: PlayoutProps) {
   )
 }
 
-Playout.getInitialProps = async (context: NextPageContext) => {
-  const { manager } = context
-  const { networkStore } = manager.stores
-  const { api } = networkStore
+Playout.getInitialProps = async () => {
+  //const { manager } = context
+  //const { networkStore } = manager.stores
+  //const { api } = networkStore
 
-  const { data } = await api.get<{ inputIndex: number }>("/playout/atem/program")
-  const { inputIndex } = data
+  //const { data } = await api.get<{ inputIndex: number }>("/playout/atem/program")
+  //const { inputIndex } = data
 
-  return { initialIndex: inputIndex }
+  return { initialIndex: -1 }
 }
