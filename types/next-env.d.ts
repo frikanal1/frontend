@@ -1,8 +1,8 @@
-import { Manager } from "modules/state/types";
+import { Manager } from "src/modules/state/types"
 
 // Augment Next.js NextPageContext
 declare module "next/dist/shared/lib/utils" {
   export interface NextPageContext {
-    manager: Manager;
+    manager: Manager
   }
 }
