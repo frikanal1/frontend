@@ -8,6 +8,7 @@ import { useStores } from "src/modules/state/manager"
 import { Spinner } from "src/modules/ui/components/Spinner"
 import { NextPageContext } from "next"
 import React from "react"
+import { ScheduleTimeline } from "src/modules/schedule/components/ScheduleTimeline/ScheduleTimeline"
 
 const breakpoint = 700
 
@@ -22,9 +23,7 @@ const Container = styled.div`
 const Sidebar = styled.div`
   width: 320px;
 
-  border-left: solid 2px ${(props) => props.theme.color.divider};
   padding-left: 32px;
-  margin-left: 32px;
 
   @media (max-width: ${breakpoint}px) {
     border-left: none;
@@ -40,6 +39,7 @@ const Sidebar = styled.div`
 
 const Result = styled.div`
   flex: 1;
+  max-height: calc(100vh - 325px);
 `
 
 const DayTitle = styled.h1`
@@ -83,11 +83,7 @@ function Schedule() {
         }}
       />
       <Result>
-        <DayTitle>{humanizeSelectedScheduleDate(selectedDate)}</DayTitle>
-        {renderSpinner()}
-        {selectedDateItems.data!.map((i) => (
-          <ScheduleTimelineItem key={i.startsAt + i.video.id} entry={i} />
-        ))}
+        <ScheduleTimeline entries={selectedDateItems.data ?? []} zoom={500} />
       </Result>
       <Sidebar>
         <CalendarInput value={selectedDate} onChange={handleSelect} />
