@@ -31,7 +31,7 @@ export class Video extends Resource<VideoData> {
   }
 
   public getAsset(type: VideoAsset["type"]) {
-    const asset = this.data.assets.find((a) => a.type === type)
+    const asset = this.data.media.assets.find((a) => a.type === type)
 
     if (!asset) {
       throw new Error(`Asset ${type} is missing!`)

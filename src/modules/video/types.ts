@@ -15,7 +15,10 @@ export type VideoData = {
   updatedAt: string
 
   organization: OrganizationData
-  assets: VideoAsset[]
+  media: {
+    id: number
+    assets: VideoAsset[]
+  }
 }
 
 export type VideoCategoryData = {
