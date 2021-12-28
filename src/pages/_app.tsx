@@ -70,7 +70,7 @@ CustomApp.getInitialProps = async (appContext: AppContext): Promise<any> => {
   const { authStore, networkStore } = manager.stores
   const { req, res } = appContext.ctx
 
-  // Propagate headers such as cookies to api calls
+  // Set up network configuration
   if (IS_SERVER && req && res) {
     for (const key of INCOMING_HEADERS) {
       const value = req.headers[key] as any
@@ -79,7 +79,17 @@ CustomApp.getInitialProps = async (appContext: AppContext): Promise<any> => {
       networkStore.incomingHeaders[key] = value
     }
 
+    const { FK_API, FK_UPLOAD } = process.env
+
+    if ([FK_API, FK_UPLOAD].some((x) => !x)) {
+      throw new Error("Missing FK_API and FK_UPLOAD!")
+    }
+
     networkStore.setHTTPObjects(res, req)
+    networkStore.setConfig({
+      api: FK_API!,
+      upload: FK_UPLOAD!,
+    })
   }
 
   if (!manager.didInit) {
