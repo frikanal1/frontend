@@ -2,10 +2,7 @@ import styled from "@emotion/styled"
 import { observer } from "mobx-react-lite"
 import { Meta } from "src/modules/core/components/Meta"
 import { CalendarInput } from "src/modules/input/components/CalendarInput"
-import { ScheduleTimelineItem } from "src/modules/schedule/components/ScheduleTimelineItem"
-import { humanizeSelectedScheduleDate } from "src/modules/schedule/helpers/humanizeSelectedScheduleDate"
 import { useStores } from "src/modules/state/manager"
-import { Spinner } from "src/modules/ui/components/Spinner"
 import { NextPageContext } from "next"
 import React from "react"
 import { ScheduleTimeline } from "src/modules/schedule/components/ScheduleTimeline/ScheduleTimeline"
@@ -42,19 +39,6 @@ const Result = styled.div`
   max-height: calc(100vh - 325px);
 `
 
-const DayTitle = styled.h1`
-  margin-bottom: 16px;
-`
-
-const SpinnerContainer = styled.div`
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  height: calc(100vh - 400px);
-`
-
 function Schedule() {
   const { scheduleStore } = useStores()
   const { selectedDate, selectedDateItems } = scheduleStore
@@ -62,16 +46,6 @@ function Schedule() {
   const handleSelect = (date: Date) => {
     scheduleStore.selectedDate = date
     scheduleStore.fetchByDate(date)
-  }
-
-  const renderSpinner = () => {
-    if (selectedDateItems.status !== "fetching") return null
-
-    return (
-      <SpinnerContainer>
-        <Spinner size="normal" />
-      </SpinnerContainer>
-    )
   }
 
   return (
