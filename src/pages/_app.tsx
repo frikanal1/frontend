@@ -1,3 +1,5 @@
+import "dotenv/config"
+
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react"
 import type { AppContext, AppProps } from "next/app"
