@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { getPreciseHours } from "../../helpers/getPreciseHours"
 import { ScheduleEntry } from "../../types"
 import { TimelineItem } from "./TimelineItem"
@@ -11,29 +12,46 @@ export type TimelineItemListProps = {
   height: number
 }
 
+export type CalculatedEntry = {
+  entry: ScheduleEntry
+  top: number
+  bottom: number
+}
+
 export function TimelineItemList(props: TimelineItemListProps) {
   const { entries, scrollTop, containerHeight, height } = props
 
+  const [calculated, setCalculated] = useState<CalculatedEntry[]>([])
+
+  useEffect(() => {
+    const newlyCalculated = entries.map((entry) => {
+      const startsAt = new Date(entry.startsAt)
+      const endsAt = new Date(entry.endsAt)
+
+      const startHour = getPreciseHours(startsAt)
+      const endHour = getPreciseHours(endsAt)
+
+      const top = (startHour / 24) * height
+      const bottom = (endHour / 24) * height
+
+      return { entry, top, bottom }
+    })
+
+    setCalculated(newlyCalculated)
+  }, [entries, height])
+
   return (
     <>
-      {entries.map((entry) => {
-        const startsAt = new Date(entry.startsAt)
-        const endsAt = new Date(entry.endsAt)
+      {calculated.map((calculation) => {
+        const { entry, top, bottom } = calculation
+        const height = Math.abs(top - bottom)
 
-        const startHour = getPreciseHours(startsAt)
-        const endHour = getPreciseHours(endsAt)
+        const scrollBottom = scrollTop + containerHeight + VIRTUALIZATION_PADDING
+        const isVisible = scrollBottom > top && scrollTop - VIRTUALIZATION_PADDING < bottom
 
-        const length = Math.abs(startHour - endHour)
+        if (!isVisible) return null
 
-        const position = (startHour / 24) * height
-        const entryHeight = (length / 24) * height
-
-        const isBelowTop = position + VIRTUALIZATION_PADDING > scrollTop
-        const isAboveBottom = position + entryHeight - VIRTUALIZATION_PADDING < scrollTop + containerHeight
-
-        if (!isBelowTop || !isAboveBottom) return null
-
-        return <TimelineItem key={entry.startsAt} entry={entry} position={position} height={entryHeight} />
+        return <TimelineItem key={entry.startsAt} entry={entry} position={top} height={height} />
       })}
     </>
   )

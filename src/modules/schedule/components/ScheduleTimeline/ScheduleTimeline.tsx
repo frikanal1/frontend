@@ -64,7 +64,7 @@ export function ScheduleTimeline(props: ScheduleTimelineProps) {
         <Lines scrollTop={scrollTop} containerHeight={containerHeight} height={timelineHeight} />
         <TimelineItemList
           entries={entries}
-          scrollTop={scrollTop}
+          scrollTop={scrollTop - 32}
           containerHeight={containerHeight}
           height={timelineHeight}
         />
