@@ -1,9 +1,3 @@
-import { randomBytes } from "crypto"
-
-export const getHash = (bytes: number) => {
-  return randomBytes(bytes).toString("hex")
-}
-
 export const toTitleCase = (str: string) => {
   const splitStr = str.toLowerCase().split(" ")
 

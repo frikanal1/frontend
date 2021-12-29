@@ -1,4 +1,4 @@
-import "dotenv/config"
+import { config } from "dotenv"
 
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react"
@@ -74,6 +74,8 @@ CustomApp.getInitialProps = async (appContext: AppContext): Promise<any> => {
 
   // Set up network configuration
   if (IS_SERVER && req && res) {
+    config()
+
     for (const key of INCOMING_HEADERS) {
       const value = req.headers[key] as any
       if (!value) continue

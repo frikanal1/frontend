@@ -1,7 +1,7 @@
 import { RefObject, useState, useEffect, useCallback } from "react"
 import { Placement } from "@popperjs/core"
-import { getHash } from "src/modules/lang/string"
 import { useStores } from "src/modules/state/manager"
+import { getUniqueId } from "src/modules/state/helpers/getUniqueId"
 
 export type UsePopoverOptions = {
   ref: RefObject<HTMLElement>
@@ -12,7 +12,7 @@ export type UsePopoverOptions = {
 
 export const usePopover = (options: UsePopoverOptions) => {
   const { ref, render, autoDismiss = true, placement = "auto" } = options
-  const [name] = useState(() => getHash(8))
+  const [name] = useState(() => String(getUniqueId()))
 
   const { popoverStore } = useStores()
   const [popoverName, setPopoverName] = useState("")
