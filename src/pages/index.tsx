@@ -79,7 +79,7 @@ function Index() {
         }}
       />
       <Main>
-        <LiveVideoPlayer width={1280} height={720} src="https://frikanalen.no/stream/index.m3u8" />
+        <LiveVideoPlayer width={1280} height={720} src="/stream/program.m3u8" />
         {renderSchedule()}
       </Main>
       <Sidebar>
