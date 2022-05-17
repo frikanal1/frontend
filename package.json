@@ -33,6 +33,7 @@
     "chokidar": "^3.5.2",
     "cookie": "^0.4.1",
     "date-fns": "^2.25.0",
+    "dotenv": "^16.0.1",
     "mobx": "^6.3.5",
     "mobx-react-lite": "^3.2.1",
     "next": "^11.1.2",

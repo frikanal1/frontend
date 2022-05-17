@@ -23,6 +23,7 @@ COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --chown=node --from=deps /app/node_modules ./node_modules
+COPY package.json yarn.lock ./
 
 USER node
 
