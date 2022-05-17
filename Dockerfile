@@ -18,3 +18,5 @@ RUN yarn build
 USER node
 
 CMD yarn run start
+
+EXPOSE 3000
