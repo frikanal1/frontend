@@ -8,9 +8,12 @@ It is in a separate repo as we are migrating away from a monorepo.
 
 First, install the dependencies (obviously this requires yarn)
 
-`yarn install`
+`yarn`
 
-Then there are two profiles to choose from; either 
+Then spin up a docker-compose with a database and backend with mock data:
+
+`docker-compose up -d`
+
+Then:
 
 * `yarn run dev` - if you are using a local backend (in which case it will expect to find it at `localhost:8000`), or 
-* `yarn run staging` - to run the frontend against the production backend API.
