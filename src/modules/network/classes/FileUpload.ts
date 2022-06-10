@@ -102,7 +102,7 @@ export class FileUpload {
     const headers = {
       ...TUS_HEADERS,
       "Upload-Length": String(size),
-      "Upload-Metadata": this.encodeMetadata(metadata),
+      "Upload-Metadata": FileUpload.encodeMetadata(metadata),
     }
 
     const request = this.server.post<any>(destination, null, {
