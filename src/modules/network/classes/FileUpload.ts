@@ -69,8 +69,7 @@ export class FileUpload {
     try {
       const response = await request
 
-      const offset = response.headers["upload-offset"]
-      this.offset = Number(offset)
+      this.offset = Number(response.headers["upload-offset"])
 
       if (this.offset === file.size) {
         this.status = "completed"
@@ -86,7 +85,7 @@ export class FileUpload {
     }
   }
 
-  private encodeMetadata(metadata: Record<string, any>) {
+  private static encodeMetadata(metadata: Record<string, any>) {
     let encoded = []
 
     for (const key in metadata) {
@@ -115,9 +114,7 @@ export class FileUpload {
       const response = await request
       const location = response.headers.location!
 
-      console.log(response.headers)
-
-      this.location = location
+      this.location = "upload/" + location
       storage.set(this.fingerprint, location)
 
       this.upload()
@@ -143,7 +140,7 @@ export class FileUpload {
         const { status } = response
 
         if (status === 410) return this.retry()
-        if (status === 404) return await this.prepare()
+        if (status === 404) return this.prepare()
 
         this.error = response.data
       }
