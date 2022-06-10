@@ -10,7 +10,7 @@ const storage = new StoredArray<string>("resumable-uploads", 10)
 export type FileUploadStatus = "idle" | "uploading" | "failed" | "completed"
 
 export type FileUploadResult = {
-  id: number
+  mediaId: number
 }
 
 export type FileUploadOptions = {
@@ -73,7 +73,7 @@ export class FileUpload {
 
       if (this.offset === file.size) {
         this.status = "completed"
-        this.mediaId = response.data.id
+        this.mediaId = response.data.mediaId
         this.uploaded = file.size
 
         return
@@ -115,7 +115,7 @@ export class FileUpload {
       const location = response.headers.location!
 
       this.location = "upload/" + location
-      storage.set(this.fingerprint, location)
+      storage.set(this.fingerprint, this.location)
 
       this.upload()
     } catch (e) {
@@ -203,7 +203,7 @@ export class FileUpload {
     const rawFingerprint = `tus-${name}-${size}-${lastModified}`
     const escapedFingerprint = toSafeAsciiString(rawFingerprint)
 
-    return btoa(escapedFingerprint)
+    return Buffer.from(escapedFingerprint).toString("base64")
   }
 
   private get cancelOptions() {
