@@ -19,7 +19,6 @@ export class NetworkStore extends Store<SerializedNetworkStore> {
 
   private hasCreated = false
   private apiInstance?: AxiosInstance
-  private uploadInstance?: AxiosInstance
   private config?: NetworkStoreConfig
 
   private addInterceptors(instance: AxiosInstance) {
@@ -76,14 +75,6 @@ export class NetworkStore extends Store<SerializedNetworkStore> {
       })
     )
 
-    this.uploadInstance = this.addInterceptors(
-      axios.create({
-        baseURL: this.config.api,
-        withCredentials: true,
-        headers,
-      })
-    )
-
     this.hasCreated = true
   }
 
@@ -100,9 +91,10 @@ export class NetworkStore extends Store<SerializedNetworkStore> {
     return this.apiInstance!
   }
 
+  // FIXME: Reduncant function
   public get upload() {
     this.createInstances()
-    return this.uploadInstance!
+    return this.apiInstance!
   }
 
   public get cookieString() {
