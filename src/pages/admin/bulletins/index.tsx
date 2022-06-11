@@ -16,10 +16,17 @@ const CardDeck = styled("div")`
   gap: 1em;
   display: flex;
   flex-wrap: wrap;
-  > div {
-    height: 250px;
-    flex-basis: 200px;
-    flex-shrink: 0;
+`
+
+const StyledBulletinCard = styled(Card)`
+  height: 250px;
+  flex-basis: 200px;
+  flex-shrink: 0;
+  cursor: pointer;
+  :hover {
+    background-color: ${({ theme }) => theme.palette.primary.light};
+    color: ${({ theme }) => theme.palette.primary.contrastText};
+    transition: all 0.1s ease-in;
   }
 `
 
@@ -28,27 +35,19 @@ const BulletinCard = ({ bulletin }: { bulletin: BulletinData }) => {
 
   return (
     <Link href={`bulletins/${id}`} passHref>
-      <Card>
+      <StyledBulletinCard>
+        <CardHeader title={title} subheader={format(new Date(createdAt), "d. MMM yyyy", { locale: nb })} />
         <CardContent>
           <ReactMarkdown>{text}</ReactMarkdown>
         </CardContent>
-        <CardHeader title={title} subheader={format(new Date(createdAt), "d. MMM yyyy", { locale: nb })} />
-      </Card>
+      </StyledBulletinCard>
     </Link>
   )
 }
 
-const HoverableCard = styled(Card)`
-  :hover {
-    background-color: ${({ theme }) => theme.palette.primary.light};
-    color: ${({ theme }) => theme.palette.primary.contrastText};
-    transition: all 0.1s ease-in;
-  }
-`
-
 const NewBulletinCard = () => (
   <Link href={"bulletins/new"} passHref>
-    <HoverableCard>
+    <StyledBulletinCard>
       <CardContent
         sx={{
           display: "flex",
@@ -61,7 +60,7 @@ const NewBulletinCard = () => (
         <AddBox sx={{ fontSize: 72, display: "block", marginBottom: ".5em" }} />
         Ny bulletin
       </CardContent>
-    </HoverableCard>
+    </StyledBulletinCard>
   </Link>
 )
 
@@ -70,7 +69,11 @@ export const BulletinAdminPage = () => {
 
   return (
     <Container>
-      <h1>Administratorfunksjoner</h1>
+      <Link href={"/admin"} passHref>
+        <a>
+          <h1>Administratorfunksjoner</h1>
+        </a>
+      </Link>
       <h2>Bulletins</h2>
       <CardDeck>
         <NewBulletinCard />

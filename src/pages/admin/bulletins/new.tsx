@@ -5,7 +5,7 @@ import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
 import { useState } from "react"
 import { Save } from "@mui/icons-material"
-import { Button } from "@mui/material"
+import { Button, TextField } from "@mui/material"
 import { NewBulletinForm } from "../../../modules/bulletins/types"
 import { useManager } from "../../../modules/state/manager"
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
@@ -14,13 +14,12 @@ const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
 
 export const NewBulletin = () => {
   const [text, setText] = useState<string>()
-  const [title, setTitle] = useState<string>("asdf")
-  const manager = useManager()
-
-  const { api } = manager.stores.networkStore
+  const [title, setTitle] = useState<string>()
+  const { api } = useManager().stores.networkStore
 
   const saveBulletin = async () => {
-    const { data, status } = await api.post<NewBulletinForm>("/bulletins", { title, text })
+    // FIXME: No error handling
+    await api.post<NewBulletinForm>("/bulletins", { title, text })
   }
 
   return (
@@ -28,9 +27,16 @@ export const NewBulletin = () => {
       <h1>Administratorfunksjoner</h1>
       <h2>Bulletins</h2>
       <h3>Ny bulletin</h3>
-
+      <TextField
+        fullWidth
+        id="outlined-basic"
+        label="Tittel"
+        variant="outlined"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
       <MDEditor value={text} onChange={setText} commands={[bold, italic]} />
-      <Button variant="contained" endIcon={<Save />} onClick={() => saveBulletin()}>
+      <Button variant="contained" endIcon={<Save />} onClick={saveBulletin}>
         Publiser
       </Button>
     </div>
