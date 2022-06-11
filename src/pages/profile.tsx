@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import {
   getInitialRequireAuthenticationProps,
   RequireAuthentication,
@@ -16,15 +16,15 @@ import { User } from "src/modules/user/schemas"
 import { Section } from "src/modules/ui/components/Section"
 import { OrganizationRoleItem } from "src/modules/user/components/OrganizationRoleItem"
 import { Meta } from "src/modules/core/components/Meta"
-import { useRouter } from "next/router"
 import { ListTail } from "src/modules/state/components/ListTail"
 import { useResourceList } from "src/modules/state/hooks/useResourceList"
+import Link from "next/link"
 
 const breakpoint = 800
 
-const Container = styled.div``
+const Container = styled("div")``
 
-const Content = styled.div`
+const Content = styled("div")`
   display: flex;
 
   @media (max-width: ${breakpoint}px) {
@@ -44,7 +44,7 @@ const FormContainer = styled(Form)`
   gap: 24px;
 `
 
-const FormFooter = styled.div`
+const FormFooter = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -66,12 +66,11 @@ const OrganizationSection = styled(Section)`
   }
 `
 
-const OrganizationList = styled.ul`
+const OrganizationList = styled("ul")`
   margin-bottom: 32px;
 `
 
 function Profile() {
-  const router = useRouter()
   const manager = useManager()
 
   const { authStore, networkStore, listStore, organizationStore } = manager.stores
@@ -94,7 +93,7 @@ function Profile() {
     const { data } = await api.put<User>(`/users/${user.id}`, serialized)
 
     // TODO: Fix this, users should be in a resource store
-    Object.assign(authStore.user, data)
+    Object.assign(authStore.user!, data)
   })
 
   return (
@@ -126,7 +125,9 @@ function Profile() {
             ))}
             <ListTail list={organizationList} />
           </OrganizationList>
-          <GenericButton variant="secondary" label="Ny organisasjon" onClick={() => router.push("/organization/new")} />
+          <Link href={"/organization/new"} passHref>
+            <GenericButton variant="secondary" label="Ny organisasjon" />
+          </Link>
         </OrganizationSection>
       </Content>
     </Container>

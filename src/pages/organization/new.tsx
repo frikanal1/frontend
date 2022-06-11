@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 import {
   getInitialRequireAuthenticationProps,
@@ -25,7 +25,7 @@ import React, { useEffect, useState } from "react"
 
 const breakpoint = 900
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
 
   @media (max-width: ${breakpoint}px) {
@@ -33,7 +33,7 @@ const Container = styled.div`
   }
 `
 
-const FormContainer = styled.div`
+const FormContainer = styled("div")`
   flex: 1;
 
   display: grid;
@@ -48,7 +48,7 @@ const FormContainer = styled.div`
   }
 `
 
-const FormFooter = styled.div`
+const FormFooter = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,7 +56,7 @@ const FormFooter = styled.div`
   grid-area: footer;
 `
 
-const Info = styled.div`
+const Info = styled("div")`
   width: 700px;
   margin-left: 32px;
 
@@ -116,7 +116,7 @@ const Content = observer(() => {
     const { data } = await api.post<OrganizationData>("/organizations/", serialized)
 
     organizationStore.add(data)
-    router.push(`/organization/${data.id}/admin`)
+    router.push(`/organization/${data.id}`)
   })
 
   // Pass automatic form status along to manual one

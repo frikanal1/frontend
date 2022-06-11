@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { Form } from "src/modules/form/components/Form"
 import { FormField, FormFieldWithProps } from "src/modules/form/components/FormField"
 import { useFormSubmission } from "src/modules/form/hooks/useFormSubmission"
@@ -14,7 +14,7 @@ import { VideoUpload } from "../classes/VideoUpload"
 
 const breakpoint = 550
 
-const Container = styled.div``
+const Container = styled("div")``
 
 const StyledForm = styled(Form)`
   display: grid;
@@ -34,11 +34,11 @@ const Field = styled(FormField as FormFieldWithProps<{ area: string }>)`
   grid-area: ${(props) => props.area};
 `
 
-const FormFooter = styled.div`
+const FormFooter = styled("div")`
   grid-area: footer;
 `
 
-const FooterContent = styled.div`
+const FooterContent = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;

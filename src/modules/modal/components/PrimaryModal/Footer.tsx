@@ -1,6 +1,6 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 
-export const Footer = styled.div`
+export const Footer = styled("div")`
   padding: 24px;
   padding-top: 0px;
 

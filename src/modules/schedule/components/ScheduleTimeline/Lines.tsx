@@ -1,9 +1,9 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { format, setMinutes, startOfToday } from "date-fns"
 
 const VIRTUALIZATION_PADDING = 64
 
-const Line = styled.div<{ strength: number }>`
+const Line = styled("div")<{ strength: number }>`
   display: flex;
   align-items: center;
   position: absolute;
@@ -13,7 +13,7 @@ const Line = styled.div<{ strength: number }>`
   right: 0px;
 
   font-size: 0.9em;
-  color: ${(props) => props.theme.fontColor.subdued};
+  color: ${({ theme }) => theme.palette.text.secondary};
 
   &:after {
     display: block;
@@ -23,7 +23,7 @@ const Line = styled.div<{ strength: number }>`
     height: 1px;
     margin-left: 16px;
 
-    background: ${(props) => props.theme.color.divider};
+    background: ${(props) => props.theme.palette.divider};
     opacity: ${(props) => props.strength};
   }
 `

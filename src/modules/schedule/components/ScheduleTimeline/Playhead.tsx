@@ -1,10 +1,11 @@
-import styled from "@emotion/styled"
 import { format } from "date-fns"
 import { useRef } from "react"
+import { styled } from "@mui/system"
+
 import { useAnimation } from "src/modules/ui/hooks/useAnimation"
 import { getPreciseHours } from "../../helpers/getPreciseHours"
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
   align-items: center;
   position: absolute;
@@ -22,15 +23,15 @@ const Container = styled.div`
     display: block;
     content: "";
 
-    background: ${(props) => props.theme.color.accent};
+    background: ${(props) => props.theme.palette.primary.main};
   }
 `
 
-const Time = styled.div`
+const Time = styled("div")`
   font-size: 0.9em;
   font-weight: 600;
 
-  background: ${(props) => props.theme.color.accent};
+  background: ${(props) => props.theme.palette.primary.main};
   padding: 7px;
 
   margin-left: -7px;

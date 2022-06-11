@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { IconType } from "../types"
 import { Button, ButtonProps } from "./Button"
 import { SVGIcon } from "./SVGIcon"

@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 import { Meta } from "src/modules/core/components/Meta"
 import { CalendarInput } from "src/modules/input/components/CalendarInput"
@@ -9,7 +9,7 @@ import { ScheduleTimeline } from "src/modules/schedule/components/ScheduleTimeli
 
 const breakpoint = 700
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
 
   @media (max-width: ${breakpoint}px) {
@@ -17,7 +17,7 @@ const Container = styled.div`
   }
 `
 
-const Sidebar = styled.div`
+const Sidebar = styled("div")`
   width: 320px;
 
   padding-left: 32px;
@@ -34,7 +34,7 @@ const Sidebar = styled.div`
   }
 `
 
-const Result = styled.div`
+const Result = styled("div")`
   flex: 1;
   max-height: calc(100vh - 325px);
 `

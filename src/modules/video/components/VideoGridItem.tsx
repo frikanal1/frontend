@@ -1,19 +1,20 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
-import { useStores } from "src/modules/state/manager"
 import Link from "next/link"
 import React from "react"
-import { Video } from "../resources/Video"
+import { getAsset } from "../getAsset"
+import useSWR from "swr"
+import { VideoData } from "../types"
 
-const Container = styled.li``
+const Container = styled("li")``
 
-const ThumbnailContainer = styled.div`
+const ThumbnailContainer = styled("div")`
   flex: 1;
 `
 
-const Thumbnail = styled.img`
+const Thumbnail = styled("img")`
   width: 100%;
   height: 100%;
 
@@ -26,33 +27,34 @@ const Thumbnail = styled.img`
   box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
 `
 
-const PrimaryInfo = styled.div`
+const PrimaryInfo = styled("div")`
   margin-top: 16px;
 `
 
-const Title = styled.h1`
+const Title = styled("h1")`
   font-size: 1.2em;
 `
 
-const UploadedDate = styled.span`
+const UploadedDate = styled("span")`
   display: block;
   margin-top: 2px;
 
   font-size: 1em;
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${(props) => props.theme.palette.text.secondary};
 `
 
 export type VideoGridItemProps = {
-  video: Video
+  videoId: number
 }
 
-export function VideoGridItem(props: VideoGridItemProps) {
-  const { configStore } = useStores()
+export function VideoGridItem({ videoId }: VideoGridItemProps) {
+  const { data: video } = useSWR<VideoData>(`/videos/${videoId}`)
 
-  const { video } = props
-  const { id, title, createdAt } = video.data
+  if (!video) return null
 
-  const thumbnail = video.getAsset("thumbnail-large")
+  const { id, title, createdAt } = video
+
+  const thumbnail = getAsset(video, "thumbnail-large")
 
   return (
     <Container>
@@ -60,7 +62,7 @@ export function VideoGridItem(props: VideoGridItemProps) {
         <AspectContainer width={1280} height={720}>
           <Link href={`/video/${id}`} passHref>
             <a>
-              <Thumbnail src={configStore.media + thumbnail.url} />
+              <Thumbnail src={thumbnail} />
             </a>
           </Link>
         </AspectContainer>

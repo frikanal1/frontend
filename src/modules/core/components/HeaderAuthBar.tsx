@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 import { spawnLoginModal } from "src/modules/auth/helpers/spawnLoginModal"
 import { useManager } from "src/modules/state/manager"
@@ -6,7 +6,7 @@ import { GenericButton } from "src/modules/ui/components/GenericButton"
 import React from "react"
 import { HeaderUserDropdown } from "./HeaderUserDropdown"
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
   justify-content: flex-end;
   flex: 1;

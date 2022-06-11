@@ -2,7 +2,7 @@ import { Popover } from "../types/Popover"
 
 import React, { useEffect, useRef } from "react"
 import { createPopper } from "@popperjs/core"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { useStores } from "src/modules/state/manager"
 import { popoverContext, PopoverContext } from "../contexts"
 import { TransitionStatus } from "react-transition-group"
@@ -24,7 +24,7 @@ const ContainerAnimation = keyframes`
   }
 `
 
-const Container = styled.div<{ status: TransitionStatus }>`
+const Container = styled("div")<{ status: TransitionStatus }>`
   z-index: 1;
 
   ${(props) => {

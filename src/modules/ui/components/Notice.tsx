@@ -1,5 +1,5 @@
 import { Theme } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { IconType } from "../types"
 import { SVGIcon } from "./SVGIcon"
 
@@ -7,16 +7,12 @@ const typeToIconMap: Record<NoticeType, IconType> = {
   tip: "lightbulb",
 }
 
-const typeToColorMap: Record<NoticeType, keyof Theme["stateColor"]> = {
-  tip: "tip",
-}
-
-const Container = styled.div<{ type: NoticeType }>`
+const Container = styled("div")<{ type: NoticeType }>`
   display: flex;
   align-items: center;
 
-  background: ${(props) => props.theme.stateColor[typeToColorMap[props.type]]};
-  color: ${(props) => props.theme.fontColor.muted};
+  background: ${(props) => props.theme.palette.info.main};
+  color: ${(props) => props.theme.palette.info.contrastText};
 
   padding: 14px 16px;
   border-radius: 4px;
@@ -29,7 +25,7 @@ const Icon = styled(SVGIcon)`
   margin-right: 16px;
 `
 
-const Message = styled.span`
+const Message = styled("span")`
   font-size: 0.9em;
   font-weight: 600;
 `

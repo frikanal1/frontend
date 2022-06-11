@@ -1,8 +1,8 @@
 import { css } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 
 /** Consistent spacing of buttons */
-export const ButtonList = styled.div<{ horizontal?: boolean; compact?: boolean }>`
+export const ButtonList = styled("div")<{ horizontal?: boolean; compact?: boolean }>`
   ${(props) => {
     const { horizontal, compact } = props
 

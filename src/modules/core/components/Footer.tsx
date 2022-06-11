@@ -1,8 +1,10 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
+import { styled as MuiStyled } from "@mui/system"
+
 import { ExternalLink } from "src/modules/ui/components/ExternalLink"
 import { mainContentStyle } from "../styles/mainContentStyle"
 
-export const Container = styled.footer`
+export const Container = styled("footer")`
   margin-top: 32px;
   margin-bottom: 32px;
 
@@ -10,18 +12,18 @@ export const Container = styled.footer`
   justify-content: center;
 `
 
-const Content = styled.div`
+const Content = styled("div")`
   ${mainContentStyle}
 
   display: flex;
 `
 
-const Copyright = styled.span`
+const Copyright = MuiStyled("span")`
   flex: 1;
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${(props) => props.theme.palette.text.secondary};
 `
 
-const Links = styled.nav``
+const Links = styled("nav")``
 
 const Link = styled(ExternalLink)`
   margin-left: 16px;

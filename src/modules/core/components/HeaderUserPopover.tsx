@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { PrimaryPopover } from "src/modules/popover/components/PrimaryPopover"
 import { usePopoverContext } from "src/modules/popover/hooks/usePopoverContext"
 import { useStores } from "src/modules/state/manager"
@@ -11,7 +11,7 @@ const Container = styled(PrimaryPopover)`
   padding: 8px 0px;
 `
 
-const Option = styled.a`
+const Option = styled("a")`
   display: flex;
   align-items: center;
 
@@ -20,15 +20,15 @@ const Option = styled.a`
   padding: 12px 24px;
   cursor: pointer;
 
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${(props) => props.theme.palette.text.secondary};
   transition: 200ms ease color;
 
   &:hover {
-    color: ${(props) => props.theme.color.accent};
+    color: ${(props) => props.theme.palette.primary.main};
   }
 `
 
-const Label = styled.span`
+const Label = styled("span")`
   margin-left: 16px;
 `
 

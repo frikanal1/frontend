@@ -1,8 +1,8 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import React from "react"
 
-const Container = styled.video`
+const Container = styled("video")`
   width: 100%;
   height: 100%;
 

@@ -1,6 +1,8 @@
 import React, { useState } from "react"
-import { css, Theme } from "@emotion/react"
-import styled from "@emotion/styled"
+import { css } from "@emotion/react"
+import { Theme } from "@mui/system"
+
+import { styled } from "@mui/system"
 import { FIELDSET_HEIGHT } from "../constants"
 
 export type TextInputProps = {
@@ -22,7 +24,7 @@ const baseStyle = (props: { theme: Theme }) => css`
   font-size: 0.9em;
   font-family: "Roboto", sans-serif;
 
-  color: ${props.theme.fontColor.normal};
+  color: ${props.theme.palette.text.primary};
   padding: 11px 12px;
 
   outline: none;
@@ -31,7 +33,7 @@ const baseStyle = (props: { theme: Theme }) => css`
     font-family: "Roboto", sans-serif;
     font-weight: 400;
 
-    color: ${props.theme.fontColor.muted};
+    color: ${props.theme.palette.text.secondary};
     opacity: 1;
   }
 `
@@ -42,35 +44,35 @@ const stateStyle = (props: StateProps) => {
   if (props.invalid)
     return css`
       & {
-        border-color: ${(props as any).theme.color.secondAccent};
+        border-color: ${(props as any).theme.palette.success.bright};
       }
     `
 
   if (props.focused) {
     return css`
-      border-color: ${(props as any).theme.color.accent};
+      border-color: ${(props as any).theme.palette.primary.main};
     `
   }
 }
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
   align-items: center;
 
   border-radius: 4px;
-  border: solid 1px ${(props) => props.theme.color.divider};
+  border: solid 1px ${(props) => props.theme.palette.divider};
 
   transition: 200ms ease border-color;
 
   ${stateStyle}
 `
 
-const Input = styled.input`
+const Input = styled("input")`
   height: ${FIELDSET_HEIGHT};
   ${baseStyle}
 `
 
-const MultilineInput = styled.textarea`
+const MultilineInput = styled("textarea")`
   min-height: calc(${FIELDSET_HEIGHT} * 2);
   white-space: pre-line;
   resize: vertical;

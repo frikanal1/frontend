@@ -1,19 +1,19 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { PropsWithChildren } from "react"
 import { ExternalLink } from "./ExternalLink"
 
-const Container = styled.figure`
+const Container = styled("figure")`
   margin: 24px 0px;
 `
 
-const Block = styled.blockquote`
+const Block = styled("blockquote")`
   font-size: 1.2em;
   font-style: italic;
 
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${(props) => props.theme.palette.text.secondary};
 `
 
-const Caption = styled.figcaption`
+const Caption = styled("figcaption")`
   margin-top: 8px;
 `
 

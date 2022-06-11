@@ -1,19 +1,24 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
-import { createResourcePageWrapper } from "src/modules/state/helpers/createResourcePageWrapper"
-import { Video } from "src/modules/video/resources/Video"
 import { VideoPlayer } from "src/modules/video/components/VideoPlayer"
 import Link from "next/link"
 import React from "react"
-import { useResourceList } from "src/modules/state/hooks/useResourceList"
-import { useStores } from "src/modules/state/manager"
 import { RecentVideoItem } from "../../modules/video/components/RecentVideoItem"
 import { Meta } from "src/modules/core/components/Meta"
+import { GetStaticPaths, GetStaticProps, NextPage } from "next"
+import useSWR from "swr"
+import { VideoData } from "../../modules/video/types"
+import getConfig from "next/config"
+import axios from "axios"
+import { ParsedUrlQuery } from "querystring"
+import { getAsset } from "../../modules/video/getAsset"
+
+const { publicRuntimeConfig } = getConfig()
 
 const breakpoint = 900
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
 
   @media (max-width: ${breakpoint}px) {
@@ -21,37 +26,37 @@ const Container = styled.div`
   }
 `
 
-const Content = styled.div`
+const Content = styled("div")`
   flex: 1;
 `
 
-const PrimaryInfo = styled.div`
+const PrimaryInfo = styled("div")`
   margin-top: 16px;
 `
 
-const Title = styled.h1`
+const Title = styled("h1")`
   font-size: 1.5em;
   margin-bottom: 2px;
 `
 
-const Organization = styled.h3`
+const Organization = styled("h3")`
   font-size: 1.1em;
   font-weight: 400;
 
   margin-bottom: 12px;
 `
 
-const Description = styled.p`
+const Description = styled("p")`
   white-space: pre-wrap;
   word-break: break-word;
 `
 
-const UploadedDate = styled.span`
+const UploadedDate = styled("span")`
   font-size: 1em;
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${(props) => props.theme.palette.text.secondary};
 `
 
-const Sidebar = styled.div`
+const Sidebar = styled("div")`
   width: 380px;
   margin-left: 32px;
 
@@ -63,26 +68,37 @@ const Sidebar = styled.div`
   }
 `
 
-const SidebarTitle = styled.h5`
+const SidebarTitle = styled("h5")`
   font-size: 1.2em;
   font-weight: 500;
 
   margin-bottom: 16px;
 `
 
-export type ContentProps = {
-  video: Video
+export type VideoPageProps = {
+  videoId: string
+  fallback: { [k: string]: any }
 }
 
-function VideoView(props: ContentProps) {
-  const { videoStore, configStore } = useStores()
-  const { video } = props
-  const { title, description, organization, createdAt } = video.data
+interface VideoPageParams extends ParsedUrlQuery {
+  videoId: string
+}
 
-  const videos = useResourceList(video.latestVideosByOrganization, videoStore)
+export const VideoPage: NextPage<VideoPageProps> = ({ videoId, fallback }) => {
+  const { data: video } = useSWR<VideoData>(`/videos/${videoId}`, { fallback })
+  const { data: latestVideos } = useSWR<{ rows: VideoData[] }>(
+    () => `/videos/?organization=${video!.organization.id}`,
+    {
+      fallback,
+    }
+  )
 
-  const thumbnail = video.getAsset("thumbnail-large")
-  const stream = video.getAsset("webm")
+  if (!video) return null
+
+  const { id, title, description, organization, createdAt } = video
+
+  const thumbnail = getAsset(video, "thumbnail-large")
+  const stream = getAsset(video, "webm")
 
   return (
     <Container>
@@ -94,13 +110,7 @@ function VideoView(props: ContentProps) {
         }}
       />
       <Content>
-        <VideoPlayer
-          key={video.data.id}
-          width={1280}
-          height={720}
-          src={configStore.media + stream.url}
-          thumbnail={configStore.media + thumbnail.url}
-        />
+        <VideoPlayer key={id} width={1280} height={720} src={stream ?? ""} thumbnail={thumbnail ?? ""} />
         <PrimaryInfo>
           <Title>{title}</Title>
           <Organization>
@@ -113,31 +123,56 @@ function VideoView(props: ContentProps) {
         <UploadedDate>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</UploadedDate>
       </Content>
       <Sidebar>
-        <SidebarTitle>Nyeste videoer fra {video.organization.data.name}</SidebarTitle>
-        {videos.map((x) => (
-          <RecentVideoItem key={x.data.id} video={x} />
-        ))}
+        <SidebarTitle>Nyeste videoer fra {video.organization.name}</SidebarTitle>
+        {latestVideos && latestVideos.rows.map((x) => <RecentVideoItem key={x.id} videoId={x.id} />)}
       </Sidebar>
     </Container>
   )
 }
 
-const VideoPage = createResourcePageWrapper<Video>({
-  getFetcher: (query, manager) => {
-    const { videoStore } = manager.stores
-    const { videoId } = query
+export const getStaticProps: GetStaticProps<VideoPageProps> = async (ctx) => {
+  const { videoId } = ctx.params as VideoPageParams
 
-    const safeVideoId = Number(videoId) ?? 0
-    return videoStore.fetchById(safeVideoId)
-  },
-  renderContent: (v) => <VideoView video={v} />,
-  getInitialProps: async (v) => {
-    const { latestVideosByOrganization } = v
+  if (!videoId) console.error(`no videoId arrived for video page getstaticprops!`)
 
-    if (latestVideosByOrganization.items.length === 0) {
-      await v.latestVideosByOrganization.more()
+  const videoURL = `/videos/${videoId}`
+
+  const { data: video } = await axios.get<VideoData>(publicRuntimeConfig.FK_API + videoURL)
+
+  const latestVideosURL = `/videos/?organization=${video.organization.id}`
+
+  const { data: latestVideos } = await axios.get<{ rows: VideoData[] }>(publicRuntimeConfig.FK_API + latestVideosURL)
+
+  return { props: { videoId, fallback: { videoURL: video, latestVideosURL: latestVideos } } }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const getAllVideos = async (offset = 0, _loadedVideos: VideoData[] = []) => {
+    const { data } = await axios.get<{ rows: VideoData[]; offset: number; limit: number; count: number }>(
+      publicRuntimeConfig.FK_API + `/videos?offset=${offset}&limit=50`
+    )
+
+    return data
+  }
+
+  try {
+    const videos = await getAllVideos()
+
+    return {
+      paths: videos.rows.map((v) => ({
+        params: {
+          videoId: v.id.toString(),
+        },
+      })),
+      fallback: true,
     }
-  },
-})
+  } catch (e) {
+    console.error("Could not build static paths for videos!")
+    return {
+      paths: [],
+      fallback: true,
+    }
+  }
+}
 
 export default VideoPage

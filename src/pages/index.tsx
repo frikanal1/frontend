@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 import { Meta } from "src/modules/core/components/Meta"
 import { ScheduleItemBlurb } from "src/modules/schedule/components/ScheduleItemBlurb"
@@ -7,10 +7,11 @@ import { useStores } from "src/modules/state/manager"
 import { LiveVideoPlayer } from "src/modules/video/components/LiveVideoPlayer"
 import { NextPageContext } from "next"
 import React from "react"
+import { BulletinFrontpage } from "../modules/bulletins/BulletinFrontpage"
 
 const breakpoint = 880
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
 
   @media (max-width: ${breakpoint}px) {
@@ -18,7 +19,7 @@ const Container = styled.div`
   }
 `
 
-const Main = styled.div`
+const Main = styled("div")`
   width: 60%;
 
   @media (max-width: ${breakpoint}px) {
@@ -26,7 +27,7 @@ const Main = styled.div`
   }
 `
 
-const Sidebar = styled.div`
+const Sidebar = styled("div")`
   flex: 1;
   margin-left: 32px;
 
@@ -40,12 +41,12 @@ const NowPlaying = styled(ScheduleItemBlurb)`
   margin-top: 16px;
 `
 
-const NextTitle = styled.h3`
+const NextTitle = styled("h3")`
   margin-top: 32px;
   font-size: 1.5em;
 `
 
-const Schedule = styled.div`
+const Schedule = styled("div")`
   margin-top: 16px;
 `
 
@@ -83,13 +84,7 @@ function Index() {
         {renderSchedule()}
       </Main>
       <Sidebar>
-        <h1>Velkommen til nye Frikanalen!</h1>
-        <p>Etter mye hardt arbeid bak scenene kan vi endelig presentere første versjon av nye frikanalen.no!</p>
-        <p>Snart vil det komme en nyhetsseksjon så dere vil kunne få et innblikk i alt arbeidet som er gjort.</p>
-        <p>
-          I mellomtiden vil du kunne få et lite innblikk i endringene ved å se på{" "}
-          <a href="https://github.com/Frikanalen/frikanalen/commits/master">endringsloggen i kodearkivet</a>.
-        </p>
+        <BulletinFrontpage />
       </Sidebar>
     </Container>
   )

@@ -1,5 +1,5 @@
 import { css, keyframes } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 
 const spin = keyframes`
   to {
@@ -7,7 +7,7 @@ const spin = keyframes`
   }
 `
 
-const Container = styled.div<{ size: Size }>`
+const Container = styled("div")<{ size: Size }>`
   ${(props) => {
     const size = props.size === "small" ? 24 : 48
 
@@ -17,9 +17,9 @@ const Container = styled.div<{ size: Size }>`
     `
   }}
 
-  border: solid ${(props) => props.theme.color.divider};
+  border: solid ${(props) => props.theme.palette.divider};
   border-width: ${(props) => (props.size === "small" ? 3 : 4)}px;
-  border-top-color: ${(props) => props.theme.color.accent};
+  border-top-color: ${(props) => props.theme.palette.primary.main};
 
   border-radius: 100%;
   animation: ${spin} infinite 800ms linear;

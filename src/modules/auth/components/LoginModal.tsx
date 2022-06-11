@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { AxiosError } from "axios"
 import { Form } from "src/modules/form/components/Form"
 import { FormField } from "src/modules/form/components/FormField"
@@ -21,7 +21,7 @@ const Field = styled(FormField)`
   margin-bottom: 16px;
 `
 
-const RegisterLink = styled.a`
+const RegisterLink = styled("a")`
   cursor: pointer;
   ${linkStyle}
 `

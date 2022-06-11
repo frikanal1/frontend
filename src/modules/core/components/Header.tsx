@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { Logo } from "./Logo"
 import { HeaderAuthBar } from "./HeaderAuthBar"
 import { mainContentStyle } from "../styles/mainContentStyle"
@@ -7,7 +7,7 @@ import { CONTENT_WIDTH, CONTENT_WIDTH_PADDING, MOBILE_MENU_THRESHOLD } from "../
 import { MobileNav } from "./MobileNav"
 import { NavLinks } from "./NavLinks"
 
-const Outer = styled.div`
+const Outer = styled("header")`
   margin-top: 64px;
 
   top: 0px;
@@ -20,18 +20,18 @@ const Outer = styled.div`
   justify-content: center;
 `
 
-const Container = styled.header`
+const Container = styled("div")`
   ${mainContentStyle}
 `
 
-const Bottom = styled.div`
+const Bottom = styled("div")`
   margin-top: 32px;
 
   display: flex;
   align-items: center;
 `
 
-const Nav = styled.nav`
+const Nav = styled("nav")`
   display: flex;
   align-items: center;
 
@@ -40,7 +40,7 @@ const Nav = styled.nav`
   }
 `
 
-const LogoContainer = styled.div`
+const LogoContainer = styled("div")`
   display: flex;
 
   @media (max-width: ${CONTENT_WIDTH + CONTENT_WIDTH_PADDING}px) {

@@ -1,8 +1,7 @@
-import styled from "@emotion/styled"
-import React from "react"
-import { ComponentPropsWithoutRef } from "react"
+import { styled } from "@mui/system"
+import React, { ComponentPropsWithoutRef } from "react"
 
-const Container = styled.button<{ stretch?: boolean }>`
+const Container = styled("button")<{ stretch?: boolean }>`
   display: inline-block;
 
   ${(props) =>
@@ -12,7 +11,7 @@ const Container = styled.button<{ stretch?: boolean }>`
     `}
 `
 
-const Inner = styled.span`
+const Inner = styled("span")`
   display: flex;
   width: 100%;
 

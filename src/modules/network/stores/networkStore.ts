@@ -7,7 +7,6 @@ import { THE_END_OF_TIMES } from "../constants"
 
 export type NetworkStoreConfig = {
   api: string
-  upload: string
 }
 
 export type SerializedNetworkStore = NetworkStoreConfig
@@ -79,7 +78,7 @@ export class NetworkStore extends Store<SerializedNetworkStore> {
 
     this.uploadInstance = this.addInterceptors(
       axios.create({
-        baseURL: this.config.upload,
+        baseURL: this.config.api,
         withCredentials: true,
         headers,
       })

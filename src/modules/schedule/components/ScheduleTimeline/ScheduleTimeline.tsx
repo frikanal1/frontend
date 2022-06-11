@@ -1,25 +1,26 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
+import { styled as MuiStyled } from "@mui/system"
 import React, { useEffect, useRef, useState } from "react"
 import { ScheduleEntry } from "../../types"
 import { Lines } from "./Lines"
 import { Playhead } from "./Playhead"
 import { TimelineItemList } from "./TimelineItemList"
 
-const Container = styled.div`
+const Container = MuiStyled("div")`
   height: 100%;
 
   overflow-y: scroll;
 
-  scrollbar-color: ${(props) => props.theme.color.accent} transparent;
+  scrollbar-color: ${(props) => props.theme.palette.primary.main} transparent;
   scrollbar-width: auto;
 
-  border: solid 1px ${(props) => props.theme.color.divider};
+  border: solid 1px ${(props) => props.theme.palette.divider};
   border-radius: 3px;
 
   box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
 `
 
-const Inner = styled.div`
+const Inner = styled("div")`
   position: relative;
 
   margin-top: 32px;

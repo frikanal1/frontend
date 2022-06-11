@@ -1,21 +1,21 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { useStores } from "src/modules/state/manager"
 import Link from "next/link"
 import { humanizeScheduleItemDate } from "../helpers/humanizeScheduleItemDate"
 import { ScheduleEntry } from "../types"
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
   align-items: center;
 
   & + & {
     margin-top: 16px;
-    border-top: solid 2px ${(props) => props.theme.color.divider};
+    border-top: solid 2px ${(props) => props.theme.palette.divider};
     padding-top: 16px;
   }
 `
 
-const PrimaryInfo = styled.div`
+const PrimaryInfo = styled("div")`
   display: flex;
   flex-direction: column;
 
@@ -23,7 +23,7 @@ const PrimaryInfo = styled.div`
   width: 0;
 `
 
-const Title = styled.a`
+const Title = styled("a")`
   font-size: 1.1em;
   font-weight: 600;
 
@@ -32,17 +32,17 @@ const Title = styled.a`
   text-overflow: ellipsis;
 `
 
-const Organization = styled.a`
+const Organization = styled("a")`
   font-size: 1.1em;
   font-weight: 400;
 
   margin-top: 2px;
 `
 
-const Time = styled.span`
+const Time = styled("span")`
   font-size: 1em;
   font-weight: 600;
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${(props) => props.theme.palette.text.secondary};
 
   margin-left: 24px;
 `

@@ -1,12 +1,12 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { PropsWithChildren } from "react"
 
-const Container = styled.div<{ width: number; height: number }>`
+const Container = styled("div")<{ width: number; height: number }>`
   position: relative;
   padding-top: ${(props) => (props.height / props.width) * 100}%;
 `
 
-const Inner = styled.div`
+const Inner = styled("div")`
   position: absolute;
   top: 0px;
   left: 0px;

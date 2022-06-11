@@ -1,7 +1,7 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { ScheduleEntry } from "../../types"
 
-const Container = styled.div`
+const Container = styled("div")`
   min-height: 16px;
 
   padding: 0px 16px;
@@ -18,7 +18,7 @@ const Container = styled.div`
   border-radius: 3px;
 `
 
-const Title = styled.h3`
+const Title = styled("h3")`
   margin-top: 16px;
   font-size: 0.9em;
 `

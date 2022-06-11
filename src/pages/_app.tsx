@@ -7,7 +7,6 @@ import type { AppContext, AppProps } from "next/app"
 // import { Integrations } from "@sentry/tracing";
 import "shaka-player/dist/controls.css"
 import { Header } from "src/modules/core/components/Header"
-import { Global } from "@emotion/react"
 import { global } from "src/modules/styling/global"
 import { Body } from "src/modules/core/components/Body"
 import { getManager, ManagerContext } from "src/modules/state/manager"
@@ -19,6 +18,7 @@ import { IS_SERVER } from "src/modules/core/constants"
 import { Footer } from "src/modules/core/components/Footer"
 import { enableStaticRendering, observer } from "mobx-react-lite"
 import { ThemeContext } from "src/modules/styling/components/ThemeContext"
+import { SWRConfig } from "swr"
 
 // Not a React hook.
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -33,6 +33,9 @@ enableStaticRendering(IS_SERVER)
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
 });*/
+import getConfig from "next/config"
+import { GlobalStyles } from "@mui/material"
+const { publicRuntimeConfig } = getConfig()
 
 export type CustomAppProps = AppProps & { serialized: any }
 
@@ -44,22 +47,28 @@ function CustomApp(props: CustomAppProps) {
 
   return (
     <ManagerContext.Provider value={manager}>
-      <ThemeContext>
-        <ScrollLock locked={locked}>
-          {(style) => (
-            <div style={style}>
-              <Global styles={global} />
-              <Header />
-              <Body>
-                <Component {...pageProps} />
-              </Body>
-              <Footer />
-              <ModalOverlay />
-              <PopoverOverlay />
-            </div>
-          )}
-        </ScrollLock>
-      </ThemeContext>
+      <SWRConfig
+        value={{
+          fetcher: (resource, init) => fetch(publicRuntimeConfig.FK_API + resource, init).then((res) => res.json()),
+        }}
+      >
+        <ThemeContext>
+          <ScrollLock locked={locked}>
+            {(style) => (
+              <div style={style}>
+                <GlobalStyles styles={global} />
+                <Header />
+                <Body>
+                  <Component {...pageProps} />
+                </Body>
+                <Footer />
+                <ModalOverlay />
+                <PopoverOverlay />
+              </div>
+            )}
+          </ScrollLock>
+        </ThemeContext>
+      </SWRConfig>
     </ManagerContext.Provider>
   )
 }
@@ -83,16 +92,13 @@ CustomApp.getInitialProps = async (appContext: AppContext): Promise<any> => {
       networkStore.incomingHeaders[key] = value
     }
 
-    const { FK_API, FK_UPLOAD } = process.env
+    const { FK_API } = process.env
 
-    if ([FK_API, FK_UPLOAD].some((x) => !x)) {
-      throw new Error("Missing FK_API and FK_UPLOAD!")
-    }
+    if (!FK_API) throw new Error("Missing FK_API!")
 
     networkStore.setHTTPObjects(res, req)
     networkStore.setConfig({
-      api: FK_API!,
-      upload: FK_UPLOAD!,
+      api: FK_API,
     })
   }
 

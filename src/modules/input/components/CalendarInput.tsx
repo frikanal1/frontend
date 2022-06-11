@@ -1,20 +1,20 @@
 import { css } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { isSameDay, isToday } from "date-fns"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import { IconButton } from "src/modules/ui/components/IconButton"
 import { useState } from "react"
 
-const Container = styled.div``
+const Container = styled("div")``
 
-const Header = styled.div`
+const Header = styled("div")`
   display: flex;
 
   align-items: center;
   justify-content: space-between;
 `
 
-const HeaderTitle = styled.span`
+const HeaderTitle = styled("span")`
   flex: 1;
   text-align: center;
 
@@ -27,16 +27,16 @@ const NavigationButton = styled(IconButton)`
   height: 24px;
 `
 
-const DayRow = styled.div`
+const DayRow = styled("div")`
   display: flex;
   margin-top: 24px;
 `
 
-const Day = styled.span`
+const Day = styled("span")`
   display: inline-block;
   width: ${(1 / 7) * 100}%;
 
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${({ theme }) => theme.palette.text.secondary};
 
   font-weight: 600;
   font-size: 0.8em;
@@ -45,20 +45,20 @@ const Day = styled.span`
   text-transform: uppercase;
 `
 
-const DateGrid = styled.div`
+const DateGrid = styled("div")`
   display: flex;
   flex-wrap: wrap;
   margin-top: 8px;
 `
 
-const DateNumberContainer = styled.div`
+const DateNumberContainer = styled("div")`
   width: ${(1 / 7) * 100}%;
   padding: 2px;
 `
 
 type DateNumberType = "previous" | "normal" | "today" | "selected"
 
-const DateNumber = styled.a<{ type: DateNumberType }>`
+const DateNumber = styled("a")<{ type: DateNumberType }>`
   height: 100%;
 
   display: flex;
@@ -74,31 +74,31 @@ const DateNumber = styled.a<{ type: DateNumberType }>`
   transition: 200ms ease all;
   cursor: pointer;
 
-  color: ${(props) => props.theme.fontColor.normal};
+  color: ${({ theme }) => theme.palette.text.primary};
 
   ${(props) => {
     const { type } = props
 
     if (type === "selected") {
       return css`
-        border-color: ${props.theme.color.accent};
+        border-color: ${props.theme.palette.primary.main};
       `
     }
 
     if (type === "today") {
       return css`
-        border-color: ${props.theme.color.thirdAccent};
+        border-color: ${props.theme.palette.success.light};
       `
     }
 
     if (type === "previous")
       return css`
-        color: ${props.theme.fontColor.subdued};
+        color: ${props.theme.palette.text.secondary};
       `
 
     return css`
       &:hover {
-        border-color: ${props.theme.color.divider};
+        border-color: ${props.theme.palette.divider};
       }
     `
   }}

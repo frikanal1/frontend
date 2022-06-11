@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { Form } from "src/modules/form/components/Form"
 import { FormField } from "src/modules/form/components/FormField"
 import { useFormSubmission } from "src/modules/form/hooks/useFormSubmission"
@@ -15,7 +15,7 @@ const Field = styled(FormField)`
   margin-bottom: 16px;
 `
 
-const Info = styled.p`
+const Info = styled("p")`
   margin-top: 0px;
 `
 

@@ -1,16 +1,17 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import React from "react"
 import { mainContentStyle } from "../styles/mainContentStyle"
 
-export const Container = styled.div`
+export const Container = styled("main")`
   display: flex;
   justify-content: center;
 
+  flex-grow: 1;
   margin-top: 32px;
-  width: 100%;
+  margin-bottom: auto;
 `
 
-const Content = styled.main`
+const Content = styled("main")`
   ${mainContentStyle}
 `
 

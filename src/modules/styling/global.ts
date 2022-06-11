@@ -1,4 +1,6 @@
-import { css, Theme } from "@emotion/react"
+import { css } from "@emotion/react"
+import { Theme } from "@mui/system"
+
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
@@ -20,14 +22,22 @@ export const global = (theme: Theme) => css`
     padding: 0;
 
     font-family: "Roboto", sans-serif;
-    color: ${theme.fontColor.normal};
+    color: ${theme.palette.text.primary};
 
     font-size: 16px;
   }
 
   body {
-    background: ${theme.color.background};
+    background: ${theme.palette.background.default};
     overflow-y: scroll;
+    min-height: 100vh;
+
+    > div > div {
+      display: flex;
+      justify-content: stretch;
+      flex-direction: column;
+      min-height: 100vh;
+    }
   }
 
   a {

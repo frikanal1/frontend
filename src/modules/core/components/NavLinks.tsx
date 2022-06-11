@@ -4,9 +4,9 @@ import { HeaderLink } from "./HeaderLink"
 export function NavLinks() {
   return (
     <>
-      <HeaderLink accent="secondAccent" to="/" label="Direkte" />
-      <HeaderLink accent="accent" to="/schedule" label="Sendeplan" />
-      <HeaderLink accent="thirdAccent" to="/about" label="Om oss" />
+      <HeaderLink accent="primary" to="/" label="Direkte" />
+      <HeaderLink accent="primary" to="/schedule" label="Sendeplan" />
+      <HeaderLink accent="primary" to="/about" label="Om oss" />
     </>
   )
 }

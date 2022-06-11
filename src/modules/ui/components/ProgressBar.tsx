@@ -1,19 +1,19 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { useRef } from "react"
 import { useInterpolatedValue } from "../hooks/useInterpolatedValue"
 
 const PROGRESS_BAR_HEIGHT = "4px"
 
-const Container = styled.div`
+const Container = styled("div")`
   position: relative;
 
-  background: ${(props) => props.theme.color.divider};
+  background: ${(props) => props.theme.palette.divider};
   height: ${PROGRESS_BAR_HEIGHT};
 
   border-radius: 4px;
 `
 
-const Fill = styled.div<{ state: ProgressBarState }>`
+const Fill = styled("div")<{ state: ProgressBarState }>`
   position: absolute;
   left: 0px;
   right: 0px;
@@ -25,12 +25,12 @@ const Fill = styled.div<{ state: ProgressBarState }>`
   transform-origin: 0 0;
   background: ${(props) => {
     const { state, theme } = props
-    const { color, stateColor } = theme
+    const { primary, warning, error } = theme.palette
 
     const map = {
-      normal: color.accent,
-      warning: stateColor.warning,
-      danger: stateColor.danger,
+      normal: primary.main,
+      warning: warning.light,
+      danger: error.light,
     }
 
     return map[state]

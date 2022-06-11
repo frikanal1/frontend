@@ -1,15 +1,14 @@
-import { css, Theme } from "@emotion/react"
-import styled from "@emotion/styled"
+import { css } from "@emotion/react"
+import { Theme } from "@mui/system"
+
 import { Button, ButtonProps, ButtonWithProps } from "./Button"
+import { styled } from "@mui/system"
 
 export type GenericButtonVariant = "primary" | "secondary"
 export type GenericButtonColor = "accent" | "warning" | "success" | "danger"
 
 const getColorFromTheme = (theme: Theme, name: GenericButtonColor) => {
-  const { color, stateColor } = theme
-
-  if (name === "accent") return color.accent
-  return stateColor[name]
+  return theme.palette.primary.main
 }
 
 const Container = styled(Button as ButtonWithProps<{ variant: GenericButtonVariant; color: GenericButtonColor }>)`
@@ -65,12 +64,12 @@ const Container = styled(Button as ButtonWithProps<{ variant: GenericButtonVaria
     }
 
     return css`
-      color: ${props.theme.fontColor.overlay};
+      color: ${props.theme.palette.primary.contrastText};
     `
   }}
 `
 
-const Label = styled.span`
+const Label = styled("span")`
   font-weight: 500;
   font-size: 0.9em;
 `

@@ -1,11 +1,11 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { PropsWithChildren } from "react"
 import { IconType } from "../types"
 import { SVGIcon } from "./SVGIcon"
 
-const Container = styled.section``
+const Container = styled("section")``
 
-const Header = styled.header`
+const Header = styled("header")`
   display: flex;
   align-items: center;
 
@@ -19,7 +19,7 @@ const Icon = styled(SVGIcon)`
   margin-right: 8px;
 `
 
-const Title = styled.h1`
+const Title = styled("h1")`
   font-size: 1em;
   font-weight: 500;
 `

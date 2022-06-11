@@ -1,7 +1,7 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { PropsWithChildren } from "react"
 
-const Root = styled.aside`
+const Root = styled("aside")`
   width: 460px;
   max-width: 100%;
   max-height: 100vh;
@@ -9,7 +9,7 @@ const Root = styled.aside`
   border-radius: 3px;
 
   box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
-  background: ${(props) => props.theme.color.card};
+  background: ${(props) => props.theme.palette.background.paper};
 
   display: flex;
   flex-direction: column;

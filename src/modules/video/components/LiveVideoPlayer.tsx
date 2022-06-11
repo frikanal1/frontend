@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import dynamic from "next/dynamic"
 
@@ -6,7 +6,7 @@ import dynamic from "next/dynamic"
 // @ts-ignore
 const ShakaPlayer = dynamic(() => import("shaka-player-react"), { ssr: false }) as any
 
-const Container = styled.div`
+const Container = styled("div")`
   position: relative;
 
   > div {

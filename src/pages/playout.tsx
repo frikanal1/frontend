@@ -1,5 +1,5 @@
 import { useState } from "react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { ATEMControls } from "src/modules/playout/components/ATEMControls"
 import { MonitoringStream } from "src/modules/playout/components/MonitoringStream"
 import { ATEM_INPUTS } from "src/modules/playout/constants"
@@ -13,12 +13,12 @@ import { NextPageContext } from "next"
 
 const breakpoint = 830
 
-const Container = styled.div``
+const Container = styled("div")``
 
-const Content = styled.div`
+const Content = styled("div")`
   margin-top: 16px;
   padding: 24px;
-  border: solid 2px ${(props) => props.theme.color.divider};
+  border: solid 2px ${(props) => props.theme.palette.divider};
   border-radius: 4px;
 
   @media (max-width: ${breakpoint}px) {
@@ -26,9 +26,9 @@ const Content = styled.div`
   }
 `
 
-const Controls = styled.div`
+const Controls = styled("div")`
   margin: 0px -24px;
-  border-top: solid 2px ${(props) => props.theme.color.divider};
+  border-top: solid 2px ${(props) => props.theme.palette.divider};
 
   padding: 0px 24px;
   padding-top: 24px;

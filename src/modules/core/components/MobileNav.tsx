@@ -1,5 +1,4 @@
 import { css } from "@emotion/react"
-import styled from "@emotion/styled"
 import { PrimaryPopover } from "src/modules/popover/components/PrimaryPopover"
 import { usePopover } from "src/modules/popover/hooks/usePopover"
 import { usePopoverContext } from "src/modules/popover/hooks/usePopoverContext"
@@ -9,8 +8,9 @@ import { Router } from "next/router"
 import { useEffect, useRef } from "react"
 import { MOBILE_MENU_THRESHOLD } from "../constants"
 import { NavLinks } from "./NavLinks"
+import { styled } from "@mui/system"
 
-const Container = styled.div`
+const Container = styled("div")`
   display: none;
 
   @media (max-width: ${MOBILE_MENU_THRESHOLD}px) {
@@ -21,16 +21,16 @@ const Container = styled.div`
 const Menu = styled(Button as ButtonWithProps<{ active: boolean }>)`
   padding: 8px;
 
-  border: solid 2px ${(props) => props.theme.color.divider};
+  border: solid 2px ${({ theme }) => theme.palette.divider};
   border-radius: 4px;
 
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${({ theme }) => theme.palette.text.primary};
   transition: 200ms ease all;
 
   ${(props) => {
     if (props.active) {
       return css`
-        border-color: ${props.theme.color.accent};
+        border-color: ${props.theme.palette.primary.main};
       `
     }
   }}

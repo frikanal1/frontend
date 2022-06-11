@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { Organization } from "src/modules/organization/resources/Organization"
 import { createResourcePageWrapper } from "src/modules/state/helpers/createResourcePageWrapper"
 import { useStores } from "src/modules/state/manager"
@@ -12,9 +12,9 @@ import {
 import { useObserver } from "src/modules/state/hooks/useObserver"
 import { VideoUploadView } from "src/modules/video/components/VideoUploadView"
 
-const Container = styled.div``
+const Container = styled("div")``
 
-const Title = styled.h1`
+const Title = styled("h1")`
   margin-bottom: 16px;
 `
 
@@ -32,13 +32,8 @@ const Upload = observer((props: UploadProps) => {
     videoUploadStore.add(organization.data.id, files[0])
   }
 
-  const renderContent = () => {
-    if (!upload) {
-      return <FileInput label="Klikk for å laste opp" onChange={handleFile} />
-    }
-
-    return <VideoUploadView upload={upload} />
-  }
+  const renderContent = () =>
+    upload ? <VideoUploadView upload={upload} /> : <FileInput label="Klikk for å laste opp" onChange={handleFile} />
 
   return (
     <Container>

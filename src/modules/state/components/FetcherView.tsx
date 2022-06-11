@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 import { Meta } from "src/modules/core/components/Meta"
 import { EmptyState, EmptyStateProps } from "src/modules/ui/components/EmptyState"
@@ -7,7 +7,7 @@ import { Resource } from "../classes/Resource"
 import { ResourceFetcher } from "../classes/ResourceFetcher"
 import { ErrorType } from "../helpers/interpretError"
 
-const Container = styled.div`
+const Container = styled("div")`
   margin: 128px 0px;
 `
 

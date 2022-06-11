@@ -1,12 +1,12 @@
 import { css, keyframes } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { useEffect, useRef, useState } from "react"
 import { Transition, TransitionGroup, TransitionStatus } from "react-transition-group"
 import { IconType } from "../types"
 import { Spinner } from "./Spinner"
 import { SVGIcon } from "./SVGIcon"
 
-const Container = styled.div`
+const Container = styled("div")`
   font-size: 0.8em;
   font-weight: 600;
 
@@ -40,7 +40,7 @@ const ExitAnimation = keyframes`
   }
 `
 
-const Content = styled.span<{ type: StatusType; status: TransitionStatus }>`
+const Content = styled("span")<{ type: StatusType; status: TransitionStatus }>`
   display: flex;
   align-items: center;
 
@@ -55,18 +55,18 @@ const Content = styled.span<{ type: StatusType; status: TransitionStatus }>`
   ${(props) => {
     if (props.type === "error") {
       return css`
-        color: ${props.theme.stateColor.danger};
+        color: ${props.theme.palette.error.main};
       `
     }
 
     if (props.type === "success") {
       return css`
-        color: ${props.theme.stateColor.success};
+        color: ${props.theme.palette.success.main};
       `
     }
 
     return css`
-      color: ${props.theme.fontColor.muted};
+      color: ${props.theme.palette.text.secondary};
     `
   }}
 

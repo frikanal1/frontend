@@ -1,6 +1,9 @@
-import { Theme } from "@emotion/react"
+import { createTheme } from "@mui/material/styles"
 
-export const lightTheme: Theme = {
+export const lightTheme = createTheme({ palette: { mode: "light", primary: { main: "#E88840" } } })
+export const darkTheme = createTheme({ palette: { mode: "dark" } })
+/*
+export const lightTheme: Theme = createTheme({
   color: {
     background: "#fff",
     card: "rgba(255, 255, 255, 1)",
@@ -22,7 +25,7 @@ export const lightTheme: Theme = {
     muted: "rgba(0, 0, 0, 0.7)",
     subdued: "rgba(0, 0, 0, 0.5)",
   },
-}
+})
 
 export const darkTheme: Theme = {
   ...lightTheme,
@@ -39,3 +42,4 @@ export const darkTheme: Theme = {
     subdued: "rgba(255, 255, 255, 0.5)",
   },
 }
+*/

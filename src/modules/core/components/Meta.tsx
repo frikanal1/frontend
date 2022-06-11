@@ -1,8 +1,8 @@
 import React from "react"
 import Head from "next/head"
-import { useTheme } from "@emotion/react"
 import { useRouter } from "next/router"
 import { CANONICAL_HOST, WEBSITE_NAME } from "../constants"
+import { useTheme } from "@mui/system"
 
 const MAX_LENGTH = 300
 
@@ -69,7 +69,7 @@ export function Meta(props: MetaProps) {
       <meta charSet="utf-8" />
       <meta name="keywords" content={keywords.join(", ")} />
       <meta name="viewport" content="initial-scale=1" />
-      <meta name="theme-color" content={theme.color.accent} />
+      <meta name="theme-color" content={theme.palette.primary.main} />
       <title>{title !== WEBSITE_NAME ? `${title} - ${WEBSITE_NAME}` : WEBSITE_NAME}</title>
       {ogTags}
       {twitterTags}

@@ -3,7 +3,7 @@ import { SwitchTransition, Transition } from "react-transition-group"
 import { TransitionStatus } from "react-transition-group/Transition"
 import { useField } from "../hooks/useField"
 import { css, keyframes } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 
 export type FieldErrorProps = {
@@ -20,7 +20,7 @@ const Animation = keyframes`
   }
 `
 
-const Container = styled.div<{ visible: boolean }>`
+const Container = styled("div")<{ visible: boolean }>`
   margin-top: 8px;
   max-height: 0px;
 
@@ -40,9 +40,9 @@ const Container = styled.div<{ visible: boolean }>`
   transition: 200ms ease all;
 `
 
-const Error = styled.span<{ status: TransitionStatus }>`
+const Error = styled("span")<{ status: TransitionStatus }>`
   display: block;
-  color: ${(props) => props.theme.color.secondAccent};
+  color: ${(props) => props.theme.palette.success.bright};
 
   font-weight: 600;
   font-size: 0.8em;

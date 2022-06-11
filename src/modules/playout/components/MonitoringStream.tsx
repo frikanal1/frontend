@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
 import JSMpeg from "@cycjimmy/jsmpeg-player"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
 
-const Content = styled.div`
+const Content = styled("div")`
   width: 100%;
   height: 100%;
 `

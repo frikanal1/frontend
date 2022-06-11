@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { ButtonList } from "src/modules/ui/components/ButtonList"
 import { PropsWithChildren } from "react"
 

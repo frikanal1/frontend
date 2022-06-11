@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { Meta } from "src/modules/core/components/Meta"
 import { Organization } from "src/modules/organization/resources/Organization"
 import { ListTail } from "src/modules/state/components/ListTail"
@@ -12,9 +12,9 @@ import React from "react"
 
 const breakpoint = 1250
 
-const Container = styled.div``
+const Container = styled("div")``
 
-const Header = styled.div`
+const Header = styled("div")`
   display: flex;
 
   @media (max-width: ${breakpoint}px) {
@@ -22,20 +22,20 @@ const Header = styled.div`
   }
 `
 
-const PrimaryInfo = styled.div`
+const PrimaryInfo = styled("div")`
   flex: 1;
 `
 
-const Title = styled.h1``
+const Title = styled("h1")``
 
-const Description = styled.div`
+const Description = styled("div")`
   margin-top: 16px;
 
   white-space: pre-wrap;
   word-break: break-word;
 `
 
-const SecondaryInfo = styled.div`
+const SecondaryInfo = styled("div")`
   white-space: pre-wrap;
   word-break: break-word;
 
@@ -56,16 +56,16 @@ const InfoSection = styled(Section)`
   }
 `
 
-const InfoSectionLine = styled.span`
+const InfoSectionLine = styled("span")`
   display: block;
   margin-bottom: 8px;
 `
 
-const Content = styled.div`
+const Content = styled("div")`
   margin-top: 16px;
 `
 
-const LatestVideosHeading = styled.h2`
+const LatestVideosHeading = styled("h2")`
   margin-bottom: 16px;
 `
 

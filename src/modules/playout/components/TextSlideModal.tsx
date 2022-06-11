@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import { Form } from "src/modules/form/components/Form"
@@ -21,7 +21,7 @@ const Field = styled(FormField)`
   margin-bottom: 16px;
 `
 
-const Preview = styled.div`
+const Preview = styled("div")`
   width: 100%;
   height: 100%;
 

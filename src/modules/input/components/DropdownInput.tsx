@@ -1,5 +1,5 @@
 import { css } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { Option } from "src/modules/form/fields/select"
 import { toggleArrayItem } from "src/modules/lang/array"
 import { PrimaryPopover } from "src/modules/popover/components/PrimaryPopover"
@@ -31,15 +31,15 @@ const OptionContainer = styled(Button as ButtonWithProps<{ active: boolean }>)`
   ${(props) => {
     if (!props.active)
       return css`
-        color: ${props.theme.fontColor.muted};
+        color: ${props.theme.palette.text.secondary};
 
         &:hover {
-          color: ${props.theme.fontColor.normal};
+          color: ${props.theme.palette.text.primary};
         }
       `
 
     return css`
-      color: ${props.theme.color.accent};
+      color: ${props.theme.palette.primary.main};
       pointer-events: none;
     `
   }}
@@ -86,7 +86,7 @@ const Container = styled(Button as ButtonWithProps<{ active: boolean }>)`
 
   border-radius: 4px;
 
-  border: solid 1px ${(props) => (props.active ? props.theme.color.accent : props.theme.color.divider)};
+  border: solid 1px ${(props) => (props.active ? props.theme.palette.primary.main : props.theme.palette.divider)};
   transition: 200ms ease border-color;
 `
 
@@ -106,12 +106,12 @@ const Chevron = styled(SVGIcon as SVGIconWithProps<{ flipped: boolean }>)`
       : null}
 `
 
-const LongestLabel = styled.span`
+const LongestLabel = styled("span")`
   opacity: 0;
   user-select: none;
 `
 
-const Label = styled.span`
+const Label = styled("span")`
   position: absolute;
   left: 12px;
 `

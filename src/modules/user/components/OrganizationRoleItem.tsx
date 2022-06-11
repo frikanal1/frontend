@@ -1,25 +1,25 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { Organization } from "src/modules/organization/resources/Organization"
 import { InternalLink } from "src/modules/ui/components/InternalLink"
 import Link from "next/link"
 import React from "react"
 
-const Container = styled.li`
+const Container = styled("li")`
   & + & {
     margin-top: 24px;
   }
 `
 
-const Name = styled.h1`
+const Name = styled("h1")`
   font-size: 1.1em;
 `
 
-const RoleText = styled.h2`
+const RoleText = styled("h2")`
   font-size: 1em;
   font-weight: 400;
 `
 
-const Options = styled.div`
+const Options = styled("div")`
   margin-top: 8px;
   display: flex;
 

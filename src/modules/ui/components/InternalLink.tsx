@@ -1,9 +1,9 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import Link from "next/link"
 import React, { PropsWithChildren } from "react"
 import { linkStyle } from "../styles/linkStyle"
 
-const Container = styled.a`
+const Container = styled("a")`
   ${linkStyle}
 `
 

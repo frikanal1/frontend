@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
@@ -6,8 +6,12 @@ import { useStores } from "src/modules/state/manager"
 import { Video } from "src/modules/video/resources/Video"
 import Link from "next/link"
 import React from "react"
+import { tryGet } from "../../core/tryGet"
+import useSWR from "swr"
+import { VideoData } from "../types"
+import { getAsset } from "../getAsset"
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
 
   & + & {
@@ -15,11 +19,11 @@ const Container = styled.div`
   }
 `
 
-const ThumbnailContainer = styled.div`
+const ThumbnailContainer = styled("div")`
   flex: 1;
 `
 
-const Thumbnail = styled.img`
+const Thumbnail = styled("img")`
   width: 100%;
   height: 100%;
 
@@ -32,7 +36,7 @@ const Thumbnail = styled.img`
   box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
 `
 
-const Content = styled.div`
+const Content = styled("div")`
   width: 60%;
   margin-left: 16px;
 
@@ -41,27 +45,29 @@ const Content = styled.div`
   justify-content: center;
 `
 
-const Title = styled.h3`
+const Title = styled("h3")`
   font-size: 1em;
   font-weight: 600;
 `
 
-const UploadedDate = styled.span`
+const UploadedDate = styled("span")`
   font-size: 1em;
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${(props) => props.theme.palette.text.secondary};
 `
 
 export type RecentVideoItemProps = {
-  video: Video
+  videoId: number
 }
 
-export function RecentVideoItem(props: RecentVideoItemProps) {
+export function RecentVideoItem({ videoId }: RecentVideoItemProps) {
   const { configStore } = useStores()
+  const { data: video } = useSWR<VideoData>(`/videos/${videoId}`)
 
-  const { video } = props
-  const { id, createdAt, title } = video.data
+  if (!video) return null
 
-  const thumbnail = video.getAsset("thumbnail-medium")
+  const { id, createdAt, title } = video
+
+  const thumbnail = getAsset(video, "thumbnail-medium")
 
   return (
     <Container>
@@ -69,7 +75,7 @@ export function RecentVideoItem(props: RecentVideoItemProps) {
         <AspectContainer width={1280} height={720}>
           <Link href={`/video/${id}`} passHref>
             <a>
-              <Thumbnail src={configStore.media + thumbnail.url} />
+              <Thumbnail src={thumbnail} />
             </a>
           </Link>
         </AspectContainer>

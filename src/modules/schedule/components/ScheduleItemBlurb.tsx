@@ -1,23 +1,23 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { useStores } from "src/modules/state/manager"
 import Link from "next/link"
 import { ScheduleEntry } from "../types"
 
-const Container = styled.div``
+const Container = styled("div")``
 
-const Title = styled.h2`
+const Title = styled("h2")`
   font-size: 1.5em;
   margin-bottom: 2px;
 `
 
-const Organization = styled.h3`
+const Organization = styled("h3")`
   font-size: 1.1em;
   font-weight: 400;
 
   margin-bottom: 12px;
 `
 
-const Description = styled.p`
+const Description = styled("p")`
   white-space: pre-wrap;
   word-break: break-word;
 `

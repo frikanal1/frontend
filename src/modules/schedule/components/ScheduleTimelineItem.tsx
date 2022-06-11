@@ -1,27 +1,27 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { format } from "date-fns"
 import { useStores } from "src/modules/state/manager"
 import Link from "next/link"
 import React from "react"
 import { ScheduleEntry } from "../types"
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
   align-items: flex-start;
 
   margin-bottom: 32px;
 `
 
-const Time = styled.span`
+const Time = styled("span")`
   font-size: 1em;
   font-weight: 600;
 
-  color: ${(props) => props.theme.fontColor.subdued};
+  color: ${(props) => props.theme.palette.text.secondary};
 
   margin-top: 1px;
 `
 
-const PrimaryInfo = styled.div`
+const PrimaryInfo = styled("div")`
   display: flex;
   flex-direction: column;
 
@@ -31,14 +31,14 @@ const PrimaryInfo = styled.div`
   margin-left: 16px;
 `
 
-const Title = styled.div`
+const Title = styled("div")`
   display: inline;
 
   font-size: 1.1em;
   font-weight: 700;
 `
 
-const Organization = styled.div`
+const Organization = styled("div")`
   font-size: 1.1em;
   font-weight: 400;
 `

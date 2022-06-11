@@ -1,16 +1,16 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 
-const Container = styled.header`
+const Container = styled("header")`
   height: 72px;
 
   display: flex;
   align-items: center;
 
   padding: 0px 24px;
-  border-bottom: solid 2px ${(props) => props.theme.color.accent};
+  border-bottom: solid 2px ${(props) => props.theme.palette.primary.main};
 `
 
-const Title = styled.h1`
+const Title = styled("h1")`
   font-weight: 600;
   font-size: 1.5em;
 

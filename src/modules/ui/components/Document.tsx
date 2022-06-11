@@ -1,6 +1,6 @@
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 
-export const Document = styled.div`
+export const Document = styled("div")`
   h2 {
     margin: 24px 0px;
   }

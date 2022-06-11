@@ -1,7 +1,7 @@
 import React from "react"
 
 import { ModalItem } from "../stores/modalStore"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { useStores } from "src/modules/state/manager"
 import { modalContext } from "../contexts"
 import { css, keyframes } from "@emotion/react"
@@ -34,7 +34,7 @@ const ContentAnimation = keyframes`
   }
 `
 
-const Container = styled.div<{ status: TransitionStatus }>`
+const Container = styled("div")<{ status: TransitionStatus }>`
   position: fixed;
   z-index: 5;
 
@@ -43,7 +43,7 @@ const Container = styled.div<{ status: TransitionStatus }>`
   left: 0px;
   right: 0px;
 
-  background: ${(props) => props.theme.color.overlay};
+  background: ${(props) => props.theme.palette.divider};
 
   display: flex;
   align-items: center;
@@ -63,7 +63,7 @@ const Container = styled.div<{ status: TransitionStatus }>`
   }}
 `
 
-const Content = styled.div<{ status: TransitionStatus }>`
+const Content = styled("div")<{ status: TransitionStatus }>`
   max-width: 100vw;
 
   ${(props) => {

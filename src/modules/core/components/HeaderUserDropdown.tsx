@@ -1,5 +1,5 @@
 import { css } from "@emotion/react"
-import styled from "@emotion/styled"
+import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
 import { usePopover } from "src/modules/popover/hooks/usePopover"
 import { SVGIcon, SVGIconWithProps } from "src/modules/ui/components/SVGIcon"
@@ -7,20 +7,20 @@ import { User } from "src/modules/user/schemas"
 import { useRef } from "react"
 import { HeaderUserPopover } from "./HeaderUserPopover"
 
-const Container = styled.div`
+const Container = styled("div")`
   display: flex;
   align-items: center;
-  color: ${(props) => props.theme.fontColor.muted};
+  color: ${({ theme }) => theme.palette.text.secondary};
 
   cursor: pointer;
   transition: 200ms ease color;
 
   &:hover {
-    color: ${(props) => props.theme.fontColor.normal};
+    color: ${({ theme }) => theme.palette.text.primary};
   }
 `
 
-const Name = styled.span`
+const Name = styled("span")`
   font-size: 1.2em;
   font-weight: 600;
 
