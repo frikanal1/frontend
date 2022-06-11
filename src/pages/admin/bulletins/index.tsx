@@ -6,6 +6,7 @@ import { AddBox } from "@mui/icons-material"
 import Link from "next/link"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
+import ReactMarkdown from "react-markdown"
 
 const Container = styled("div")`
   min-height: 90%;
@@ -23,13 +24,17 @@ const CardDeck = styled("div")`
 `
 
 const BulletinCard = ({ bulletin }: { bulletin: BulletinData }) => {
-  const { title, text, createdAt } = bulletin
+  const { id, title, text, createdAt } = bulletin
 
   return (
-    <Card>
-      <CardHeader title={title} subheader={format(new Date(createdAt), "d. MMM yyyy", { locale: nb })} />
-      <CardContent>{text}</CardContent>
-    </Card>
+    <Link href={`bulletins/${id}`} passHref>
+      <Card>
+        <CardContent>
+          <ReactMarkdown>{text}</ReactMarkdown>
+        </CardContent>
+        <CardHeader title={title} subheader={format(new Date(createdAt), "d. MMM yyyy", { locale: nb })} />
+      </Card>
+    </Link>
   )
 }
 
