@@ -152,14 +152,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
       publicRuntimeConfig.FK_API + `/videos?offset=${offset}&limit=50`
     )
 
-    return data
+    return data.rows
   }
 
   try {
     const videos = await getAllVideos()
 
+    if (!videos) throw new Error("no videos from backend!")
+
     return {
-      paths: videos.rows.map((v) => ({
+      paths: videos.map((v) => ({
         params: {
           videoId: v.id.toString(),
         },
@@ -170,7 +172,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     console.error("Could not build static paths for videos!")
     return {
       paths: [],
-      fallback: true,
+      fallback: "blocking",
     }
   }
 }
