@@ -147,6 +147,7 @@ export const getStaticProps: GetStaticProps<VideoPageProps> = async (ctx) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // TODO: Complete this recursive function once we have more than 50 vids to test with :)
   const getAllVideos = async (offset = 0, _loadedVideos: VideoData[] = []) => {
     const { data } = await axios.get<{ rows: VideoData[]; offset: number; limit: number; count: number }>(
       publicRuntimeConfig.FK_API + `/videos?offset=${offset}&limit=50`
@@ -158,7 +159,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   try {
     const videos = await getAllVideos()
 
-    if (!videos) throw new Error("no videos from backend!")
+    if (!videos || !videos.length) throw new Error("no videos from backend!")
 
     return {
       paths: videos.map((v) => ({
