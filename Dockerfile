@@ -1,20 +1,22 @@
-FROM node:16-alpine AS deps
+FROM node:18-alpine AS deps
 
 WORKDIR /app
 COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile --production
 
-FROM node:16-alpine AS builder
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
+
 ENV FK_API https://beta.frikanalen.no/api/v2
+ENV FK_MEDIA https://beta.frikanalen.no/api/v2
 
 RUN NODE_ENV=development yarn install --frozen-lockfile && NODE_ENV=production yarn build
 
-FROM node:16-alpine AS runner
+FROM node:18-alpine AS runner
 
 WORKDIR /app
 
