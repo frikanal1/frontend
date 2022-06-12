@@ -85,7 +85,7 @@ interface VideoPageParams extends ParsedUrlQuery {
 }
 
 export const VideoPage: NextPage<VideoPageProps> = ({ videoId, fallback }) => {
-  const { data: video } = useSWR<VideoData>(`/videos/${videoId}`, { fallback })
+  const { data: video, mutate } = useSWR<VideoData>(`/videos/${videoId}`, { fallback })
   const { data: latestVideos } = useSWR<{ rows: VideoData[] }>(
     () => `/videos/?organization=${video!.organization.id}`,
     {
@@ -99,6 +99,8 @@ export const VideoPage: NextPage<VideoPageProps> = ({ videoId, fallback }) => {
 
   const thumbnail = getAsset(video, "thumbnail-large")
   const stream = getAsset(video, "webm")
+
+  if (!stream) setTimeout(mutate, 1000)
 
   return (
     <Container>
@@ -143,12 +145,14 @@ export const getStaticProps: GetStaticProps<VideoPageProps> = async (ctx) => {
 
   const { data: latestVideos } = await axios.get<{ rows: VideoData[] }>(publicRuntimeConfig.FK_API + latestVideosURL)
 
-  return { props: { videoId, fallback: { videoURL: video, latestVideosURL: latestVideos } } }
+  return { props: { videoId, fallback: { [videoURL]: video, [latestVideosURL]: latestVideos } } }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // TODO: Complete this recursive function once we have more than 50 vids to test with :)
   const getAllVideos = async (offset = 0, _loadedVideos: VideoData[] = []) => {
+    if (!publicRuntimeConfig.FK_API) throw new Error("FK_API is not set!")
+
     const { data } = await axios.get<{ rows: VideoData[]; offset: number; limit: number; count: number }>(
       publicRuntimeConfig.FK_API + `/videos?offset=${offset}&limit=50`
     )
@@ -156,25 +160,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return data.rows
   }
 
-  try {
-    const videos = await getAllVideos()
+  const paths = (await getAllVideos()).map((v) => ({
+    params: {
+      videoId: v.id.toString(),
+    },
+  }))
 
-    if (!videos || !videos.length) throw new Error("no videos from backend!")
-
-    return {
-      paths: videos.map((v) => ({
-        params: {
-          videoId: v.id.toString(),
-        },
-      })),
-      fallback: true,
-    }
-  } catch (e) {
-    console.error("Could not build static paths for videos!")
-    return {
-      paths: [],
-      fallback: "blocking",
-    }
+  return {
+    paths,
+    fallback: "blocking",
   }
 }
 
