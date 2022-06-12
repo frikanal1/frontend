@@ -4,9 +4,15 @@ import { ExternalLink } from "src/modules/ui/components/ExternalLink"
 import { Section } from "src/modules/ui/components/Section"
 import { VideoGrid } from "src/modules/video/components/VideoGrid"
 import React from "react"
-import { useRouter } from "next/router"
 import { useOrganization } from "../../../modules/swr/useOrganization"
 import { useLatestVideos } from "../../../modules/swr/useLatestVideos"
+import { GetStaticPaths, GetStaticProps, NextPage } from "next"
+import { VideoData } from "../../../modules/video/types"
+import axios from "axios"
+import { ParsedUrlQuery } from "querystring"
+import getConfig from "next/config"
+import { OrganizationData } from "../../../modules/organization/resources/Organization"
+const { publicRuntimeConfig } = getConfig()
 
 const breakpoint = 1250
 
@@ -63,16 +69,21 @@ const LatestVideosHeading = styled("h2")`
   margin-bottom: 16px;
 `
 
-export const OrganizationPage = () => {
-  // TODO: Implement SSG here
-  const router = useRouter()
-  const { organizationId } = router.query
-  const { organization } = useOrganization(organizationId)
-  const { videos } = useLatestVideos(organizationId)
+interface OrganizationPageProps {
+  organizationId: string
+  fallback: { [k: string]: any }
+}
+
+interface OrganizationPageParams extends ParsedUrlQuery {
+  organizationId: string
+}
+export const OrganizationPage: NextPage<OrganizationPageProps> = ({ organizationId, fallback }) => {
+  const { organization } = useOrganization(organizationId, fallback)
+  const { videos } = useLatestVideos(organizationId, fallback)
 
   if (!organization) return null
 
-  const { name, description, postalAddress, streetAddress, editor } = organization ?? {}
+  const { name, description, postalAddress, streetAddress, editor } = organization
 
   return (
     <Container>
@@ -107,6 +118,42 @@ export const OrganizationPage = () => {
       </Content>
     </Container>
   )
+}
+
+export const getStaticProps: GetStaticProps<OrganizationPageProps> = async (ctx) => {
+  const { organizationId } = ctx.params as OrganizationPageParams
+
+  if (!organizationId) console.error(`no organizationId arrived for org page getstaticprops!`)
+
+  const organizationURL = `/organizations/${organizationId}`
+
+  const { data: organization } = await axios.get<VideoData>(publicRuntimeConfig.FK_API + organizationURL)
+
+  return { props: { organizationId: organizationId, fallback: { [organizationURL]: organization } } }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // TODO: Complete this recursive function once we have more than 50 orgs to test with :)
+  const getAllOrganizations = async (offset = 0, _loadedOrganizations: OrganizationData[] = []) => {
+    if (!publicRuntimeConfig.FK_API) throw new Error("FK_API is not set!")
+
+    const { data } = await axios.get<{ rows: OrganizationData[]; offset: number; limit: number; count: number }>(
+      publicRuntimeConfig.FK_API + `/organizations?offset=${offset}&limit=50`
+    )
+
+    return data.rows
+  }
+
+  const paths = (await getAllOrganizations()).map((o) => ({
+    params: {
+      organizationId: o.id.toString(),
+    },
+  }))
+
+  return {
+    paths,
+    fallback: "blocking",
+  }
 }
 
 export default OrganizationPage
