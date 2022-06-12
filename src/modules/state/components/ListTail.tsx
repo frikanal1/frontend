@@ -3,11 +3,13 @@ import { List } from "../classes/List"
 import { useObserver } from "../hooks/useObserver"
 
 export type ListTailProps = {
-  list: List<any, any>
+  list?: List<any, any>
 } & Omit<ScrollTriggerProps, "onTrigger">
 
 export function ListTail(props: ListTailProps) {
   const { list, ...rest } = props
+
+  if (!list) return null
 
   const { status, hasMore } = useObserver(() => ({
     status: list.status,

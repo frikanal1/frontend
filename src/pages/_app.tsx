@@ -5,7 +5,6 @@ import React, { useState } from "react"
 import type { AppContext, AppProps } from "next/app"
 // import * as Sentry from "@sentry/react";
 // import { Integrations } from "@sentry/tracing";
-import "shaka-player/dist/controls.css"
 import { Header } from "src/modules/core/components/Header"
 import { global } from "src/modules/styling/global"
 import { Body } from "src/modules/core/components/Body"

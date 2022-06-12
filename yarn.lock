@@ -4441,13 +4441,6 @@ shaka-player@^3.3.2:
   dependencies:
     eme-encryption-scheme-polyfill "^2.0.3"
 
-shaka-player@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.1.0.tgz#e893fc86ff9c66f3f412cfdae1c1b714f753fa02"
-  integrity sha512-Itg2C/x807lApXn0vQLRO97b/2CVe5nxWa2quob1HpVC3kpjpOvTiMno25PXCq9o5Y3lPKYUTS822/MCe5gobQ==
-  dependencies:
-    eme-encryption-scheme-polyfill "^2.0.3"
-
 shebang-command@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-2.0.0.tgz#ccd0af4f8835fbdc265b82461aaf0c36663f34ea"

@@ -1,7 +1,7 @@
 import { styled } from "@mui/system"
 import { EmptyState } from "src/modules/ui/components/EmptyState"
-import { Video } from "../resources/Video"
 import { VideoGridItem } from "./VideoGridItem"
+import { VideoData } from "../types"
 
 const Grid = styled("ul")`
   display: grid;
@@ -10,18 +10,17 @@ const Grid = styled("ul")`
 `
 
 export type VideoGridProps = {
-  videos: Video[]
+  videos?: VideoData[]
 }
 
-export function VideoGrid(props: VideoGridProps) {
-  const { videos } = props
-
+export function VideoGrid({ videos }: VideoGridProps) {
+  if (!videos) return null
   if (!videos.length) return <EmptyState title="Ingen videoer enda" icon="film" />
 
   return (
     <Grid>
       {videos.map((v) => (
-        <VideoGridItem key={v.data.id} videoId={v.data.id} />
+        <VideoGridItem key={v.id} videoId={v.id} />
       ))}
     </Grid>
   )

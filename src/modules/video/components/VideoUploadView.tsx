@@ -7,10 +7,10 @@ import { ControlledTextInput } from "src/modules/input/components/ControlledText
 import { useObserver } from "src/modules/state/hooks/useObserver"
 import { ButtonList } from "src/modules/ui/components/ButtonList"
 import { GenericButton } from "src/modules/ui/components/GenericButton"
-import { InternalLink } from "src/modules/ui/components/InternalLink"
 import { ProgressBar } from "src/modules/ui/components/ProgressBar"
 import { StatusLine, StatusLineProps } from "src/modules/ui/components/StatusLine"
 import { VideoUpload } from "../classes/VideoUpload"
+import { useRouter } from "next/router"
 
 const breakpoint = 550
 
@@ -51,6 +51,7 @@ export type VideoUploadViewProps = {
 }
 
 export function VideoUploadView(props: VideoUploadViewProps) {
+  const router = useRouter()
   const { upload } = props
 
   const { submitting, uploadStatus, progress, video } = useObserver(() => ({
@@ -97,7 +98,8 @@ export function VideoUploadView(props: VideoUploadViewProps) {
 
   const renderStatus = () => {
     if (video) {
-      return <InternalLink href={`/video/${video}`}>Ferdig! Klikk her for å gå til videosiden</InternalLink>
+      router.push(`/video/${video}`)
+      return <></>
     }
 
     return <StatusLine {...getFinalStatus()} />

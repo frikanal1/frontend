@@ -1,68 +1,56 @@
 import styled from "@emotion/styled"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
-import dynamic from "next/dynamic"
-
-// No types for this library
-// @ts-ignore
-const ShakaPlayer = dynamic(() => import("shaka-player-react"), { ssr: false }) as any
 
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js"
-import 'video.js/dist/video-js.css';
+import "video.js/dist/video-js.css"
 import { useEffect, useRef } from "react"
 
 interface VideoJSProps {
-  options: VideoJsPlayerOptions,
+  options: VideoJsPlayerOptions
   onReady?: (player: any) => void
 }
 
-export const VideoJS = ({options, onReady}: VideoJSProps) => {
-  const videoRef = useRef(null);
-  const playerRef = useRef<VideoJsPlayer | null>(null);
+export const VideoJS = ({ options, onReady }: VideoJSProps) => {
+  const videoRef = useRef(null)
+  const playerRef = useRef<VideoJsPlayer | null>(null)
 
   useEffect(() => {
-
     // Make sure Video.js player is only initialized once
     if (!playerRef.current) {
-      const videoElement = videoRef.current;
+      const videoElement = videoRef.current
 
-      if (!videoElement) return;
+      if (!videoElement) return
 
-      const player = playerRef.current = videojs(videoElement, options, () => {
-        console.log('player is ready');
+      const player = (playerRef.current = videojs(videoElement, options, () => {
+        console.log("player is ready")
 
-        player.tech().on('usage', (e) => {
-          console.log(e.name);
-        });
-        onReady && onReady(player);
-        player.play()
-      });
+        player.tech().on("usage", (e) => {
+          console.log(e.name)
+        })
+        onReady && onReady(player)
+        //player.play()
+      }))
 
       // You can update player in the `else` block here, for example:
     } else {
-
-      playerRef.current.autoplay(true);
+      playerRef.current.autoplay(true)
     }
-  }, [options, videoRef]);
+  }, [options, videoRef])
 
   // Dispose the Video.js player when the functional component unmounts
   useEffect(() => {
-    const player = playerRef.current;
+    const player = playerRef.current
 
     return () => {
       if (player) {
-        player.dispose();
-        playerRef.current = null;
+        player.dispose()
+        playerRef.current = null
       }
-    };
-  }, [playerRef]);
+    }
+  }, [playerRef])
 
-  return (
-    <div data-vjs-player>
-      <video ref={videoRef} className='video-js vjs-big-play-centered' />
-    </div>
-  );
+  return <video ref={videoRef} className="video-js vjs-big-play-centered" />
 }
-
 
 const Container = styled.div`
   position: relative;
@@ -96,7 +84,14 @@ export function LiveVideoPlayer(props: LiveVideoPlayerProp) {
   return (
     <AspectContainer width={width} height={height}>
       <Container>
-        <VideoJS options={{fluid: true, html5: {hls: { overrideNative: true}}, controls: true, sources: [{src, type: 'application/x-mpegURL'}]}} />
+        <VideoJS
+          options={{
+            fluid: true,
+            html5: { hls: { overrideNative: true } },
+            controls: true,
+            sources: [{ src, type: "application/x-mpegURL" }],
+          }}
+        />
       </Container>
     </AspectContainer>
   )
