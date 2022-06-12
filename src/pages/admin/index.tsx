@@ -1,6 +1,8 @@
 import { styled } from "@mui/system"
 import NewspaperIcon from "@mui/icons-material/Newspaper"
 import Link from "next/link"
+import React, { ReactNode } from "react"
+import { VideoLibrary } from "@mui/icons-material"
 
 const FunctionBox = styled("div")`
   border: 2px solid #333;
@@ -24,17 +26,34 @@ const FunctionBoxContainer = styled("div")`
   display: flex;
 `
 
+interface LinkBoxProps {
+  icon: any
+  children: ReactNode
+  href: string
+}
+
+const LinkBox = ({ icon: Icon, children, href }: LinkBoxProps) => {
+  return (
+    <Link href={href} passHref>
+      <FunctionBox>
+        <Icon sx={{ fontSize: 72 }} />
+        {children}
+      </FunctionBox>
+    </Link>
+  )
+}
+
 export const AdminPage = () => {
   return (
     <div>
       <h1>Administratorfunksjoner</h1>
       <FunctionBoxContainer>
-        <Link href={"/admin/bulletins"} passHref>
-          <FunctionBox>
-            <NewspaperIcon sx={{ fontSize: 72 }} />
-            Nyheter
-          </FunctionBox>
-        </Link>
+        <LinkBox href={"/admin/bulletins"} icon={NewspaperIcon}>
+          Nyheter
+        </LinkBox>
+        <LinkBox href={"/admin/videos"} icon={VideoLibrary}>
+          Videoer
+        </LinkBox>
       </FunctionBoxContainer>
     </div>
   )

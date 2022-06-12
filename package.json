@@ -29,6 +29,7 @@
     "@mui/icons-material": "^5.8.3",
     "@mui/lab": "^5.0.0-alpha.85",
     "@mui/material": "^5.8.3",
+    "@mui/x-data-grid": "^5.12.1",
     "@popperjs/core": "^2.11.5",
     "@sentry/react": "^7.1.1",
     "@sentry/tracing": "^7.1.1",

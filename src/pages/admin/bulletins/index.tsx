@@ -8,9 +8,7 @@ import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import ReactMarkdown from "react-markdown"
 
-const Container = styled("div")`
-  min-height: 90%;
-`
+const Container = styled("div")``
 
 const CardDeck = styled("div")`
   gap: 1em;
