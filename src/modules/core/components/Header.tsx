@@ -6,6 +6,7 @@ import { mainContentStyle } from "../styles/mainContentStyle"
 import { CONTENT_WIDTH, CONTENT_WIDTH_PADDING, MOBILE_MENU_THRESHOLD } from "../constants"
 import { MobileNav } from "./MobileNav"
 import { NavLinks } from "./NavLinks"
+import Link from "next/link"
 
 const Outer = styled("header")`
   margin-top: 64px;
@@ -42,6 +43,7 @@ const Nav = styled("nav")`
 
 const LogoContainer = styled("div")`
   display: flex;
+  cursor: pointer;
 
   @media (max-width: ${CONTENT_WIDTH + CONTENT_WIDTH_PADDING}px) {
     justify-content: center;
@@ -64,9 +66,11 @@ export function Header() {
   return (
     <Outer>
       <Container>
-        <LogoContainer>
-          <SizedLogo />
-        </LogoContainer>
+        <Link href={"/"} passHref>
+          <LogoContainer>
+            <SizedLogo />
+          </LogoContainer>
+        </Link>
         <Bottom>
           <MobileNav />
           <Nav>
