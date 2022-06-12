@@ -8,8 +8,6 @@ import { useManager } from "src/modules/state/manager"
 import { GenericButton } from "src/modules/ui/components/GenericButton"
 import { spawnTextSlideModal } from "src/modules/playout/helpers/spawnTextSlideModal"
 import { Meta } from "src/modules/core/components/Meta"
-import { NextPageContext } from "next"
-// import { NextPageContext } from "next";
 
 const breakpoint = 830
 
