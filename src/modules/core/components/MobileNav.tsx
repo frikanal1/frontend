@@ -1,4 +1,3 @@
-import { css } from "@emotion/react"
 import { PrimaryPopover } from "src/modules/popover/components/PrimaryPopover"
 import { usePopover } from "src/modules/popover/hooks/usePopover"
 import { usePopoverContext } from "src/modules/popover/hooks/usePopoverContext"
@@ -18,7 +17,7 @@ const Container = styled("div")`
   }
 `
 
-const Menu = styled(Button as ButtonWithProps<{ active: boolean }>)`
+const Menu = styled(Button as ButtonWithProps<{ active: string }>)`
   padding: 8px;
 
   border: solid 2px ${({ theme }) => theme.palette.divider};
@@ -27,13 +26,7 @@ const Menu = styled(Button as ButtonWithProps<{ active: boolean }>)`
   color: ${({ theme }) => theme.palette.text.primary};
   transition: 200ms ease all;
 
-  ${(props) => {
-    if (props.active) {
-      return css`
-        border-color: ${props.theme.palette.primary.main};
-      `
-    }
-  }}
+  border-color: ${({ active, theme }) => (active === "true" ? theme.palette.primary.main : "default")};
 `
 
 const Hamburger = styled(SVGIcon)`
@@ -79,7 +72,7 @@ export function MobileNav() {
 
   return (
     <Container>
-      <Menu active={active} onClick={toggle} ref={ref}>
+      <Menu active={active.toString()} onClick={toggle} ref={ref}>
         <Hamburger name="menu" />
       </Menu>
     </Container>

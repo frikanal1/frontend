@@ -6,7 +6,7 @@ import { MOBILE_MENU_THRESHOLD } from "../constants"
 
 type Accent = "primary" | "secondary"
 
-const Anchor = styled("a")<{ active: boolean; accent: Accent }>`
+const Anchor = styled("a")<{ active: string; accent: Accent }>`
   font-weight: 900;
   font-size: 1.4em;
 
@@ -54,7 +54,7 @@ const Anchor = styled("a")<{ active: boolean; accent: Accent }>`
   }
 
   ${(props) => {
-    if (props.active) {
+    if (props.active === "true") {
       const accent = props.theme.palette[props.accent].main
 
       return css`
@@ -93,7 +93,7 @@ export function HeaderLink(props: HeaderLinkProps) {
 
   return (
     <Link href={to} passHref>
-      <Anchor accent={accent} active={active}>
+      <Anchor accent={accent} active={active.toString()}>
         {label}
       </Anchor>
     </Link>
