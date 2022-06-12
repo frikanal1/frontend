@@ -3,8 +3,8 @@ import { SwitchTransition, Transition } from "react-transition-group"
 import { TransitionStatus } from "react-transition-group/Transition"
 import { useField } from "../hooks/useField"
 import { css, keyframes } from "@emotion/react"
-import { styled } from "@mui/system"
 import { observer } from "mobx-react-lite"
+import styled from "../../styling/transientStyled"
 
 export type FieldErrorProps = {
   name: string
@@ -20,22 +20,20 @@ const Animation = keyframes`
   }
 `
 
-const Container = styled("div")<{ visible: boolean }>`
+const Container = styled("div")<{ $visible: boolean }>`
   margin-top: 8px;
   max-height: 0px;
 
-  ${(props) => {
-    if (props.visible)
-      return css`
-        max-height: 64px;
-        opacity: 1;
-      `
-
-    return css`
-      max-height: 0px;
-      opacity: 0;
-    `
-  }}
+  ${({ $visible }) =>
+    $visible
+      ? css`
+          max-height: 64px;
+          opacity: 1;
+        `
+      : css`
+          max-height: 0px;
+          opacity: 0;
+        `}
 
   transition: 200ms ease all;
 `
@@ -89,7 +87,7 @@ export const FieldError = observer((props: FieldErrorProps) => {
   }
 
   return (
-    <Container visible={hasError}>
+    <Container $visible={hasError}>
       <SwitchTransition>{renderError()}</SwitchTransition>
     </Container>
   )

@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import { css } from "@emotion/react"
 import { Theme } from "@mui/system"
 
-import { styled } from "@mui/system"
 import { FIELDSET_HEIGHT } from "../constants"
+import styled from "../../styling/transientStyled"
 
 export type TextInputProps = {
   name?: string
@@ -12,13 +12,13 @@ export type TextInputProps = {
   onFocus?: (event: React.FocusEvent) => void
   onBlur?: (event: React.FocusEvent) => void
   onChange?: (event: React.ChangeEvent<any>) => void
-  invalid?: boolean
+  $invalid?: boolean
   multiline?: boolean
   autoFocus?: boolean
   className?: string
 }
 
-const baseStyle = (props: { theme: Theme }) => css`
+const baseStyle = (props: any) => css`
   flex: 1;
 
   font-size: 0.9em;
@@ -38,29 +38,29 @@ const baseStyle = (props: { theme: Theme }) => css`
   }
 `
 
-export type StateProps = { invalid?: boolean; focused?: boolean }
+export type StateProps = { $invalid?: boolean; $focused?: boolean }
 
-const stateStyle = (props: StateProps) => {
-  if (props.invalid)
+const stateStyle = ({ $invalid, $focused, theme }: StateProps & { theme: Theme }) => {
+  if ($invalid)
     return css`
       & {
-        border-color: ${(props as any).theme.palette.success.bright};
+        border-color: ${theme.palette.success.light};
       }
     `
 
-  if (props.focused) {
+  if ($focused) {
     return css`
-      border-color: ${(props as any).theme.palette.primary.main};
+      border-color: ${theme.palette.primary.main};
     `
   }
 }
 
-const Container = styled("div")`
+const Container = styled("div")<StateProps>`
   display: flex;
   align-items: center;
 
   border-radius: 4px;
-  border: solid 1px ${(props) => props.theme.palette.divider};
+  border: solid 1px ${({ theme }) => theme.palette.divider};
 
   transition: 200ms ease border-color;
 
@@ -96,14 +96,14 @@ export function TextInput(props: TextInputProps) {
 
   if (multiline) {
     return (
-      <Container className={className} focused={focused}>
+      <Container className={className} $focused={focused}>
         <MultilineInput {...rest} {...focusProps} />
       </Container>
     )
   }
 
   return (
-    <Container className={className} focused={focused}>
+    <Container className={className} $focused={focused}>
       <Input {...rest} {...focusProps} />
     </Container>
   )

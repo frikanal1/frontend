@@ -16,7 +16,7 @@ export const ControlledTextInput = observer((props: ControlledTextInputProps) =>
 
   const inputProps = {
     value: field.value,
-    invalid: !!(field.error && field.touched),
+    $invalid: !!(field.error && field.touched),
   }
 
   return (
