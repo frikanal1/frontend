@@ -7,6 +7,8 @@ import Link from "next/link"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import ReactMarkdown from "react-markdown"
+import { Meta } from "../../../modules/core/components/Meta"
+import React from "react"
 
 const Container = styled("div")``
 
@@ -67,6 +69,7 @@ export const BulletinAdminPage = () => {
 
   return (
     <Container>
+      <Meta meta={{ title: "Administrer bulletins" }} />
       <Link href={"/admin"} passHref>
         <a>
           <h1>Administratorfunksjoner</h1>

@@ -2,7 +2,7 @@ import { ParsedUrlQuery } from "querystring"
 import useSWRImmutable from "swr"
 import { BulletinData, NewBulletinForm } from "../../../modules/bulletins/types"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import { MDEditorProps } from "@uiw/react-md-editor"
 import "@uiw/react-md-editor/markdown-editor.css"
@@ -16,6 +16,7 @@ const { publicRuntimeConfig } = getConfig()
 import LoadingButton from "@mui/lab/LoadingButton"
 import Link from "next/link"
 import { styled } from "@mui/system"
+import { Meta } from "../../../modules/core/components/Meta"
 
 const FieldSet = styled("div")`
   display: flex;
@@ -64,6 +65,7 @@ export const BulletinDetail = ({ bulletinId, fallback }: BulletinDetailProps) =>
 
   return (
     <div>
+      <Meta meta={{ title: "Rediger bulletin" }} />
       <Link href={"/admin"} passHref>
         <a>
           <h1>Administratorfunksjoner</h1>

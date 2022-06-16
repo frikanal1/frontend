@@ -2,13 +2,14 @@ import { MDEditorProps } from "@uiw/react-md-editor"
 import dynamic from "next/dynamic"
 import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
-import { useState } from "react"
+import React, { useState } from "react"
 import { Save } from "@mui/icons-material"
 import { Button, TextField } from "@mui/material"
 import { NewBulletinForm } from "../../../modules/bulletins/types"
 import { useManager } from "../../../modules/state/manager"
 import Link from "next/link"
 import { styled } from "@mui/system"
+import { Meta } from "../../../modules/core/components/Meta"
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -33,6 +34,7 @@ export const NewBulletin = () => {
 
   return (
     <div>
+      <Meta meta={{ title: "Ny bulletin" }} />
       <Link href={"/admin"} passHref>
         <a>
           <h1>Administratorfunksjoner</h1>

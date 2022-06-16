@@ -3,6 +3,7 @@ import NewspaperIcon from "@mui/icons-material/Newspaper"
 import Link from "next/link"
 import React, { ReactNode } from "react"
 import { VideoLibrary } from "@mui/icons-material"
+import { Meta } from "../../modules/core/components/Meta"
 
 const FunctionBox = styled("div")`
   border: 2px solid #333;
@@ -46,6 +47,7 @@ const LinkBox = ({ icon: Icon, children, href }: LinkBoxProps) => {
 export const AdminPage = () => {
   return (
     <div>
+      <Meta meta={{ title: "Administratorfunksjoner" }} />
       <h1>Administratorfunksjoner</h1>
       <FunctionBoxContainer>
         <LinkBox href={"/admin/bulletins"} icon={NewspaperIcon}>

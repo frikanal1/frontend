@@ -3,14 +3,29 @@ import Link from "next/link"
 import { styled } from "@mui/system"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import { VideoData } from "../../../modules/video/types"
+import { format } from "date-fns"
+import { nb } from "date-fns/locale"
+import { Meta } from "../../../modules/core/components/Meta"
+import React from "react"
 
 const Container = styled("div")``
 
-export const VideoAdminPage = () => {
+export const VideoAdminList = () => {
   const { data: videos } = useSWR<{ rows: VideoData[] }>("/videos?limit=50")
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 10, align: "right", headerAlign: "right" },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 10,
+      align: "right",
+      headerAlign: "right",
+      renderCell: ({ row }) => (
+        <Link href={`/admin/videos/${row.id}`} passHref>
+          <a>{row.id}</a>
+        </Link>
+      ),
+    },
     { field: "title", headerName: "Tittel", width: 400 },
     {
       field: "organizationName",
@@ -18,11 +33,17 @@ export const VideoAdminPage = () => {
       width: 400,
       valueGetter: ({ row }) => row.organization.name,
     },
+    {
+      field: "createdAt",
+      headerName: "Lastet opp",
+      width: 400,
+      valueGetter: ({ row }) => format(new Date(row.createdAt), "d. MMM Y", { locale: nb }),
+    },
   ]
 
-  console.log(videos?.rows)
   return (
     <Container>
+      <Meta meta={{ title: "Videoer" }} />
       <Link href={"/admin"} passHref>
         <a>
           <h1>Administratorfunksjoner</h1>
@@ -34,4 +55,4 @@ export const VideoAdminPage = () => {
   )
 }
 
-export default VideoAdminPage
+export default VideoAdminList

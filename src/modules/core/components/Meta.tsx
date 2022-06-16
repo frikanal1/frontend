@@ -15,7 +15,7 @@ const getSafeString = (str = "") => {
 
 export type MetaInformation = {
   title: string
-  description: string
+  description?: string
   author?: string
   image?: string
   url?: string
@@ -73,7 +73,7 @@ export function Meta(props: MetaProps) {
       <title>{title !== WEBSITE_NAME ? `${title} - ${WEBSITE_NAME}` : WEBSITE_NAME}</title>
       {ogTags}
       {twitterTags}
-      {renderDescription(getSafeString(description))}
+      {description && renderDescription(getSafeString(description))}
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     </Head>
   )
