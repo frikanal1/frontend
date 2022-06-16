@@ -1,5 +1,4 @@
 import { MDEditorProps } from "@uiw/react-md-editor"
-import { bold, italic } from "@uiw/react-md-editor/lib/commands"
 import dynamic from "next/dynamic"
 import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
@@ -8,9 +7,19 @@ import { Save } from "@mui/icons-material"
 import { Button, TextField } from "@mui/material"
 import { NewBulletinForm } from "../../../modules/bulletins/types"
 import { useManager } from "../../../modules/state/manager"
+import Link from "next/link"
+import { styled } from "@mui/system"
+
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
 })
+
+const FieldSet = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+`
 
 export const NewBulletin = () => {
   const [text, setText] = useState<string>()
@@ -24,21 +33,29 @@ export const NewBulletin = () => {
 
   return (
     <div>
-      <h1>Administratorfunksjoner</h1>
-      <h2>Bulletins</h2>
-      <h3>Ny bulletin</h3>
-      <TextField
-        fullWidth
-        id="outlined-basic"
-        label="Tittel"
-        variant="outlined"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <MDEditor value={text} onChange={setText} commands={[bold, italic]} />
-      <Button variant="contained" endIcon={<Save />} onClick={saveBulletin}>
-        Publiser
-      </Button>
+      <Link href={"/admin"} passHref>
+        <a>
+          <h1>Administratorfunksjoner</h1>
+        </a>
+      </Link>
+      <h2>Ny bulletin</h2>
+      <FieldSet>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          label="Tittel"
+          variant="outlined"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <div style={{ width: "100%" }}>
+          <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
+          <MDEditor value={text} onChange={setText} />
+        </div>
+        <Button variant="contained" endIcon={<Save />} onClick={saveBulletin}>
+          Publiser
+        </Button>
+      </FieldSet>
     </div>
   )
 }

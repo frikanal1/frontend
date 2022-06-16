@@ -14,6 +14,15 @@ import axios from "axios"
 import getConfig from "next/config"
 const { publicRuntimeConfig } = getConfig()
 import LoadingButton from "@mui/lab/LoadingButton"
+import Link from "next/link"
+import { styled } from "@mui/system"
+
+const FieldSet = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+`
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -55,25 +64,37 @@ export const BulletinDetail = ({ bulletinId, fallback }: BulletinDetailProps) =>
 
   return (
     <div>
-      <TextField
-        fullWidth
-        id="outlined-basic"
-        label="Tittel"
-        variant="outlined"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <Link href={"/admin"} passHref>
+        <a>
+          <h1>Administratorfunksjoner</h1>
+        </a>
+      </Link>
+      <h2>Rediger bulletin</h2>
+      <FieldSet>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          label="Tittel"
+          variant="outlined"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-      <MDEditor value={text} onChange={setText} />
-      <LoadingButton
-        loading={isSaving}
-        loadingPosition="end"
-        variant="contained"
-        endIcon={<Save />}
-        onClick={saveBulletin}
-      >
-        Publiser
-      </LoadingButton>
+        <div style={{ width: "100%" }}>
+          <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
+          <MDEditor value={text} onChange={setText} />
+        </div>
+
+        <LoadingButton
+          loading={isSaving}
+          loadingPosition="end"
+          variant="contained"
+          endIcon={<Save />}
+          onClick={saveBulletin}
+        >
+          Publiser
+        </LoadingButton>
+      </FieldSet>
     </div>
   )
 }

@@ -56,8 +56,6 @@ export const global = (theme: Theme) => css`
   ul,
   ol,
   blockquote {
-    margin: 0;
-    padding: 0;
     margin-top: 0px;
     list-style: none;
     line-height: initial;
