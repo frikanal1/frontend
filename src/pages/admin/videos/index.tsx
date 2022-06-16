@@ -7,6 +7,7 @@ import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import { Meta } from "../../../modules/core/components/Meta"
 import React from "react"
+import { Edit } from "@mui/icons-material"
 
 const Container = styled("div")``
 
@@ -15,16 +16,21 @@ export const VideoAdminList = () => {
 
   const columns: GridColDef[] = [
     {
+      field: "edit",
+      headerName: "",
+      width: 1,
+      renderCell: ({ row }) => (
+        <Link href={`/admin/videos/${row.id}`} passHref>
+          <a><Edit/></a>
+        </Link>
+      ),
+    },
+    {
       field: "id",
       headerName: "ID",
       width: 10,
       align: "right",
       headerAlign: "right",
-      renderCell: ({ row }) => (
-        <Link href={`/admin/videos/${row.id}`} passHref>
-          <a>{row.id}</a>
-        </Link>
-      ),
     },
     { field: "title", headerName: "Tittel", width: 400 },
     {
@@ -50,7 +56,7 @@ export const VideoAdminList = () => {
         </a>
       </Link>
       <h2>Videoer</h2>
-      <DataGrid autoHeight rows={videos?.rows ?? []} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
+      <DataGrid disableSelectionOnClick autoHeight rows={videos?.rows ?? []} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
     </Container>
   )
 }

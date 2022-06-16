@@ -4,32 +4,33 @@ import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
 import React, { useState } from "react"
 import { Save } from "@mui/icons-material"
-import { Button, TextField } from "@mui/material"
-import { NewBulletinForm } from "../../../modules/bulletins/types"
+import { Alert, Button, TextField } from "@mui/material"
+import { BulletinData } from "../../../modules/bulletins/types"
 import { useManager } from "../../../modules/state/manager"
 import Link from "next/link"
-import { styled } from "@mui/system"
 import { Meta } from "../../../modules/core/components/Meta"
+import { AdminFieldSet } from "../../../modules/form/components/AdminFieldSet"
+import { useRouter } from "next/router"
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
 })
 
-const FieldSet = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1rem;
-`
-
 export const NewBulletin = () => {
   const [text, setText] = useState<string>()
-  const [title, setTitle] = useState<string>()
+  const [title, setTitle] = useState<string>("")
   const { api } = useManager().stores.networkStore
+  const [error, setError] = useState<string>()
+  const router = useRouter()
 
   const saveBulletin = async () => {
-    // FIXME: No error handling
-    await api.post<NewBulletinForm>("/bulletins", { title, text })
+    try {
+      const { data } = await api.post<BulletinData>("/bulletins", { title, text: text ?? "" })
+      await router.push(`${data.id}`)
+    } catch (e: any) {
+      setError(e.toString() + ":\n" + e.response.data.message)
+      return
+    }
   }
 
   return (
@@ -41,7 +42,7 @@ export const NewBulletin = () => {
         </a>
       </Link>
       <h2>Ny bulletin</h2>
-      <FieldSet>
+      <AdminFieldSet>
         <TextField
           fullWidth
           id="outlined-basic"
@@ -54,10 +55,15 @@ export const NewBulletin = () => {
           <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
           <MDEditor value={text} onChange={setText} />
         </div>
+        {error && (
+          <Alert severity="error" sx={{ whiteSpace: "pre-wrap" }}>
+            {error}
+          </Alert>
+        )}
         <Button variant="contained" endIcon={<Save />} onClick={saveBulletin}>
           Publiser
         </Button>
-      </FieldSet>
+      </AdminFieldSet>
     </div>
   )
 }

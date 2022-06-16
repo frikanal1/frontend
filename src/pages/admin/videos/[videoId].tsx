@@ -28,7 +28,11 @@ export const VideoAdminDetail = () => {
           <h1>Administratorfunksjoner</h1>
         </a>
       </Link>
-      <h2>Video</h2>
+      <Link href={"/admin/videos"} passHref>
+        <a>
+          <h2>Videoer</h2>
+        </a>
+      </Link>
       <TextField
         fullWidth
         id="outlined-basic"

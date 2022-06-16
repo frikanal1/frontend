@@ -12,18 +12,12 @@ import { Save } from "@mui/icons-material"
 import { useManager } from "../../../modules/state/manager"
 import axios from "axios"
 import getConfig from "next/config"
-const { publicRuntimeConfig } = getConfig()
 import LoadingButton from "@mui/lab/LoadingButton"
 import Link from "next/link"
-import { styled } from "@mui/system"
 import { Meta } from "../../../modules/core/components/Meta"
+import { AdminFieldSet } from "../../../modules/form/components/AdminFieldSet"
 
-const FieldSet = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1rem;
-`
+const { publicRuntimeConfig } = getConfig()
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -72,7 +66,7 @@ export const BulletinDetail = ({ bulletinId, fallback }: BulletinDetailProps) =>
         </a>
       </Link>
       <h2>Rediger bulletin</h2>
-      <FieldSet>
+      <AdminFieldSet>
         <TextField
           fullWidth
           id="outlined-basic"
@@ -82,10 +76,8 @@ export const BulletinDetail = ({ bulletinId, fallback }: BulletinDetailProps) =>
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <div style={{ width: "100%" }}>
-          <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
-          <MDEditor value={text} onChange={setText} />
-        </div>
+        <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
+        <MDEditor value={text} onChange={setText} />
 
         <LoadingButton
           loading={isSaving}
@@ -94,9 +86,9 @@ export const BulletinDetail = ({ bulletinId, fallback }: BulletinDetailProps) =>
           endIcon={<Save />}
           onClick={saveBulletin}
         >
-          Publiser
+          Lagre
         </LoadingButton>
-      </FieldSet>
+      </AdminFieldSet>
     </div>
   )
 }
