@@ -2,14 +2,11 @@ import { styled } from "@mui/system"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
-import { useStores } from "src/modules/state/manager"
-import { Video } from "src/modules/video/resources/Video"
 import Link from "next/link"
 import React from "react"
-import { tryGet } from "../../core/tryGet"
-import useSWR from "swr"
-import { VideoData } from "../types"
-import { getAsset } from "../getAsset"
+import { GetVideoDocument } from "../../../generated/graphql"
+import { useQuery } from "@apollo/client"
+import { getAssetURI } from "../getAssetURI"
 
 const Container = styled("div")`
   display: flex;
@@ -56,18 +53,17 @@ const UploadedDate = styled("span")`
 `
 
 export type RecentVideoItemProps = {
-  videoId: number
+  videoId: string
 }
 
 export function RecentVideoItem({ videoId }: RecentVideoItemProps) {
-  const { configStore } = useStores()
-  const { data: video } = useSWR<VideoData>(`/videos/${videoId}`)
+  const query = useQuery(GetVideoDocument, { variables: { videoId } })
 
-  if (!video) return null
+  if (!query.data?.video) return null
 
-  const { id, createdAt, title } = video
+  const { id, createdAt, title, assets } = query.data.video
 
-  const thumbnail = getAsset(video, "thumbnail-medium")
+  const thumbnail = getAssetURI(assets, "thumbnail-medium")
 
   return (
     <Container>

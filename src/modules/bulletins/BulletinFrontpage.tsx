@@ -1,10 +1,9 @@
-import useSWR from "swr"
-import { BulletinData } from "./types"
 import { styled } from "@mui/system"
-
 import ReactMarkdown from "react-markdown"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
+import { Bulletin, GetBulletinsDocument } from "../../generated/graphql"
+import { useQuery } from "@apollo/client"
 
 const BulletinDiv = styled("div")`
   border-left: 1px solid black;
@@ -19,7 +18,11 @@ const BulletinDiv = styled("div")`
   }
 `
 
-const BulletinAbstract = ({ bulletin: { text, title, createdAt } }: { bulletin: BulletinData }) => (
+const BulletinAbstract = ({
+  bulletin: { text, title, createdAt },
+}: {
+  bulletin: Pick<Bulletin, "text" | "title" | "createdAt">
+}) => (
   <BulletinDiv>
     <h3>{title}</h3>
     <span>{format(new Date(createdAt), "d. MMM Y", { locale: nb })}</span>
@@ -30,13 +33,16 @@ const BulletinAbstract = ({ bulletin: { text, title, createdAt } }: { bulletin: 
 )
 
 export const BulletinFrontpage = () => {
-  const { data: bulletins } = useSWR<{ rows: BulletinData[] }>("/bulletins?limit=2")
+  const query = useQuery(GetBulletinsDocument, { variables: { perPage: 2 } })
+
+  const bulletins = query.data?.bulletins?.items
+
   if (!bulletins) return null
 
   return (
     <div>
       <h2>Nyheter</h2>
-      {bulletins.rows.map((bulletin) => (
+      {bulletins.map((bulletin) => (
         <BulletinAbstract key={bulletin.id} bulletin={bulletin} />
       ))}
     </div>

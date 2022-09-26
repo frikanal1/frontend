@@ -1,0 +1,12 @@
+{
+  "name": "Frikanalen",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Beta localhost": {
+        "url": "http://localhost:8080/graphql",
+        "introspect": true
+      }
+    }
+  }
+}

@@ -1,0 +1,123 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Bulletin {
+    createdAt: DateTime!
+    id: ID!
+    text: String!
+    title: String!
+    updatedAt: DateTime!
+}
+
+type BulletinPagination {
+    items: [Bulletin!]!
+    pageInfo: PaginationInfo!
+}
+
+type Mutation {
+    login(email: String!, password: String!): Session!
+    logout: Boolean
+}
+
+type Organization {
+    brregId: Int
+    createdAt: DateTime
+    description: String
+    editor: OrganizationEditor!
+    homepage: String
+    id: ID!
+    latestVideos: [Video!]
+    name: String!
+    postalAddress: String!
+    streetAddress: String!
+    updatedAt: DateTime
+}
+
+type OrganizationEditor {
+    email: String!
+    id: ID!
+    name: String!
+}
+
+type PaginationInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    page: Int!
+    perPage: Int!
+    totalItems: Int!
+    totalPages: Int!
+}
+
+type Query {
+    bulletins(page: Int! = 1, perPage: Int! = 20): BulletinPagination
+    organization(id: ID!): Organization!
+    schedule(filter: ScheduleFilter!, page: Int! = 1, perPage: Int! = 20): SchedulePagination
+    session: Session!
+    video(id: ID!): Video!
+    videos(filter: VideoFilter, page: Int! = 1, perPage: Int! = 20, sort: [VideoSort!]): VideoPagination
+}
+
+type ScheduleItem {
+    id: ID!
+    startsAt: DateTime
+    video: Video!
+}
+
+type SchedulePagination {
+    items: [ScheduleItem!]!
+    pageInfo: PaginationInfo!
+}
+
+type Session {
+    authenticated: Boolean!
+    profileData: UserProfileData
+}
+
+type UserProfileData {
+    email: String
+    id: ID!
+}
+
+type Video {
+    assets: [VideoAsset!]!
+    createdAt: DateTime!
+    description: String!
+    id: ID!
+    organization: Organization!
+    title: String!
+    updatedAt: DateTime!
+    viewCount: Int
+}
+
+type VideoAsset {
+    id: ID!
+    path: String!
+    type: String!
+}
+
+type VideoPagination {
+    items: [Video]!
+    pageInfo: PaginationInfo!
+}
+
+enum VideoSort {
+    DATE_ASC
+    DATE_DESC
+}
+
+"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar DateTime
+
+input ScheduleFilter {
+    from: DateTime
+    to: DateTime
+}
+
+input VideoFilter {
+    organizationId: ID
+    query: String
+}

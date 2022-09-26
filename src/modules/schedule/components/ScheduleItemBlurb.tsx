@@ -1,7 +1,6 @@
 import { styled } from "@mui/system"
-import { useStores } from "src/modules/state/manager"
 import Link from "next/link"
-import { ScheduleEntry } from "../types"
+import { FrontpageScheduleFragment } from "../../../generated/graphql"
 
 const Container = styled("div")``
 
@@ -23,29 +22,27 @@ const Description = styled("p")`
 `
 
 export type ScheduleItemBlurbProps = {
-  entry: ScheduleEntry
+  entry: FrontpageScheduleFragment
   className?: string
 }
 
 export function ScheduleItemBlurb(props: ScheduleItemBlurbProps) {
-  const { videoStore } = useStores()
   const { entry, className } = props
-
-  const video = videoStore.getResourceById(entry.video.id)
+  const { video } = entry
 
   return (
     <Container className={className}>
       <Title>
-        <Link href={`/video/${video.data.id}`} passHref>
-          <a>{video.data.title}</a>
+        <Link href={`/video/${video.id}`} passHref>
+          <a>{video.title}</a>
         </Link>
       </Title>
       <Organization>
-        <Link href={`/organization/${video.organization.data.id}`} passHref>
-          <a>{video.organization.data.name}</a>
+        <Link href={`/organization/${video.organization.id}`} passHref>
+          <a>{video.organization.name}</a>
         </Link>
       </Organization>
-      <Description>{video.data.description}</Description>
+      <Description>{video.description}</Description>
     </Container>
   )
 }

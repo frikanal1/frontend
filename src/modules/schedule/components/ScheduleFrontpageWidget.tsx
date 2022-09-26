@@ -1,8 +1,10 @@
-import { useStores } from "../../state/manager"
 import { ScheduleItemSummary } from "./ScheduleItemSummary"
-import React from "react"
+import React, { useState } from "react"
 import { styled } from "@mui/system"
 import { ScheduleItemBlurb } from "./ScheduleItemBlurb"
+import { FrontpageScheduleFragment, GetFrontpageDocument, Maybe } from "../../../generated/graphql"
+import { useQuery } from "@apollo/client"
+import { useInterval } from "usehooks-ts"
 
 const NowPlaying = styled(ScheduleItemBlurb)`
   margin-top: 16px;
@@ -16,20 +18,42 @@ const NextTitle = styled("h3")`
 const Schedule = styled("div")`
   margin-top: 16px;
 `
+
+/**
+ * Returns the index of the last element in the array where predicate is true, and -1
+ * otherwise.
+ * @param array The source array to search in
+ * @param predicate find calls predicate once for each element of the array, in descending
+ * order, until it finds one where predicate returns true. If such an element is found,
+ * findLastIndex immediately returns that element index. Otherwise, findLastIndex returns -1.
+ */
+export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: number, obj: T[]) => boolean): number {
+  let l = array.length
+  while (l--) {
+    if (predicate(array[l], l, array)) return l
+  }
+  return -1
+}
+
+const getPlayingNow = (now: Date, items?: Maybe<Array<Maybe<FrontpageScheduleFragment>>>) =>
+  findLastIndex(items || [], (i) => (i ? new Date(i.startsAt) <= now : true))
+
 export const ScheduleFrontpageWidget = () => {
-  const { scheduleStore } = useStores()
-  const [now, ...later] = scheduleStore.upcoming
+  const query = useQuery(GetFrontpageDocument)
+  const scheduleItems = query?.data?.schedule?.items
 
-  if (!now) return null
+  const [time, setTime] = useState<Date>(new Date())
+  useInterval(() => setTime(new Date()), 1000)
+  const currentlyPlaying = getPlayingNow(time, scheduleItems)
 
+  if (!scheduleItems) return null
   return (
     <>
-      <NowPlaying entry={now} />
+      <NowPlaying entry={scheduleItems[currentlyPlaying]} />
       <NextTitle>Senere</NextTitle>
       <Schedule>
-        {later.map((x) => (
-          <ScheduleItemSummary key={x.startsAt} entry={x} />
-        ))}
+        <ScheduleItemSummary entry={scheduleItems[currentlyPlaying + 1]} />
+        <ScheduleItemSummary entry={scheduleItems[currentlyPlaying + 2]} />
       </Schedule>
     </>
   )

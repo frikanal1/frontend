@@ -1,0 +1,39 @@
+query GetVideos {
+    videos {
+        items {
+            id
+            title
+            organization {
+                id
+                name
+            }
+            createdAt
+        }
+    }
+}
+
+query GetVideo ($videoId: ID!) {
+    video(id: $videoId) {
+        ...BasicVideoMetadata
+        ...VideoAssets
+    }
+}
+
+fragment VideoAssets on Video {
+    assets {
+        id
+        type
+        path
+    }
+}
+
+fragment BasicVideoMetadata on Video {
+    id
+    title
+    description
+    createdAt
+    organization {
+        id
+        name
+    }
+}

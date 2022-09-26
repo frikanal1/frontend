@@ -1,16 +1,19 @@
 import { styled } from "@mui/system"
 import { useRouter } from "next/router"
-import useSWR from "swr"
-import { VideoData } from "../../../modules/video/types"
 import { TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { Meta } from "../../../modules/core/components/Meta"
 import Link from "next/link"
+import { useQuery } from "@apollo/client"
+import { GetVideoDocument } from "../../../generated/graphql"
 
 const Container = styled("div")``
 export const VideoAdminDetail = () => {
   const { videoId } = useRouter().query
-  const { data: video } = useSWR<VideoData>(`/videos/${videoId}`)
+
+  const query = useQuery(GetVideoDocument, { variables: { videoId: videoId as string }, skip: !videoId })
+
+  const { video } = query.data || {}
 
   const [title, setTitle] = useState<string>("")
 
@@ -19,6 +22,8 @@ export const VideoAdminDetail = () => {
 
     setTitle(video.title)
   }, [video])
+
+  if (!video) return null
 
   return (
     <Container>

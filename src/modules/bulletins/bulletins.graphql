@@ -1,0 +1,10 @@
+query GetBulletins ($perPage: Int!) {
+    bulletins (perPage: $perPage){
+        items {
+            id
+            text
+            title
+            createdAt
+        }
+    }
+}

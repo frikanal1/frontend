@@ -38,6 +38,12 @@ const { publicRuntimeConfig } = getConfig()
 
 export type CustomAppProps = AppProps & { serialized: any }
 
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
+const client = new ApolloClient({
+  uri: publicRuntimeConfig.FK_GRAPHQL,
+  cache: new InMemoryCache(),
+})
+
 function CustomApp(props: CustomAppProps) {
   const { Component, pageProps, serialized } = props
 
@@ -46,28 +52,30 @@ function CustomApp(props: CustomAppProps) {
 
   return (
     <ManagerContext.Provider value={manager}>
-      <SWRConfig
-        value={{
-          fetcher: (resource, init) => fetch(publicRuntimeConfig.FK_API + resource, init).then((res) => res.json()),
-        }}
-      >
-        <ThemeContext>
-          <ScrollLock locked={locked}>
-            {(style) => (
-              <div style={style}>
-                <GlobalStyles styles={global} />
-                <Header />
-                <Body>
-                  <Component {...pageProps} />
-                </Body>
-                <Footer />
-                <ModalOverlay />
-                <PopoverOverlay />
-              </div>
-            )}
-          </ScrollLock>
-        </ThemeContext>
-      </SWRConfig>
+      <ApolloProvider client={client}>
+        <SWRConfig
+          value={{
+            fetcher: (resource, init) => fetch(publicRuntimeConfig.FK_API + resource, init).then((res) => res.json()),
+          }}
+        >
+          <ThemeContext>
+            <ScrollLock locked={locked}>
+              {(style) => (
+                <div style={style}>
+                  <GlobalStyles styles={global} />
+                  <Header />
+                  <Body>
+                    <Component {...pageProps} />
+                  </Body>
+                  <Footer />
+                  <ModalOverlay />
+                  <PopoverOverlay />
+                </div>
+              )}
+            </ScrollLock>
+          </ThemeContext>
+        </SWRConfig>
+      </ApolloProvider>
     </ManagerContext.Provider>
   )
 }
@@ -93,6 +101,7 @@ CustomApp.getInitialProps = async (appContext: AppContext): Promise<any> => {
 
     const { FK_API } = process.env
 
+    if (!process.env.FK_GRAPHQL) throw new Error("Missing FK_GRAPHQL!")
     if (!FK_API) throw new Error("Missing FK_API!")
 
     networkStore.setHTTPObjects(res, req)

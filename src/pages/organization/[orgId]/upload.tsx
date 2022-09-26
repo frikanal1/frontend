@@ -25,12 +25,13 @@ export const UploadPage: NextPage<UploadProps> = () => {
   const user = manager.stores.authStore.user!
 
   const router = useRouter()
-  const { organizationId } = router.query
-  const { data: organization } = useSWR<OrganizationData>(`/organizations/${organizationId}`)
+  const { orgId } = router.query
+
+  const { data: organization } = useSWR<OrganizationData>(`/organizations/${orgId}`)
 
   const { videoUploadStore } = useStores()
 
-  const upload = useObserver(() => videoUploadStore.uploads.find((u) => u.organization.toString() === organizationId))
+  const upload = useObserver(() => videoUploadStore.uploads.find((u) => u.organization.toString() === orgId))
 
   if (organization?.editor.id !== user.id)
     return <Container>Du må være redaktør for denne organisasjonen for å laste opp video.</Container>

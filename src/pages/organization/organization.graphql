@@ -1,0 +1,28 @@
+query GetLatestVideos ($orgId: ID!) {
+    organization (id: $orgId) {
+        id
+        ...LatestVideos
+    }
+}
+
+fragment LatestVideos on Organization {
+    latestVideos {
+        ...BasicVideoMetadata
+        ...VideoAssets
+    }
+}
+
+query GetOrganization ($orgId: ID!) {
+    organization(id: $orgId) {
+        id
+        name
+        description
+        homepage
+        postalAddress
+        streetAddress
+        editor {
+            name
+            email
+        }
+    }
+}

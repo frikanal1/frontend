@@ -1,18 +1,19 @@
-import useSWR from "swr"
 import Link from "next/link"
 import { styled } from "@mui/system"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
-import { VideoData } from "../../../modules/video/types"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import { Meta } from "../../../modules/core/components/Meta"
 import React from "react"
 import { Edit } from "@mui/icons-material"
+import { GetVideosDocument } from "../../../generated/graphql"
+import { useQuery } from "@apollo/client"
 
 const Container = styled("div")``
 
 export const VideoAdminList = () => {
-  const { data: videos } = useSWR<{ rows: VideoData[] }>("/videos?limit=50")
+  const query = useQuery(GetVideosDocument)
+  const videos = query.data?.videos?.items
 
   const columns: GridColDef[] = [
     {
@@ -21,7 +22,9 @@ export const VideoAdminList = () => {
       width: 1,
       renderCell: ({ row }) => (
         <Link href={`/admin/videos/${row.id}`} passHref>
-          <a><Edit/></a>
+          <a>
+            <Edit />
+          </a>
         </Link>
       ),
     },
@@ -56,7 +59,14 @@ export const VideoAdminList = () => {
         </a>
       </Link>
       <h2>Videoer</h2>
-      <DataGrid disableSelectionOnClick autoHeight rows={videos?.rows ?? []} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
+      <DataGrid
+        disableSelectionOnClick
+        autoHeight
+        rows={videos ?? []}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+      />
     </Container>
   )
 }

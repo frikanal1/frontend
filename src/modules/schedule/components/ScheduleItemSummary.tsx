@@ -1,8 +1,7 @@
 import { styled } from "@mui/system"
-import { useStores } from "src/modules/state/manager"
 import Link from "next/link"
 import { humanizeScheduleItemDate } from "../helpers/humanizeScheduleItemDate"
-import { ScheduleEntry } from "../types"
+import { FrontpageScheduleFragment } from "../../../generated/graphql"
 
 const Container = styled("div")`
   display: flex;
@@ -48,23 +47,18 @@ const Time = styled("span")`
 `
 
 export type ScheduleItemSummary = {
-  entry: ScheduleEntry
+  entry: FrontpageScheduleFragment
 }
 
-export function ScheduleItemSummary(props: ScheduleItemSummary) {
-  const { videoStore } = useStores()
-  const { entry } = props
-
-  const video = videoStore.getResourceById(entry.video.id)
-
+export function ScheduleItemSummary({ entry }: ScheduleItemSummary) {
   return (
     <Container>
       <PrimaryInfo>
-        <Link href={`/video/${video.data.id}`} passHref>
-          <Title>{video.data.title}</Title>
+        <Link href={`/video/${entry.video.id}`} passHref>
+          <Title>{entry.video.title}</Title>
         </Link>
-        <Link href={`/organization/${video.organization.data.id}`} passHref>
-          <Organization>{video.organization.data.name}</Organization>
+        <Link href={`/organization/${entry.video.organization.id}`} passHref>
+          <Organization>{entry.video.organization.name}</Organization>
         </Link>
       </PrimaryInfo>
       <Time>{humanizeScheduleItemDate(new Date(entry.startsAt))}</Time>

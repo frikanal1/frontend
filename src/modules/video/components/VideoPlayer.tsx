@@ -1,6 +1,8 @@
 import { styled } from "@mui/system"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import React from "react"
+import { VideoAssetsFragment } from "../../../generated/graphql"
+import { getAssetURI } from "../getAssetURI"
 
 const Container = styled("video")`
   width: 100%;
@@ -16,14 +18,14 @@ const Container = styled("video")`
 `
 
 export type VideoPlayerProps = {
-  src: string
-  thumbnail: string
+  video: VideoAssetsFragment
   width: number
   height: number
 }
 
-export function VideoPlayer(props: VideoPlayerProps) {
-  const { src, thumbnail, width, height } = props
+export function VideoPlayer({ width, height, video }: VideoPlayerProps) {
+  const thumbnail = getAssetURI(video.assets, "thumbnail-large")
+  const src = getAssetURI(video.assets, "webm")
 
   return (
     <AspectContainer width={width} height={height}>

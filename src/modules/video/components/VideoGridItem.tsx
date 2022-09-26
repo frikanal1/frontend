@@ -4,9 +4,9 @@ import { nb } from "date-fns/locale"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import Link from "next/link"
 import React from "react"
-import { getAsset } from "../getAsset"
-import useSWR from "swr"
-import { VideoData } from "../types"
+import { useQuery } from "@apollo/client"
+import { GetVideoDocument } from "../../../generated/graphql"
+import { getAssetURI } from "../getAssetURI"
 
 const Container = styled("li")``
 
@@ -44,17 +44,17 @@ const UploadedDate = styled("span")`
 `
 
 export type VideoGridItemProps = {
-  videoId: number
+  videoId: string
 }
 
 export function VideoGridItem({ videoId }: VideoGridItemProps) {
-  const { data: video } = useSWR<VideoData>(`/videos/${videoId}`)
+  const query = useQuery(GetVideoDocument, { variables: { videoId } })
 
-  if (!video) return null
+  if (!query.data?.video) return null
 
-  const { id, title, createdAt } = video
+  const { id, createdAt, title, assets } = query.data.video
 
-  const thumbnail = getAsset(video, "thumbnail-large")
+  const thumbnail = getAssetURI(assets, "thumbnail-large")
 
   return (
     <Container>

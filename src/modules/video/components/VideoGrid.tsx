@@ -1,7 +1,7 @@
 import { styled } from "@mui/system"
 import { EmptyState } from "src/modules/ui/components/EmptyState"
 import { VideoGridItem } from "./VideoGridItem"
-import { VideoData } from "../types"
+import { Video } from "../../../generated/graphql"
 
 const Grid = styled("ul")`
   display: grid;
@@ -10,7 +10,7 @@ const Grid = styled("ul")`
 `
 
 export type VideoGridProps = {
-  videos?: VideoData[]
+  videos?: Array<Pick<Video, "id">>
 }
 
 export function VideoGrid({ videos }: VideoGridProps) {

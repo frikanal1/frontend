@@ -1,2 +1,4 @@
-FK_API=http://localhost:8000
+FK_API=http://localhost:8080
 FK_UPLOAD=http://localhost:8002
+FK_GRAPHQL=http://localhost:8080/graphql
+FK_MEDIA=http://localhost:9000/ui
