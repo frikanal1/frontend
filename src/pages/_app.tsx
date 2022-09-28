@@ -1,6 +1,5 @@
 import { config } from "dotenv"
 
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react"
 import type { AppContext, AppProps } from "next/app"
 // import * as Sentry from "@sentry/react";
@@ -17,7 +16,6 @@ import { IS_SERVER } from "src/modules/core/constants"
 import { Footer } from "src/modules/core/components/Footer"
 import { enableStaticRendering, observer } from "mobx-react-lite"
 import { ThemeContext } from "src/modules/styling/components/ThemeContext"
-import { SWRConfig } from "swr"
 
 // Not a React hook.
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -42,6 +40,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 const client = new ApolloClient({
   uri: publicRuntimeConfig.FK_GRAPHQL,
   cache: new InMemoryCache(),
+  credentials: "include",
 })
 
 function CustomApp(props: CustomAppProps) {
@@ -53,28 +52,22 @@ function CustomApp(props: CustomAppProps) {
   return (
     <ManagerContext.Provider value={manager}>
       <ApolloProvider client={client}>
-        <SWRConfig
-          value={{
-            fetcher: (resource, init) => fetch(publicRuntimeConfig.FK_API + resource, init).then((res) => res.json()),
-          }}
-        >
-          <ThemeContext>
-            <ScrollLock locked={locked}>
-              {(style) => (
-                <div style={style}>
-                  <GlobalStyles styles={global} />
-                  <Header />
-                  <Body>
-                    <Component {...pageProps} />
-                  </Body>
-                  <Footer />
-                  <ModalOverlay />
-                  <PopoverOverlay />
-                </div>
-              )}
-            </ScrollLock>
-          </ThemeContext>
-        </SWRConfig>
+        <ThemeContext>
+          <ScrollLock locked={locked}>
+            {(style) => (
+              <div style={style}>
+                <GlobalStyles styles={global} />
+                <Header />
+                <Body>
+                  <Component {...pageProps} />
+                </Body>
+                <Footer />
+                <ModalOverlay />
+                <PopoverOverlay />
+              </div>
+            )}
+          </ScrollLock>
+        </ThemeContext>
       </ApolloProvider>
     </ManagerContext.Provider>
   )

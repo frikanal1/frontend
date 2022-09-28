@@ -1,7 +1,5 @@
 import { styled } from "@mui/system"
 import { Card, CardContent, CardHeader } from "@mui/material"
-import useSWR from "swr"
-import { BulletinData } from "../../../modules/bulletins/types"
 import { AddBox } from "@mui/icons-material"
 import Link from "next/link"
 import { format } from "date-fns"
@@ -9,6 +7,8 @@ import { nb } from "date-fns/locale"
 import ReactMarkdown from "react-markdown"
 import { Meta } from "../../../modules/core/components/Meta"
 import React from "react"
+import { useQuery } from "@apollo/client"
+import { Bulletin, GetBulletinsDocument } from "../../../generated/graphql"
 
 const Container = styled("div")``
 
@@ -30,7 +30,7 @@ const StyledBulletinCard = styled(Card)`
   }
 `
 
-const BulletinCard = ({ bulletin }: { bulletin: BulletinData }) => {
+const BulletinCard = ({ bulletin }: { bulletin: Bulletin }) => {
   const { id, title, text, createdAt } = bulletin
 
   return (
@@ -65,7 +65,8 @@ const NewBulletinCard = () => (
 )
 
 export const BulletinAdminPage = () => {
-  const { data: bulletins } = useSWR<{ rows: BulletinData[] }>("/bulletins?limit=50")
+  const query = useQuery(GetBulletinsDocument, { variables: { perPage: 50 } })
+  const bulletins = query.data?.bulletins.items
 
   return (
     <Container>
@@ -78,7 +79,9 @@ export const BulletinAdminPage = () => {
       <h2>Bulletins</h2>
       <CardDeck>
         <NewBulletinCard />
-        {bulletins && bulletins.rows.map((bulletin) => <BulletinCard key={bulletin.id} bulletin={bulletin} />)}
+        {bulletins?.map((bulletin) => (
+          <BulletinCard key={bulletin.id} bulletin={bulletin} />
+        ))}
       </CardDeck>
     </Container>
   )

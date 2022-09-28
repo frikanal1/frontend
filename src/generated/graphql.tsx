@@ -23,6 +23,11 @@ export type Bulletin = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type BulletinInput = {
+  text?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type BulletinPagination = {
   __typename?: 'BulletinPagination';
   items: Array<Bulletin>;
@@ -33,12 +38,19 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: Session;
   logout?: Maybe<Scalars['Boolean']>;
+  updateBulletin?: Maybe<Bulletin>;
 };
 
 
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationUpdateBulletinArgs = {
+  bulletin: BulletinInput;
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type Organization = {
@@ -75,12 +87,18 @@ export type PaginationInfo = {
 
 export type Query = {
   __typename?: 'Query';
-  bulletins?: Maybe<BulletinPagination>;
+  bulletin: Bulletin;
+  bulletins: BulletinPagination;
   organization: Organization;
-  schedule?: Maybe<SchedulePagination>;
+  schedule: SchedulePagination;
   session: Session;
   video: Video;
-  videos?: Maybe<VideoPagination>;
+  videos: VideoPagination;
+};
+
+
+export type QueryBulletinArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -121,8 +139,9 @@ export type ScheduleFilter = {
 
 export type ScheduleItem = {
   __typename?: 'ScheduleItem';
+  endsAt: Scalars['DateTime'];
   id: Scalars['ID'];
-  startsAt?: Maybe<Scalars['DateTime']>;
+  startsAt: Scalars['DateTime'];
   video: Video;
 };
 
@@ -184,14 +203,31 @@ export type GetBulletinsQueryVariables = Exact<{
 }>;
 
 
-export type GetBulletinsQuery = { __typename?: 'Query', bulletins?: { __typename?: 'BulletinPagination', items: Array<{ __typename?: 'Bulletin', id: string, text: string, title: string, createdAt: any }> } | null };
+export type GetBulletinsQuery = { __typename?: 'Query', bulletins: { __typename?: 'BulletinPagination', items: Array<{ __typename?: 'Bulletin', id: string, text: string, title: string, createdAt: any, updatedAt: any }> } };
 
-export type FrontpageScheduleFragment = { __typename?: 'ScheduleItem', startsAt?: any | null, video: { __typename?: 'Video', id: string, title: string, description: string, organization: { __typename?: 'Organization', id: string, name: string } } };
+export type GetBulletinQueryVariables = Exact<{
+  bulletinId: Scalars['ID'];
+}>;
+
+
+export type GetBulletinQuery = { __typename?: 'Query', bulletin: { __typename?: 'Bulletin', id: string, text: string, title: string, createdAt: any, updatedAt: any } };
+
+export type UpdateBulletinMutationVariables = Exact<{
+  bulletin: BulletinInput;
+  bulletinId?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type UpdateBulletinMutation = { __typename?: 'Mutation', updateBulletin?: { __typename?: 'Bulletin', id: string, text: string, title: string, createdAt: any, updatedAt: any } | null };
+
+export type BulletinFieldsFragment = { __typename?: 'Bulletin', id: string, text: string, title: string, createdAt: any, updatedAt: any };
+
+export type FrontpageScheduleFragment = { __typename?: 'ScheduleItem', startsAt: any, video: { __typename?: 'Video', id: string, title: string, description: string, organization: { __typename?: 'Organization', id: string, name: string } } };
 
 export type GetFrontpageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFrontpageQuery = { __typename?: 'Query', schedule?: { __typename?: 'SchedulePagination', items: Array<{ __typename?: 'ScheduleItem', startsAt?: any | null, video: { __typename?: 'Video', id: string, title: string, description: string, organization: { __typename?: 'Organization', id: string, name: string } } }> } | null };
+export type GetFrontpageQuery = { __typename?: 'Query', schedule: { __typename?: 'SchedulePagination', items: Array<{ __typename?: 'ScheduleItem', startsAt: any, video: { __typename?: 'Video', id: string, title: string, description: string, organization: { __typename?: 'Organization', id: string, name: string } } }> } };
 
 export type GetLatestVideosQueryVariables = Exact<{
   orgId: Scalars['ID'];
@@ -207,12 +243,12 @@ export type GetOrganizationQueryVariables = Exact<{
 }>;
 
 
-export type GetOrganizationQuery = { __typename?: 'Query', organization: { __typename?: 'Organization', id: string, name: string, description?: string | null, homepage?: string | null, postalAddress: string, streetAddress: string, editor: { __typename?: 'OrganizationEditor', name: string, email: string } } };
+export type GetOrganizationQuery = { __typename?: 'Query', organization: { __typename?: 'Organization', id: string, name: string, description?: string | null, homepage?: string | null, postalAddress: string, streetAddress: string, editor: { __typename?: 'OrganizationEditor', id: string, name: string, email: string } } };
 
 export type GetVideosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetVideosQuery = { __typename?: 'Query', videos?: { __typename?: 'VideoPagination', items: Array<{ __typename?: 'Video', id: string, title: string, createdAt: any, organization: { __typename?: 'Organization', id: string, name: string } } | null> } | null };
+export type GetVideosQuery = { __typename?: 'Query', videos: { __typename?: 'VideoPagination', items: Array<{ __typename?: 'Video', id: string, title: string, createdAt: any, organization: { __typename?: 'Organization', id: string, name: string } } | null> } };
 
 export type GetVideoQueryVariables = Exact<{
   videoId: Scalars['ID'];
@@ -225,13 +261,16 @@ export type VideoAssetsFragment = { __typename?: 'Video', assets: Array<{ __type
 
 export type BasicVideoMetadataFragment = { __typename?: 'Video', id: string, title: string, description: string, createdAt: any, organization: { __typename?: 'Organization', id: string, name: string } };
 
+export const BulletinFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BulletinFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Bulletin"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<BulletinFieldsFragment, unknown>;
 export const FrontpageScheduleFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FrontpageSchedule"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ScheduleItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startsAt"}},{"kind":"Field","name":{"kind":"Name","value":"video"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<FrontpageScheduleFragment, unknown>;
 export const BasicVideoMetadataFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"BasicVideoMetadata"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Video"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<BasicVideoMetadataFragment, unknown>;
 export const VideoAssetsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"VideoAssets"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Video"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"path"}}]}}]}}]} as unknown as DocumentNode<VideoAssetsFragment, unknown>;
 export const LatestVideosFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LatestVideos"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Organization"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latestVideos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BasicVideoMetadata"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"VideoAssets"}}]}}]}},...BasicVideoMetadataFragmentDoc.definitions,...VideoAssetsFragmentDoc.definitions]} as unknown as DocumentNode<LatestVideosFragment, unknown>;
-export const GetBulletinsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBulletins"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"perPage"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bulletins"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"perPage"},"value":{"kind":"Variable","name":{"kind":"Name","value":"perPage"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetBulletinsQuery, GetBulletinsQueryVariables>;
+export const GetBulletinsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBulletins"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"perPage"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bulletins"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"perPage"},"value":{"kind":"Variable","name":{"kind":"Name","value":"perPage"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BulletinFields"}}]}}]}}]}},...BulletinFieldsFragmentDoc.definitions]} as unknown as DocumentNode<GetBulletinsQuery, GetBulletinsQueryVariables>;
+export const GetBulletinDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBulletin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bulletinId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bulletin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bulletinId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BulletinFields"}}]}}]}},...BulletinFieldsFragmentDoc.definitions]} as unknown as DocumentNode<GetBulletinQuery, GetBulletinQueryVariables>;
+export const UpdateBulletinDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateBulletin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bulletin"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"BulletinInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"bulletinId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateBulletin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"bulletin"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bulletin"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"bulletinId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BulletinFields"}}]}}]}},...BulletinFieldsFragmentDoc.definitions]} as unknown as DocumentNode<UpdateBulletinMutation, UpdateBulletinMutationVariables>;
 export const GetFrontpageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetFrontpage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"schedule"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FrontpageSchedule"}}]}}]}}]}},...FrontpageScheduleFragmentDoc.definitions]} as unknown as DocumentNode<GetFrontpageQuery, GetFrontpageQueryVariables>;
 export const GetLatestVideosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLatestVideos"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"LatestVideos"}}]}}]}},...LatestVideosFragmentDoc.definitions]} as unknown as DocumentNode<GetLatestVideosQuery, GetLatestVideosQueryVariables>;
-export const GetOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"homepage"}},{"kind":"Field","name":{"kind":"Name","value":"postalAddress"}},{"kind":"Field","name":{"kind":"Name","value":"streetAddress"}},{"kind":"Field","name":{"kind":"Name","value":"editor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrganizationQuery, GetOrganizationQueryVariables>;
+export const GetOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"orgId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"homepage"}},{"kind":"Field","name":{"kind":"Name","value":"postalAddress"}},{"kind":"Field","name":{"kind":"Name","value":"streetAddress"}},{"kind":"Field","name":{"kind":"Name","value":"editor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetOrganizationQuery, GetOrganizationQueryVariables>;
 export const GetVideosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetVideos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"videos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetVideosQuery, GetVideosQueryVariables>;
 export const GetVideoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetVideo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"video"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BasicVideoMetadata"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"VideoAssets"}}]}}]}},...BasicVideoMetadataFragmentDoc.definitions,...VideoAssetsFragmentDoc.definitions]} as unknown as DocumentNode<GetVideoQuery, GetVideoQueryVariables>;

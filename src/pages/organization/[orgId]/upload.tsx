@@ -1,13 +1,13 @@
 import React from "react"
 import { styled } from "@mui/system"
-import { OrganizationData } from "src/modules/organization/resources/Organization"
 import { useManager, useStores } from "src/modules/state/manager"
 import { FileInput } from "src/modules/input/components/FileInput"
 import { useObserver } from "src/modules/state/hooks/useObserver"
 import { VideoUploadView } from "src/modules/video/components/VideoUploadView"
-import useSWR from "swr"
 import { NextPage } from "next"
 import { useRouter } from "next/router"
+import { useQuery } from "@apollo/client"
+import { GetOrganizationDocument } from "../../../generated/graphql"
 
 const Container = styled("div")``
 
@@ -27,19 +27,20 @@ export const UploadPage: NextPage<UploadProps> = () => {
   const router = useRouter()
   const { orgId } = router.query
 
-  const { data: organization } = useSWR<OrganizationData>(`/organizations/${orgId}`)
+  const orgQuery = useQuery(GetOrganizationDocument, { variables: { orgId: orgId as string }, skip: !orgId })
+  const organization = orgQuery.data?.organization
 
   const { videoUploadStore } = useStores()
 
   const upload = useObserver(() => videoUploadStore.uploads.find((u) => u.organization.toString() === orgId))
 
-  if (organization?.editor.id !== user.id)
+  if (organization?.editor.id !== user.id.toString())
     return <Container>Du må være redaktør for denne organisasjonen for å laste opp video.</Container>
 
   if (!organization) return null
 
   const handleFile = (files: File[]) => {
-    videoUploadStore.add(organization.id, files[0])
+    videoUploadStore.add(parseInt(organization.id), files[0])
   }
 
   const renderContent = () =>

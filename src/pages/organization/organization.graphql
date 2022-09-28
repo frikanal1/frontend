@@ -21,6 +21,7 @@ query GetOrganization ($orgId: ID!) {
         postalAddress
         streetAddress
         editor {
+            id
             name
             email
         }

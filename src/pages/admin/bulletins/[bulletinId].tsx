@@ -1,23 +1,17 @@
 import { ParsedUrlQuery } from "querystring"
-import useSWRImmutable from "swr"
-import { BulletinData, NewBulletinForm } from "../../../modules/bulletins/types"
-import { GetStaticPaths, GetStaticProps } from "next"
-import React, { useEffect, useState } from "react"
+import { GetServerSideProps } from "next"
+import React, { useState } from "react"
 import dynamic from "next/dynamic"
 import { MDEditorProps } from "@uiw/react-md-editor"
 import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
 import { TextField } from "@mui/material"
-import { Save } from "@mui/icons-material"
-import { useManager } from "../../../modules/state/manager"
-import axios from "axios"
-import getConfig from "next/config"
-import LoadingButton from "@mui/lab/LoadingButton"
 import Link from "next/link"
 import { Meta } from "../../../modules/core/components/Meta"
 import { AdminFieldSet } from "../../../modules/form/components/AdminFieldSet"
-
-const { publicRuntimeConfig } = getConfig()
+import { useMutation, useQuery } from "@apollo/client"
+import { GetBulletinDocument, UpdateBulletinDocument } from "../../../generated/graphql"
+import { SaveButton } from "../../../modules/form/components/SaveButton"
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -29,32 +23,32 @@ interface BulletinDetailParams extends ParsedUrlQuery {
 
 interface BulletinDetailProps {
   bulletinId: string
-  fallback: { [k: string]: any }
 }
 
-export const BulletinDetail = ({ bulletinId, fallback }: BulletinDetailProps) => {
-  const { data: bulletin } = useSWRImmutable<BulletinData>(`/bulletins/${bulletinId}`, { fallback })
-
+export const BulletinDetail = ({ bulletinId }: BulletinDetailProps) => {
   const [text, setText] = useState<string>()
   const [title, setTitle] = useState<string>()
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
-  const { api } = useManager().stores.networkStore
+  const { data } = useQuery(GetBulletinDocument, {
+    variables: { bulletinId },
+    onCompleted: (data) => {
+      setTitle(data.bulletin.title)
+      setText(data.bulletin.text)
+    },
+  })
+  const [mutate] = useMutation(UpdateBulletinDocument)
 
-  useEffect(() => {
-    if (bulletin) {
-      setText(bulletin.text)
-      setTitle(bulletin.title)
-    }
-  }, [bulletin])
+  const bulletin = data?.bulletin
 
   if (!bulletin) return null
+
   const saveBulletin = async () => {
     setIsSaving(true)
-    const { status } = await api.put<NewBulletinForm>(`/bulletins/${bulletinId}`, { title, text })
-    if (status === 200) {
-      setIsSaving(false)
-    }
+
+    await mutate({ variables: { bulletin: { text, title }, bulletinId } })
+
+    setIsSaving(false)
   }
 
   return (
@@ -78,35 +72,16 @@ export const BulletinDetail = ({ bulletinId, fallback }: BulletinDetailProps) =>
 
         <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
         <MDEditor value={text} onChange={setText} />
-
-        <LoadingButton
-          loading={isSaving}
-          loadingPosition="end"
-          variant="contained"
-          endIcon={<Save />}
-          onClick={saveBulletin}
-        >
-          Lagre
-        </LoadingButton>
+        <SaveButton isSaving={isSaving} onSave={saveBulletin} />
       </AdminFieldSet>
     </div>
   )
 }
 
-export const getStaticProps: GetStaticProps<BulletinDetailProps> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<BulletinDetailProps> = async (ctx) => {
   const { bulletinId } = ctx.params as BulletinDetailParams
-  const bulletinURL = `/bulletins/${bulletinId}`
 
-  const { data: bulletin } = await axios.get<BulletinData>(publicRuntimeConfig.FK_API + bulletinURL)
-
-  return { props: { bulletinId, fallback: { bulletinURL: bulletin } } }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  }
+  return { props: { bulletinId } }
 }
 
 export default BulletinDetail

@@ -21,6 +21,7 @@ type BulletinPagination {
 type Mutation {
     login(email: String!, password: String!): Session!
     logout: Boolean
+    updateBulletin(bulletin: BulletinInput!, id: ID): Bulletin
 }
 
 type Organization {
@@ -53,6 +54,7 @@ type PaginationInfo {
 }
 
 type Query {
+    bulletin(id: ID!): Bulletin!
     bulletins(page: Int! = 1, perPage: Int! = 20): BulletinPagination
     organization(id: ID!): Organization!
     schedule(filter: ScheduleFilter!, page: Int! = 1, perPage: Int! = 20): SchedulePagination
@@ -62,8 +64,9 @@ type Query {
 }
 
 type ScheduleItem {
+    endsAt: DateTime!
     id: ID!
-    startsAt: DateTime
+    startsAt: DateTime!
     video: Video!
 }
 
@@ -111,6 +114,11 @@ enum VideoSort {
 
 "A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
 scalar DateTime
+
+input BulletinInput {
+    text: String
+    title: String
+}
 
 input ScheduleFilter {
     from: DateTime

@@ -1,10 +1,27 @@
 query GetBulletins ($perPage: Int!) {
     bulletins (perPage: $perPage){
         items {
-            id
-            text
-            title
-            createdAt
+            ...BulletinFields
         }
     }
+}
+
+query GetBulletin($bulletinId: ID!) {
+    bulletin (id: $bulletinId) {
+        ...BulletinFields
+    }
+}
+
+mutation UpdateBulletin ($bulletin: BulletinInput!, $bulletinId: ID) {
+    updateBulletin(bulletin: $bulletin, id: $bulletinId) {
+        ...BulletinFields
+    }
+}
+
+fragment BulletinFields on Bulletin {
+    id
+    text
+    title
+    createdAt
+    updatedAt
 }
