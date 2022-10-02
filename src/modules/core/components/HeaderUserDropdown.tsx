@@ -1,6 +1,5 @@
 import { css } from "@emotion/react"
 import { styled } from "@mui/system"
-
 import { SVGIcon, SVGIconWithProps } from "src/modules/ui/components/SVGIcon"
 import { useRef, useState } from "react"
 import { HeaderUserPopover } from "./HeaderUserPopover"
@@ -8,8 +7,10 @@ import { Maybe, UserSessionFragment } from "../../../generated/graphql"
 import { GENERAL_BREAKPOINT } from "../constants"
 
 const Container = styled("div")`
-  display: flex;
-  align-items: center;
+  > span {
+    display: flex;
+    align-items: center;
+  }
   color: ${({ theme }) => theme.palette.text.secondary};
 
   cursor: pointer;
@@ -68,10 +69,12 @@ export const HeaderUserDropdown = ({ session }: HeaderUserDropdownProps) => {
   const { email, firstName } = user
 
   return (
-    <Container onClick={() => setMenuOpen(true)} ref={ref}>
-      <Name>Hei, {firstName || email}!</Name>
-      <Icon flipped={menuOpen} name="chevronDown" />
-      <HeaderUserPopover anchorEl={ref.current} open={menuOpen} onClose={() => setMenuOpen(false)} />
+    <Container ref={ref}>
+      <span onClick={() => setMenuOpen(true)}>
+        <Name>Hei, {firstName || email}!</Name>
+        <Icon flipped={menuOpen} name="chevronDown" />
+      </span>
+      <HeaderUserPopover anchorEl={ref} open={menuOpen} onClose={() => setMenuOpen(false)} />
     </Container>
   )
 }

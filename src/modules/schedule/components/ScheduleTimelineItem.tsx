@@ -1,9 +1,8 @@
 import { styled } from "@mui/system"
 import { format } from "date-fns"
-import { useStores } from "src/modules/state/manager"
 import Link from "next/link"
 import React from "react"
-import { ScheduleEntry } from "../types"
+import { ProgramFragment } from "../../../generated/graphql"
 
 const Container = styled("div")`
   display: flex;
@@ -44,27 +43,24 @@ const Organization = styled("div")`
 `
 
 export type ScheduleTimelineItemProps = {
-  entry: ScheduleEntry
+  entry: ProgramFragment
 }
 
-export function ScheduleTimelineItem(props: ScheduleTimelineItemProps) {
-  const { videoStore } = useStores()
-  const { entry } = props
-
-  const video = videoStore.getResourceById(entry.video.id)
+export function ScheduleTimelineItem({ entry }: ScheduleTimelineItemProps) {
+  const { video } = entry
 
   return (
     <Container>
       <Time>{format(new Date(entry.startsAt), "HH:mm")}</Time>
       <PrimaryInfo>
         <Title>
-          <Link href={`/video/${video.data.id}`} passHref>
-            <a>{video.data.title}</a>
+          <Link href={`/video/${video.id}`} passHref>
+            <a>{video.title}</a>
           </Link>
         </Title>
         <Organization>
-          <Link href={`/organization/${video.organization.data.id}`} passHref>
-            <a>{video.organization.data.name}</a>
+          <Link href={`/organization/${video.organization.id}`} passHref>
+            <a>{video.organization.name}</a>
           </Link>
         </Organization>
       </PrimaryInfo>

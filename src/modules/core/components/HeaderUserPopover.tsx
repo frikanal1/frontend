@@ -1,5 +1,4 @@
 import { styled } from "@mui/system"
-import { PrimaryPopover } from "src/modules/popover/components/PrimaryPopover"
 import { SVGIcon } from "src/modules/ui/components/SVGIcon"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -7,8 +6,9 @@ import { Popover } from "@mui/material"
 import { useOnClickOutside } from "usehooks-ts"
 import { useMutation } from "@apollo/client"
 import { LogoutDocument } from "../../../generated/graphql"
+import { RefObject } from "react"
 
-const Container = styled(PrimaryPopover)`
+const Container = styled("div")`
   margin: 16px 0px;
   padding: 8px 0px;
 `
@@ -39,30 +39,29 @@ const Icon = styled(SVGIcon)`
   height: 24px;
 `
 
-export function HeaderUserPopover({ open, onClose, anchorEl }: { open: boolean; onClose: () => void; anchorEl: any }) {
+export function HeaderUserPopover({
+  open,
+  onClose,
+  anchorEl,
+}: {
+  open: boolean
+  onClose: () => void
+  anchorEl: RefObject<HTMLDivElement>
+}) {
   const router = useRouter()
   const [mutate] = useMutation(LogoutDocument, { refetchQueries: ["GetSession"] })
-  useOnClickOutside(anchorEl, () => onClose())
+  useOnClickOutside(anchorEl, onClose)
 
-  const handleLogout = async (e: any) => {
+  const handleLogout = async () => {
     await mutate()
-    closeMenu(e)
-  }
-
-  const closeMenu = (e: any) => {
-    e.stopPropagation()
     onClose()
-  }
-
-  const handleGoToPlayout = () => {
-    router.push("/playout")
   }
 
   const renderPlayoutOption = () => {
     //if (!authStore.user?.permissions.includes("ATEM_CONTROL")) return null
 
     return (
-      <Option onClick={handleGoToPlayout}>
+      <Option onClick={() => router.push("/playout")}>
         <Icon name="film" />
         <Label>Playout</Label>
       </Option>
@@ -72,13 +71,13 @@ export function HeaderUserPopover({ open, onClose, anchorEl }: { open: boolean; 
   return (
     <Popover
       open={open}
-      anchorEl={anchorEl}
+      anchorEl={anchorEl.current}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       transformOrigin={{ vertical: "top", horizontal: "right" }}
     >
       <Container>
         <Link href="/profile" passHref>
-          <Option onClick={closeMenu}>
+          <Option onClick={onClose}>
             <Icon name="user" />
             <Label>Profil</Label>
           </Option>
