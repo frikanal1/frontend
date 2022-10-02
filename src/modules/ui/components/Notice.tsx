@@ -1,4 +1,3 @@
-import { Theme } from "@emotion/react"
 import { styled } from "@mui/system"
 import { IconType } from "../types"
 import { SVGIcon } from "./SVGIcon"

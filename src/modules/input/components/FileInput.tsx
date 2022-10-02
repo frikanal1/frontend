@@ -1,5 +1,5 @@
-import { GenericButton } from "src/modules/ui/components/GenericButton"
-import { useRef } from "react"
+import React, { useRef } from "react"
+import { Button } from "@mui/material"
 
 export type FileInputProps = {
   label: string
@@ -31,7 +31,7 @@ export function FileInput(props: FileInputProps) {
 
   return (
     <>
-      <GenericButton variant="primary" label={label} onClick={handleClick} />
+      <Button onClick={handleClick}>{label}</Button>
       <input
         type="file"
         accept={accept}

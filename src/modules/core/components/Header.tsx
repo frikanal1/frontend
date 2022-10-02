@@ -3,13 +3,16 @@ import { styled } from "@mui/system"
 import { Logo } from "./Logo"
 import { HeaderAuthBar } from "./HeaderAuthBar"
 import { mainContentStyle } from "../styles/mainContentStyle"
-import { CONTENT_WIDTH, CONTENT_WIDTH_PADDING, MOBILE_MENU_THRESHOLD } from "../constants"
-import { MobileNav } from "./MobileNav"
+import { GENERAL_BREAKPOINT } from "../constants"
 import { NavLinks } from "./NavLinks"
 import Link from "next/link"
 
 const Outer = styled("header")`
-  margin-top: 64px;
+  margin: 3em 0;
+  @media (max-width: ${GENERAL_BREAKPOINT}) {
+    margin: 1em 0;
+  }
+  width: 100%;
 
   top: 0px;
   left: 0px;
@@ -25,19 +28,18 @@ const Container = styled("div")`
   ${mainContentStyle}
 `
 
-const Bottom = styled("div")`
-  margin-top: 32px;
-
+const HeaderNavRow = styled("div")`
   display: flex;
   align-items: center;
+  margin-top: 3em;
+  margin-bottom: 1em;
 `
 
 const Nav = styled("nav")`
   display: flex;
   align-items: center;
 
-  @media (max-width: ${MOBILE_MENU_THRESHOLD}px) {
-    display: none;
+  @media (max-width: ${GENERAL_BREAKPOINT}) {
   }
 `
 
@@ -45,7 +47,7 @@ const LogoContainer = styled("div")`
   display: flex;
   cursor: pointer;
 
-  @media (max-width: ${CONTENT_WIDTH + CONTENT_WIDTH_PADDING}px) {
+  @media (max-width: ${GENERAL_BREAKPOINT}) {
     justify-content: center;
   }
 `
@@ -71,13 +73,12 @@ export function Header() {
             <SizedLogo />
           </LogoContainer>
         </Link>
-        <Bottom>
-          <MobileNav />
+        <HeaderNavRow>
           <Nav>
             <NavLinks />
           </Nav>
           <HeaderAuthBar />
-        </Bottom>
+        </HeaderNavRow>
       </Container>
     </Outer>
   )

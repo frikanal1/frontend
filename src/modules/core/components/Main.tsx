@@ -7,20 +7,12 @@ export const Container = styled("main")`
   justify-content: center;
 
   flex-grow: 1;
-  margin-top: 32px;
   margin-bottom: auto;
-`
-
-const Content = styled("main")`
   ${mainContentStyle}
 `
 
-export function Body(props: React.PropsWithChildren<{}>) {
+export function Main(props: React.PropsWithChildren<{}>) {
   const { children } = props
 
-  return (
-    <Container>
-      <Content>{children}</Content>
-    </Container>
-  )
+  return <Container>{children}</Container>
 }

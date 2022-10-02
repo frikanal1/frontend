@@ -12,18 +12,28 @@ fragment LatestVideos on Organization {
     }
 }
 
+mutation MutateOrganization ($organization: OrganizationInput!) {
+    organization(organization: $organization) {
+        ...OrganizationData
+    }
+}
+
 query GetOrganization ($orgId: ID!) {
     organization(id: $orgId) {
+        ...OrganizationData
+    }
+}
+
+fragment OrganizationData on Organization {
+    id
+    name
+    description
+    homepage
+    postalAddress
+    streetAddress
+    editor {
         id
         name
-        description
-        homepage
-        postalAddress
-        streetAddress
-        editor {
-            id
-            name
-            email
-        }
+        email
     }
 }

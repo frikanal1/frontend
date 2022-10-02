@@ -19,9 +19,10 @@ type BulletinPagination {
 }
 
 type Mutation {
-    login(email: String!, password: String!): Session!
+    bulletin(bulletin: BulletinInput!): Bulletin
+    login(email: String!, password: String!): User
     logout: Boolean
-    updateBulletin(bulletin: BulletinInput!, id: ID): Bulletin
+    organization(organization: OrganizationInput!): Organization
 }
 
 type Organization {
@@ -55,12 +56,12 @@ type PaginationInfo {
 
 type Query {
     bulletin(id: ID!): Bulletin!
-    bulletins(page: Int! = 1, perPage: Int! = 20): BulletinPagination
+    bulletins(page: Int! = 1, perPage: Int! = 20): BulletinPagination!
     organization(id: ID!): Organization!
-    schedule(filter: ScheduleFilter!, page: Int! = 1, perPage: Int! = 20): SchedulePagination
+    schedule(filter: ScheduleFilter!, page: Int! = 1, perPage: Int! = 20): SchedulePagination!
     session: Session!
     video(id: ID!): Video!
-    videos(filter: VideoFilter, page: Int! = 1, perPage: Int! = 20, sort: [VideoSort!]): VideoPagination
+    videos(filter: VideoFilter, page: Int! = 1, perPage: Int! = 20, sort: [VideoSort!]): VideoPagination!
 }
 
 type ScheduleItem {
@@ -77,12 +78,20 @@ type SchedulePagination {
 
 type Session {
     authenticated: Boolean!
-    profileData: UserProfileData
+    user: User
 }
 
-type UserProfileData {
-    email: String
+type User {
+    email: String!
+    firstName: String
     id: ID!
+    lastName: String
+    roles: [UserRole!]!
+}
+
+type UserRole {
+    organization: Organization!
+    role: RoleType!
 }
 
 type Video {
@@ -107,6 +116,11 @@ type VideoPagination {
     pageInfo: PaginationInfo!
 }
 
+enum RoleType {
+    EDITOR
+    MEMBER
+}
+
 enum VideoSort {
     DATE_ASC
     DATE_DESC
@@ -116,8 +130,19 @@ enum VideoSort {
 scalar DateTime
 
 input BulletinInput {
+    id: ID
     text: String
     title: String
+}
+
+input OrganizationInput {
+    brregId: String!
+    description: String
+    homepage: String
+    id: ID
+    name: String!
+    postalAddress: String!
+    streetAddress: String!
 }
 
 input ScheduleFilter {

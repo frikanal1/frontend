@@ -12,6 +12,7 @@ import { AdminFieldSet } from "../../../modules/form/components/AdminFieldSet"
 import { useMutation, useQuery } from "@apollo/client"
 import { GetBulletinDocument, UpdateBulletinDocument } from "../../../generated/graphql"
 import { SaveButton } from "../../../modules/form/components/SaveButton"
+import { RequireAuthentication } from "../../../modules/auth/components/RequireAuthentication"
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -28,7 +29,6 @@ interface BulletinDetailProps {
 export const BulletinDetail = ({ bulletinId }: BulletinDetailProps) => {
   const [text, setText] = useState<string>()
   const [title, setTitle] = useState<string>()
-  const [isSaving, setIsSaving] = useState<boolean>(false)
 
   const { data } = useQuery(GetBulletinDocument, {
     variables: { bulletinId },
@@ -37,22 +37,16 @@ export const BulletinDetail = ({ bulletinId }: BulletinDetailProps) => {
       setText(data.bulletin.text)
     },
   })
-  const [mutate] = useMutation(UpdateBulletinDocument)
+  const [mutate, { loading }] = useMutation(UpdateBulletinDocument)
 
   const bulletin = data?.bulletin
 
   if (!bulletin) return null
 
-  const saveBulletin = async () => {
-    setIsSaving(true)
-
-    await mutate({ variables: { bulletin: { text, title }, bulletinId } })
-
-    setIsSaving(false)
-  }
+  const saveBulletin = async () => mutate({ variables: { bulletin: { id: bulletinId, text, title } } })
 
   return (
-    <div>
+    <RequireAuthentication>
       <Meta meta={{ title: "Rediger bulletin" }} />
       <Link href={"/admin"} passHref>
         <a>
@@ -72,9 +66,9 @@ export const BulletinDetail = ({ bulletinId }: BulletinDetailProps) => {
 
         <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
         <MDEditor value={text} onChange={setText} />
-        <SaveButton isSaving={isSaving} onSave={saveBulletin} />
+        <SaveButton isSaving={loading} onSave={saveBulletin} />
       </AdminFieldSet>
-    </div>
+    </RequireAuthentication>
   )
 }
 

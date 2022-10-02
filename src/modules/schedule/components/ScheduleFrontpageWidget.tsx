@@ -6,10 +6,6 @@ import { FrontpageScheduleFragment, GetFrontpageDocument, Maybe } from "../../..
 import { useQuery } from "@apollo/client"
 import { useInterval } from "usehooks-ts"
 
-const NowPlaying = styled(ScheduleItemBlurb)`
-  margin-top: 16px;
-`
-
 const NextTitle = styled("h3")`
   margin-top: 32px;
   font-size: 1.5em;
@@ -49,7 +45,7 @@ export const ScheduleFrontpageWidget = () => {
   if (!scheduleItems) return null
   return (
     <>
-      <NowPlaying entry={scheduleItems[currentlyPlaying]} />
+      <ScheduleItemBlurb entry={scheduleItems[currentlyPlaying]} />
       <NextTitle>Senere</NextTitle>
       <Schedule>
         <ScheduleItemSummary entry={scheduleItems[currentlyPlaying + 1]} />

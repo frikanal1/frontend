@@ -3,7 +3,8 @@ import { PropsWithChildren } from "react"
 import { ExternalLink } from "./ExternalLink"
 
 const Container = styled("figure")`
-  margin: 24px 0px;
+  margin: 24px auto;
+  max-width: 800px;
 `
 
 const Block = styled("blockquote")`
@@ -14,7 +15,7 @@ const Block = styled("blockquote")`
 `
 
 const Caption = styled("figcaption")`
-  margin-top: 8px;
+  text-align: right;
 `
 
 export type QuoteProps = PropsWithChildren<{

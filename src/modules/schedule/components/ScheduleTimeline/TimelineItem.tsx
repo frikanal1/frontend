@@ -1,5 +1,5 @@
 import { styled } from "@mui/system"
-import { ScheduleEntry } from "../../types"
+import { ProgramFragment } from "../../../../generated/graphql"
 
 const Container = styled("div")`
   min-height: 16px;
@@ -24,7 +24,7 @@ const Title = styled("h3")`
 `
 
 export type TimelineItemProps = {
-  entry: ScheduleEntry
+  entry: ProgramFragment
   position: number
   height: number
 }

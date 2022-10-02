@@ -1,54 +1,41 @@
 import { styled } from "@mui/system"
-import { observer } from "mobx-react-lite"
 import { Meta } from "src/modules/core/components/Meta"
-import { useManager } from "src/modules/state/manager"
-import { GenericButton } from "src/modules/ui/components/GenericButton"
 import { SVGIcon } from "src/modules/ui/components/SVGIcon"
-import { NextPageContext } from "next"
-import { useEffect } from "react"
-import { spawnLoginModal } from "../helpers/spawnLoginModal"
+import React, { useContext } from "react"
+import UserContext from "../../../refactor/UserContext"
 
 const Container = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin-top: 64px;
+
+  > h1 {
+    font-size: 1.4em;
+    font-weight: 600;
+  }
+  > h2 {
+    font-size: 1.1em;
+    font-weight: 500;
+
+    margin-bottom: 32px;
+  }
+
+  > svg {
+    color: ${(props) => props.theme.palette.text.secondary};
+    width: 64px;
+    height: 64px;
+
+    margin-bottom: 32px;
+  }
 `
 
-const Title = styled("h1")`
-  font-size: 1.4em;
-  font-weight: 600;
-`
+// TODO: Generate 401 somehow
+export const RequireAuthentication = ({ children }: { children: React.ReactNode }) => {
+  const { session } = useContext(UserContext)
 
-const Subtitle = styled("h2")`
-  font-size: 1.1em;
-  font-weight: 500;
-
-  margin-bottom: 32px;
-`
-
-const Icon = styled(SVGIcon)`
-  color: ${(props) => props.theme.palette.text.secondary};
-  width: 64px;
-  height: 64px;
-
-  margin-bottom: 32px;
-`
-
-export const RequireAuthentication = observer((props: { children: JSX.Element }) => {
-  const { children } = props
-  const manager = useManager()
-
-  const { authStore } = manager.stores
-  const { isAuthenticated } = authStore
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      spawnLoginModal(manager)
-    }
-  }, [isAuthenticated, manager])
-
-  if (isAuthenticated) return children
+  if (session?.authenticated) return <>{children}</>
 
   return (
     <Container>
@@ -58,22 +45,9 @@ export const RequireAuthentication = observer((props: { children: JSX.Element })
           description: "Denne siden krever innlogging",
         }}
       />
-      <Icon name="lock" />
-      <Title>Hvem der?</Title>
-      <Subtitle>Du må være logget inn for å kunne bruke denne siden.</Subtitle>
-      <GenericButton variant="primary" onClick={() => spawnLoginModal(manager)} label="Logg inn" />
+      <SVGIcon name="lock" />
+      <h1>Hvem der?</h1>
+      <h2>Du må være logget inn for å kunne bruke denne siden.</h2>
     </Container>
   )
-})
-
-export const getInitialRequireAuthenticationProps = async (context: NextPageContext) => {
-  const { res, manager } = context
-  const { authStore } = manager.stores
-
-  if (authStore.isAuthenticated || !res) {
-    return {}
-  }
-
-  res.statusCode = 401
-  return { statusCode: 401 }
 }

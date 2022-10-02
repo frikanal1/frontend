@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"
 import { getPreciseHours } from "../../helpers/getPreciseHours"
-import { ScheduleEntry } from "../../types"
 import { TimelineItem } from "./TimelineItem"
+import { ProgramFragment } from "../../../../generated/graphql"
 
 const VIRTUALIZATION_PADDING = 64
 
 export type TimelineItemListProps = {
-  entries: ScheduleEntry[]
+  entries?: ProgramFragment[]
   scrollTop: number
   containerHeight: number
   height: number
 }
 
 export type CalculatedEntry = {
-  entry: ScheduleEntry
+  entry: ProgramFragment
   top: number
   bottom: number
 }
@@ -21,10 +21,10 @@ export type CalculatedEntry = {
 export function TimelineItemList(props: TimelineItemListProps) {
   const { entries, scrollTop, containerHeight, height } = props
 
-  const [calculated, setCalculated] = useState<CalculatedEntry[]>([])
+  const [calculated, setCalculated] = useState<CalculatedEntry[] | undefined>()
 
   useEffect(() => {
-    const newlyCalculated = entries.map((entry) => {
+    const newlyCalculated = entries?.map((entry) => {
       const startsAt = new Date(entry.startsAt)
       const endsAt = new Date(entry.endsAt)
 
@@ -42,7 +42,7 @@ export function TimelineItemList(props: TimelineItemListProps) {
 
   return (
     <>
-      {calculated.map((calculation) => {
+      {calculated?.map((calculation) => {
         const { entry, top, bottom } = calculation
         const height = Math.abs(top - bottom)
 

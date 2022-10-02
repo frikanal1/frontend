@@ -16,6 +16,14 @@ const BulletinDiv = styled("div")`
   > h3 {
     color: ${({ theme }) => theme.palette.text.secondary};
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-size: 1em;
+  }
 `
 
 const BulletinAbstract = ({
@@ -24,7 +32,7 @@ const BulletinAbstract = ({
   bulletin: Pick<Bulletin, "text" | "title" | "createdAt">
 }) => (
   <BulletinDiv>
-    <h3>{title}</h3>
+    <h4>{title}</h4>
     <span>{format(new Date(createdAt), "d. MMM Y", { locale: nb })}</span>
     <div>
       <ReactMarkdown>{text}</ReactMarkdown>
@@ -33,15 +41,15 @@ const BulletinAbstract = ({
 )
 
 export const BulletinFrontpage = () => {
-  const query = useQuery(GetBulletinsDocument, { variables: { perPage: 2 } })
+  const query = useQuery(GetBulletinsDocument, { variables: { perPage: 2 }, onError: console.log })
 
-  const bulletins = query.data?.bulletins?.items
+  const bulletins = query.data?.bulletins.items
 
   if (!bulletins) return null
 
   return (
     <div>
-      <h2>Nyheter</h2>
+      <h3>Nyheter</h3>
       {bulletins.map((bulletin) => (
         <BulletinAbstract key={bulletin.id} bulletin={bulletin} />
       ))}

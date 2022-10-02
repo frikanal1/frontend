@@ -1,32 +1,38 @@
 import { styled } from "@mui/system"
-import { observer } from "mobx-react-lite"
-import { spawnLoginModal } from "src/modules/auth/helpers/spawnLoginModal"
-import { useManager } from "src/modules/state/manager"
-import { GenericButton } from "src/modules/ui/components/GenericButton"
-import React from "react"
+
+import React, { useContext, useState } from "react"
 import { HeaderUserDropdown } from "./HeaderUserDropdown"
+import UserContext from "../../../refactor/UserContext"
+import { Login } from "../../../refactor/Login"
+import { Button } from "@mui/material"
 
 const Container = styled("div")`
   display: flex;
   justify-content: flex-end;
-  flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
 `
 
-export const HeaderAuthBar = observer(() => {
-  const manager = useManager()
+export const HeaderAuthBar = () => {
+  const [showLogin, setShowLogin] = useState<boolean>(false)
+  const { session } = useContext(UserContext)
 
-  const { authStore } = manager.stores
-  const { isAuthenticated } = authStore
+  if (session === undefined) return null
 
-  const renderUnauthenticated = () => {
-    return <GenericButton variant="primary" onClick={() => spawnLoginModal(manager)} label="Logg inn" />
+  if (session !== null) {
+    return (
+      <Container>
+        <HeaderUserDropdown session={session} />
+      </Container>
+    )
+  } else {
+    return (
+      <Container>
+        <Login open={showLogin} onClose={() => setShowLogin(false)} />
+        <Button variant="outlined" onClick={() => setShowLogin(true)}>
+          Logg inn
+        </Button>
+      </Container>
+    )
   }
-
-  const renderAuthenticated = () => {
-    const user = authStore.user!
-
-    return <HeaderUserDropdown user={user} />
-  }
-
-  return <Container>{isAuthenticated ? renderAuthenticated() : renderUnauthenticated()}</Container>
-})
+}

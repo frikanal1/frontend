@@ -1,4 +1,5 @@
-import { useCookie } from "src/modules/state/hooks/useCookie"
+import useCookie from "react-use-cookie"
+
 import React from "react"
 import { darkTheme, lightTheme } from "../themes"
 import { Theme, ThemeProvider } from "@mui/system"
@@ -18,11 +19,11 @@ export const context = React.createContext<ThemeContextContext>({
 
 export function ThemeContext(props: React.PropsWithChildren<{}>) {
   const { children } = props
-  const [type, setType] = useCookie<ThemeType>("theme", "light")
+  const [type, setType] = useCookie("theme", "light")
 
   return (
     <ThemeProvider<Theme> theme={type === "light" ? lightTheme : darkTheme}>
-      <context.Provider value={{ type, toggle: () => setType(type === "light" ? "dark" : "light") }}>
+      <context.Provider value={{ type: type as ThemeType, toggle: () => setType(type === "light" ? "dark" : "light") }}>
         {children}
       </context.Provider>
     </ThemeProvider>

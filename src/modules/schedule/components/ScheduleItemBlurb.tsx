@@ -2,18 +2,8 @@ import { styled } from "@mui/system"
 import Link from "next/link"
 import { FrontpageScheduleFragment } from "../../../generated/graphql"
 
-const Container = styled("div")``
-
-const Title = styled("h2")`
-  font-size: 1.5em;
-  margin-bottom: 2px;
-`
-
-const Organization = styled("h3")`
-  font-size: 1.1em;
-  font-weight: 400;
-
-  margin-bottom: 12px;
+const Container = styled("div")`
+  margin: 1em 0;
 `
 
 const Description = styled("p")`
@@ -32,16 +22,16 @@ export function ScheduleItemBlurb(props: ScheduleItemBlurbProps) {
 
   return (
     <Container className={className}>
-      <Title>
+      <h4>
         <Link href={`/video/${video.id}`} passHref>
           <a>{video.title}</a>
         </Link>
-      </Title>
-      <Organization>
+      </h4>
+      <h5>
         <Link href={`/organization/${video.organization.id}`} passHref>
           <a>{video.organization.name}</a>
         </Link>
-      </Organization>
+      </h5>
       <Description>{video.description}</Description>
     </Container>
   )

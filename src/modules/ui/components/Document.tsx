@@ -1,24 +1,17 @@
 import { styled } from "@mui/system"
+import { GENERAL_BREAKPOINT } from "../../core/constants"
 
 export const Document = styled("div")`
-  h2 {
-    margin: 24px 0px;
+  @media (max-width: ${GENERAL_BREAKPOINT}) {
+    max-width: 100%;
+    width: 100%;
   }
 
-  h3 {
-    margin: 12px 0px;
-  }
+  section {
+    margin-left: 1.5rem;
 
-  ul,
-  ol {
-    padding-left: 16px;
-  }
-
-  li {
-    margin: 8px 0px;
-  }
-
-  ul > li {
-    list-style-type: disc;
+    > p {
+      margin-left: 1.5rem;
+    }
   }
 `

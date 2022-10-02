@@ -5,6 +5,7 @@ import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 import "@fontsource/roboto/900.css"
+import { MAIN_CONTENT_WIDTH, GENERAL_BREAKPOINT } from "../core/constants"
 
 export const global = (theme: Theme) => css`
   * {
@@ -21,28 +22,50 @@ export const global = (theme: Theme) => css`
     margin: 0;
     padding: 0;
 
-    font-family: "Roboto", sans-serif;
+    font-family: "Roboto Flex", sans-serif;
     color: ${theme.palette.text.primary};
-
-    font-size: 16px;
   }
 
   body {
     background: ${theme.palette.background.default};
-    overflow-y: scroll;
-    min-height: 100vh;
 
-    > div > div {
-      display: flex;
-      justify-content: stretch;
-      flex-direction: column;
+    #__next {
       min-height: 100vh;
+      display: flex;
+      margin: 1em;
+      @media (max-width: ${GENERAL_BREAKPOINT}) {
+        margin: 1em;
+      }
+
+      align-items: center;
+
+      flex-direction: column;
+
+      > main {
+        > div {
+          max-width: ${MAIN_CONTENT_WIDTH};
+          width: 100%;
+          margin-right: auto;
+        }
+        width: 100%;
+      }
     }
+  }
+
+  main {
+    width: 100%;
+    max-width: 1000px;
   }
 
   a {
     text-decoration: none;
     color: inherit;
+  }
+
+  video {
+    @media (max-width: ${GENERAL_BREAKPOINT}) {
+      padding-left: 0.5em;
+    }
   }
 
   h1,
@@ -56,56 +79,38 @@ export const global = (theme: Theme) => css`
   ul,
   ol,
   blockquote {
-    margin-top: 0px;
     list-style: none;
     line-height: initial;
-  }
-
-  h1 {
-    font-size: 1.8em;
+    font-family: "Roboto Serif", sans-serif !important;
   }
 
   h2 {
-    font-weight: 700;
-    font-size: 1.5em;
+    margin: 0;
+    font-weight: 300;
+    font-size: 3.75rem;
+    line-height: 1.2;
   }
 
   h3 {
-    font-size: 1.2em;
-    font-weight: 600;
-  }
-
-  p {
-    font-size: 1em;
-  }
-
-  button {
-    padding: 0;
     margin: 0;
-    border: none;
-    background: none;
-    color: inherit;
-    text-align: inherit;
-    box-sizing: inherit;
-    cursor: pointer;
-    font: inherit;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    font-weight: 400;
+    font-size: 3rem;
+    line-height: 1.167;
   }
 
-  input,
-  label,
-  select,
-  button,
-  textarea {
+  h4 {
     margin: 0;
-    border: 0;
-    padding: 0;
-    display: inline-block;
-    vertical-align: middle;
-    white-space: normal;
-    background: none;
-    line-height: 1;
+    font-weight: 400;
+    font-size: 2.125rem;
+    line-height: 1.235;
+    letter-spacing: 0.00735em;
+  }
+
+  h5 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.334;
+    letter-spacing: 0em;
   }
 `

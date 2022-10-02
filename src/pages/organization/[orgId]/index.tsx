@@ -11,32 +11,21 @@ import { LatestVideosGrid } from "../../../modules/organization/components/lates
 
 const breakpoint = 1250
 
-const Container = styled("div")``
+const Container = styled("div")`
+  width: 100%;
 
-const Header = styled("div")`
-  display: flex;
-
-  @media (max-width: ${breakpoint}px) {
-    flex-direction: column;
+  .description {
+    white-space: pre-wrap;
+    word-break: break-word;
   }
-`
-
-const PrimaryInfo = styled("div")`
-  flex: 1;
-`
-
-const Title = styled("h1")``
-
-const Description = styled("div")`
-  margin-top: 16px;
-
-  white-space: pre-wrap;
-  word-break: break-word;
 `
 
 const SecondaryInfo = styled("div")`
   white-space: pre-wrap;
   word-break: break-word;
+  width: 100%;
+
+  justify-content: space-around;
 
   display: flex;
 
@@ -79,26 +68,23 @@ export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => 
           description: description || "",
         }}
       />
-      <Header>
-        <PrimaryInfo>
-          <Title>{name}</Title>
-          <Description>{description}</Description>
-        </PrimaryInfo>
-        <SecondaryInfo>
-          <InfoSection icon="pencil" title="Redaktør">
-            {editor.name}
-            <br />
-            <ExternalLink href={`mailto:${editor.email}`}>{editor.email}</ExternalLink>
-          </InfoSection>
-          <InfoSection icon="mail" title="Postadresse">
-            {postalAddress}
-          </InfoSection>
-          <InfoSection icon="home" title="Besøksadresse">
-            {streetAddress}
-          </InfoSection>
-        </SecondaryInfo>
-      </Header>
+      <h3>{name}</h3>
+      <p className={"description"}>{description}</p>
       <LatestVideosGrid organizationId={orgId} />
+
+      <SecondaryInfo>
+        <InfoSection icon="pencil" title="Redaktør">
+          {editor.name}
+          <br />
+          <ExternalLink href={`mailto:${editor.email}`}>{editor.email}</ExternalLink>
+        </InfoSection>
+        <InfoSection icon="mail" title="Postadresse">
+          {postalAddress}
+        </InfoSection>
+        <InfoSection icon="home" title="Besøksadresse">
+          {streetAddress}
+        </InfoSection>
+      </SecondaryInfo>
     </Container>
   )
 }

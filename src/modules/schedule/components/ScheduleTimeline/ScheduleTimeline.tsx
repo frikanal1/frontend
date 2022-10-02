@@ -1,10 +1,10 @@
 import { styled } from "@mui/system"
 import { styled as MuiStyled } from "@mui/system"
 import React, { useEffect, useRef, useState } from "react"
-import { ScheduleEntry } from "../../types"
 import { Lines } from "./Lines"
 import { Playhead } from "./Playhead"
 import { TimelineItemList } from "./TimelineItemList"
+import { ProgramFragment } from "../../../../generated/graphql"
 
 const Container = MuiStyled("div")`
   height: 100%;
@@ -21,6 +21,7 @@ const Container = MuiStyled("div")`
 `
 
 const Inner = styled("div")`
+  height: 100%;
   position: relative;
 
   margin-top: 32px;
@@ -29,7 +30,7 @@ const Inner = styled("div")`
 `
 
 export type ScheduleTimelineProps = {
-  entries: ScheduleEntry[]
+  entries?: ProgramFragment[]
   /** The height of an hour, specified in pixels */
   zoom: number
 }
@@ -56,7 +57,7 @@ export function ScheduleTimeline(props: ScheduleTimelineProps) {
     return () => {
       container.removeEventListener("scroll", handleScroll)
     }
-  })
+  }, [])
 
   return (
     <Container ref={ref}>

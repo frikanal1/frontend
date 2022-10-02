@@ -3,25 +3,25 @@ import { PropsWithChildren } from "react"
 import { IconType } from "../types"
 import { SVGIcon } from "./SVGIcon"
 
-const Container = styled("section")``
+const Container = styled("section")`
+  > header {
+    margin: 1em 0;
 
-const Header = styled("header")`
-  display: flex;
-  align-items: center;
+    * {
+      border: 0px solid black;
+    }
 
-  margin-bottom: 16px;
-`
+    > h1 {
+      font-size: 1em;
+      font-weight: 500;
 
-const Icon = styled(SVGIcon)`
-  width: 20px;
-  height: 20px;
-
-  margin-right: 8px;
-`
-
-const Title = styled("h1")`
-  font-size: 1em;
-  font-weight: 500;
+      > svg {
+        width: 1.5em;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+    }
+  }
 `
 
 export type SectionProps = PropsWithChildren<{
@@ -30,21 +30,15 @@ export type SectionProps = PropsWithChildren<{
   icon?: IconType
 }>
 
-export function Section(props: SectionProps) {
-  const { className, title, icon, children } = props
-
-  const renderIcon = () => {
-    if (!icon) return null
-
-    return <Icon name={icon} />
-  }
-
+export function Section({ className, title, icon, children }: SectionProps) {
   return (
     <Container className={className}>
-      <Header>
-        {renderIcon()}
-        <Title>{title}</Title>
-      </Header>
+      <header>
+        <h1>
+          {icon && <SVGIcon name={icon} />}
+          {title}
+        </h1>
+      </header>
       {children}
     </Container>
   )

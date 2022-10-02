@@ -68,7 +68,7 @@ export function Meta(props: MetaProps) {
     <Head>
       <meta charSet="utf-8" />
       <meta name="keywords" content={keywords.join(", ")} />
-      <meta name="viewport" content="initial-scale=1" />
+      <meta name="viewport" content="initial-scale=1, width=device-width" />
       <meta name="theme-color" content={theme.palette.primary.main} />
       <title>{title !== WEBSITE_NAME ? `${title} - ${WEBSITE_NAME}` : WEBSITE_NAME}</title>
       {ogTags}

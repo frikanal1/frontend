@@ -9,28 +9,25 @@ const breakpoint = 880
 
 const Container = styled("div")`
   display: flex;
+  width: 100%;
 
   @media (max-width: ${breakpoint}px) {
     flex-direction: column;
   }
 `
 
-const Main = styled("div")`
-  width: 60%;
-
-  @media (max-width: ${breakpoint}px) {
-    width: 100%;
-  }
-`
-
 const Sidebar = styled("div")`
-  flex: 1;
+  flex-basis: 300px;
   margin-left: 32px;
 
   @media (max-width: ${breakpoint}px) {
     margin-top: 32px;
     margin-left: 0px;
   }
+`
+
+const LiveVideo = styled("div")`
+  flex-grow: 1;
 `
 
 export const IndexPage = () => (
@@ -42,10 +39,11 @@ export const IndexPage = () => (
         type: "website",
       }}
     />
-    <Main>
+    <LiveVideo>
+      <h3>Direkte</h3>
       <LiveVideoPlayer width={1280} height={720} src="https://beta.frikanalen.no/stream/program.m3u8" />
       <ScheduleFrontpageWidget />
-    </Main>
+    </LiveVideo>
     <Sidebar>
       <BulletinFrontpage />
     </Sidebar>

@@ -1,10 +1,12 @@
 import { styled } from "@mui/system"
 import { PrimaryPopover } from "src/modules/popover/components/PrimaryPopover"
-import { usePopoverContext } from "src/modules/popover/hooks/usePopoverContext"
-import { useStores } from "src/modules/state/manager"
 import { SVGIcon } from "src/modules/ui/components/SVGIcon"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { Popover } from "@mui/material"
+import { useOnClickOutside } from "usehooks-ts"
+import { useMutation } from "@apollo/client"
+import { LogoutDocument } from "../../../generated/graphql"
 
 const Container = styled(PrimaryPopover)`
   margin: 16px 0px;
@@ -37,23 +39,27 @@ const Icon = styled(SVGIcon)`
   height: 24px;
 `
 
-export function HeaderUserPopover() {
+export function HeaderUserPopover({ open, onClose, anchorEl }: { open: boolean; onClose: () => void; anchorEl: any }) {
   const router = useRouter()
-  const { authStore } = useStores()
-  const popover = usePopoverContext()
+  const [mutate] = useMutation(LogoutDocument, { refetchQueries: ["GetSession"] })
+  useOnClickOutside(anchorEl, () => onClose())
 
-  const handleLogout = async () => {
-    await authStore.logout()
-    popover.dismiss()
+  const handleLogout = async (e: any) => {
+    await mutate()
+    closeMenu(e)
+  }
+
+  const closeMenu = (e: any) => {
+    e.stopPropagation()
+    onClose()
   }
 
   const handleGoToPlayout = () => {
     router.push("/playout")
-    popover.dismiss()
   }
 
   const renderPlayoutOption = () => {
-    if (!authStore.user?.permissions.includes("ATEM_CONTROL")) return null
+    //if (!authStore.user?.permissions.includes("ATEM_CONTROL")) return null
 
     return (
       <Option onClick={handleGoToPlayout}>
@@ -64,18 +70,25 @@ export function HeaderUserPopover() {
   }
 
   return (
-    <Container>
-      <Link href="/profile" passHref>
-        <Option onClick={popover.dismiss}>
-          <Icon name="user" />
-          <Label>Profil</Label>
+    <Popover
+      open={open}
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+    >
+      <Container>
+        <Link href="/profile" passHref>
+          <Option onClick={closeMenu}>
+            <Icon name="user" />
+            <Label>Profil</Label>
+          </Option>
+        </Link>
+        {renderPlayoutOption()}
+        <Option onClick={handleLogout}>
+          <Icon name="logout" />
+          <Label>Logg ut</Label>
         </Option>
-      </Link>
-      {renderPlayoutOption()}
-      <Option onClick={handleLogout}>
-        <Icon name="logout" />
-        <Label>Logg ut</Label>
-      </Option>
-    </Container>
+      </Container>
+    </Popover>
   )
 }

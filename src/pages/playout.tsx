@@ -1,13 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { styled } from "@mui/system"
 import { ATEMControls } from "src/modules/playout/components/ATEMControls"
 import { MonitoringStream } from "src/modules/playout/components/MonitoringStream"
 import { ATEM_INPUTS } from "src/modules/playout/constants"
 import { Section } from "src/modules/ui/components/Section"
-import { useManager } from "src/modules/state/manager"
-import { GenericButton } from "src/modules/ui/components/GenericButton"
-import { spawnTextSlideModal } from "src/modules/playout/helpers/spawnTextSlideModal"
 import { Meta } from "src/modules/core/components/Meta"
+import { Button } from "@mui/material"
+import { TextSlideEditorDialog } from "../modules/playout/components/TextSlideEditorDialog"
 
 const breakpoint = 830
 
@@ -29,7 +28,6 @@ const Controls = styled("div")`
   border-top: solid 2px ${(props) => props.theme.palette.divider};
 
   padding: 0px 24px;
-  padding-top: 24px;
 
   margin-top: 24px;
   display: flex;
@@ -54,16 +52,29 @@ export type PlayoutProps = {
   initialIndex: number
 }
 
-export default function Playout(props: PlayoutProps) {
-  const manager = useManager()
-  const { networkStore } = manager.stores
-  const { api } = networkStore
+const TextSlide = () => {
+  const [open, setOpen] = useState<boolean>(false)
+  return (
+    <>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Rediger sendingsplakat
+      </Button>
+      <TextSlideEditorDialog open={open} onClose={() => setOpen(false)} />
+    </>
+  )
+}
 
-  const { initialIndex } = props
-  const [index, setIndex] = useState(initialIndex)
+export default function Playout() {
+  const [index, setIndex] = useState(-1)
+
+  useEffect(() => {
+    fetch("/playout/atem/program")
+      .then((res) => res.json())
+      .then((data) => setIndex(data.InputIndex))
+  }, [])
 
   const setProgram = async (index: number) => {
-    await api.post("/playout/atem/program", { inputIndex: index })
+    await fetch("/playout/atem/program", { method: "post", body: JSON.stringify({ inputIndex: index }) })
     setIndex(index)
   }
 
@@ -80,11 +91,7 @@ export default function Playout(props: PlayoutProps) {
         <MonitoringStream />
         <Controls>
           <Section icon="lightbulb" title="Handlinger">
-            <GenericButton
-              variant="primary"
-              label="Rediger sendingsplakat"
-              onClick={() => spawnTextSlideModal(manager)}
-            />
+            <TextSlide />
           </Section>
           <Section icon="camera" title="Programutgang">
             <ATEMControls inputs={ATEM_INPUTS} index={index} onChange={setProgram} />
@@ -93,15 +100,4 @@ export default function Playout(props: PlayoutProps) {
       </Content>
     </Container>
   )
-}
-
-Playout.getInitialProps = async () => {
-  //const { manager } = context
-  //const { networkStore } = manager.stores
-  //const { api } = networkStore
-
-  //const { data } = await api.get<{ inputIndex: number }>("/playout/atem/program")
-  //const { inputIndex } = data
-
-  return { initialIndex: -1 }
 }

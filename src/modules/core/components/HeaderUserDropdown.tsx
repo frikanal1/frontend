@@ -1,11 +1,11 @@
 import { css } from "@emotion/react"
 import { styled } from "@mui/system"
-import { observer } from "mobx-react-lite"
-import { usePopover } from "src/modules/popover/hooks/usePopover"
+
 import { SVGIcon, SVGIconWithProps } from "src/modules/ui/components/SVGIcon"
-import { User } from "src/modules/user/schemas"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { HeaderUserPopover } from "./HeaderUserPopover"
+import { Maybe, UserSessionFragment } from "../../../generated/graphql"
+import { GENERAL_BREAKPOINT } from "../constants"
 
 const Container = styled("div")`
   display: flex;
@@ -30,8 +30,11 @@ const Name = styled("span")`
 
   max-width: 300px;
 
-  @media (max-width: 730px) {
+  @media (max-width: ${GENERAL_BREAKPOINT}) {
     max-width: 170px;
+  }
+  @media (max-width: 700px) {
+    display: none;
   }
 `
 
@@ -51,25 +54,24 @@ const Icon = styled(SVGIcon as SVGIconWithProps<{ flipped: boolean }>)`
 `
 
 export type HeaderUserDropdownProps = {
-  user: User
+  session?: Maybe<UserSessionFragment>
 }
 
-export const HeaderUserDropdown = observer((props: HeaderUserDropdownProps) => {
-  const { user } = props
-  const { firstName, email } = user
-
+export const HeaderUserDropdown = ({ session }: HeaderUserDropdownProps) => {
+  const [menuOpen, setMenuOpen] = useState<boolean>(false)
   const ref = useRef<HTMLDivElement>(null)
 
-  const { toggle, active } = usePopover({
-    ref,
-    render: () => <HeaderUserPopover />,
-    placement: "bottom-end",
-  })
+  const user = session?.user
+
+  if (!user) return null
+
+  const { email, firstName } = user
 
   return (
-    <Container onClick={toggle} ref={ref}>
+    <Container onClick={() => setMenuOpen(true)} ref={ref}>
       <Name>Hei, {firstName || email}!</Name>
-      <Icon flipped={active} name="chevronDown" />
+      <Icon flipped={menuOpen} name="chevronDown" />
+      <HeaderUserPopover anchorEl={ref.current} open={menuOpen} onClose={() => setMenuOpen(false)} />
     </Container>
   )
-})
+}

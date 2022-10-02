@@ -4,12 +4,8 @@ import { GetLatestVideosDocument } from "../../../generated/graphql"
 import { VideoGrid } from "../../video/components/VideoGrid"
 import React from "react"
 
-const Content = styled("div")`
-  margin-top: 16px;
-`
-const LatestVideosHeading = styled("h2")`
-  margin-bottom: 16px;
-`
+const Content = styled("div")``
+
 export const LatestVideosGrid = ({ organizationId }: { organizationId: string }) => {
   const query = useQuery(GetLatestVideosDocument, { variables: { orgId: organizationId } })
   const videos = query.data?.organization.latestVideos
@@ -17,7 +13,7 @@ export const LatestVideosGrid = ({ organizationId }: { organizationId: string })
 
   return (
     <Content>
-      <LatestVideosHeading>Nyeste videoer</LatestVideosHeading>
+      <h4>Nyeste videoer</h4>
       <VideoGrid videos={videos} />
     </Content>
   )

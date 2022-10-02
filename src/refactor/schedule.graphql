@@ -1,0 +1,19 @@
+query GetSchedule ($date: DateTime!) {
+    schedule(filter: {from: $date}) {
+        items {
+            ...Program
+        }
+    }
+}
+fragment Program on ScheduleItem {
+    startsAt
+    endsAt
+    video {
+        id
+        title
+        organization {
+            id
+            name
+        }
+    }
+}

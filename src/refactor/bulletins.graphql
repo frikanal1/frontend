@@ -12,8 +12,8 @@ query GetBulletin($bulletinId: ID!) {
     }
 }
 
-mutation UpdateBulletin ($bulletin: BulletinInput!, $bulletinId: ID) {
-    updateBulletin(bulletin: $bulletin, id: $bulletinId) {
+mutation UpdateBulletin ($bulletin: BulletinInput!) {
+    bulletin(bulletin: $bulletin) {
         ...BulletinFields
     }
 }

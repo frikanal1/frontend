@@ -2,36 +2,47 @@ import { MDEditorProps } from "@uiw/react-md-editor"
 import dynamic from "next/dynamic"
 import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
-import React, { useState } from "react"
+import React from "react"
 import { Save } from "@mui/icons-material"
-import { Alert, Button, TextField } from "@mui/material"
-import { BulletinData } from "../../../modules/bulletins/types"
-import { useManager } from "../../../modules/state/manager"
+import { Button, TextField } from "@mui/material"
+
 import Link from "next/link"
 import { Meta } from "../../../modules/core/components/Meta"
 import { AdminFieldSet } from "../../../modules/form/components/AdminFieldSet"
 import { useRouter } from "next/router"
+import { ErrorMessage } from "@hookform/error-message"
+import { Controller, FieldValues, useForm } from "react-hook-form"
+import { nopeResolver } from "@hookform/resolvers/nope"
+import { useMutation } from "@apollo/client"
+import { MutateOrganizationDocument } from "../../../generated/graphql"
+import Nope from "nope-validator"
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,
 })
 
+const NewBulletinSchema = Nope.object().shape({
+  title: Nope.string(),
+  text: Nope.string(),
+})
+
 export const NewBulletin = () => {
-  const [text, setText] = useState<string>()
-  const [title, setTitle] = useState<string>("")
-  const { api } = useManager().stores.networkStore
-  const [error, setError] = useState<string>()
   const router = useRouter()
 
-  const saveBulletin = async () => {
-    try {
-      const { data } = await api.post<BulletinData>("/bulletins", { title, text: text ?? "" })
-      await router.push(`${data.id}`)
-    } catch (e: any) {
-      setError(e.toString() + ":\n" + e.response.data.message)
-      return
-    }
-  }
+  const {
+    register,
+    control,
+    setError,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ resolver: nopeResolver(NewBulletinSchema) })
+
+  const [mutate] = useMutation(MutateOrganizationDocument, {
+    onError: (e) => setError("backend", { type: "custom", message: "Serverfeil. Rapport:\n" + e.toString() }),
+    onCompleted: (data) => router.push(`/admin/bulletins/${data.organization.id}`),
+  })
+
+  const onSubmit = async (newOrg: FieldValues) => await mutate({ variables: { organization: newOrg } })
 
   return (
     <div>
@@ -43,24 +54,23 @@ export const NewBulletin = () => {
       </Link>
       <h2>Ny bulletin</h2>
       <AdminFieldSet>
-        <TextField
-          fullWidth
-          id="outlined-basic"
-          label="Tittel"
-          variant="outlined"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <TextField fullWidth id="outlined-basic" label="Tittel" variant="outlined" {...register("title")} />
         <div style={{ width: "100%" }}>
           <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
-          <MDEditor value={text} onChange={setText} />
+          <Controller
+            control={control}
+            name="test"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <MDEditor value={value} onChange={onChange} onBlur={onBlur} />
+            )}
+          />
         </div>
-        {error && (
-          <Alert severity="error" sx={{ whiteSpace: "pre-wrap" }}>
-            {error}
-          </Alert>
-        )}
-        <Button variant="contained" endIcon={<Save />} onClick={saveBulletin}>
+        <ErrorMessage
+          errors={errors}
+          name={"backend"}
+          render={({ message }) => <code className={"backendError"}>{message}</code>}
+        />
+        <Button variant="contained" endIcon={<Save />} onClick={handleSubmit(onSubmit)}>
           Publiser
         </Button>
       </AdminFieldSet>

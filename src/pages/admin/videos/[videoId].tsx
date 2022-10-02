@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client"
 import { GetVideoDocument } from "../../../generated/graphql"
 
 const Container = styled("div")``
+
 export const VideoAdminDetail = () => {
   const { videoId } = useRouter().query
 

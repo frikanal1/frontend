@@ -1,6 +1,5 @@
-import { ButtonList } from "src/modules/ui/components/ButtonList"
-import { GenericButton } from "src/modules/ui/components/GenericButton"
 import { MixEffectsBusInput } from "../types"
+import { Button, ButtonGroup } from "@mui/material"
 
 export type ATEMControlsProps = {
   inputs: MixEffectsBusInput[]
@@ -12,16 +11,16 @@ export function ATEMControls(props: ATEMControlsProps) {
   const { inputs, index, onChange } = props
 
   return (
-    <ButtonList horizontal>
+    <ButtonGroup>
       {inputs.map((input) => (
-        <GenericButton
+        <Button
           key={input.index}
-          variant={index === input.index ? "primary" : "secondary"}
-          color={index === input.index ? "danger" : "accent"}
-          label={input.name}
+          variant={index === input.index ? "contained" : "outlined"}
           onClick={() => onChange(input.index)}
-        />
+        >
+          {input.name}
+        </Button>
       ))}
-    </ButtonList>
+    </ButtonGroup>
   )
 }

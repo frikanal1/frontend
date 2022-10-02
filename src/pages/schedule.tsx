@@ -1,16 +1,16 @@
 import { styled } from "@mui/system"
-import { observer } from "mobx-react-lite"
 import { Meta } from "src/modules/core/components/Meta"
 import { CalendarInput } from "src/modules/input/components/CalendarInput"
-import { useStores } from "src/modules/state/manager"
-import { NextPageContext } from "next"
-import React from "react"
+import React, { useState } from "react"
 import { ScheduleTimeline } from "src/modules/schedule/components/ScheduleTimeline/ScheduleTimeline"
+import { useQuery } from "@apollo/client"
+import { GetScheduleDocument } from "../generated/graphql"
 
 const breakpoint = 700
 
 const Container = styled("div")`
   display: flex;
+  width: 100%;
 
   @media (max-width: ${breakpoint}px) {
     flex-direction: column;
@@ -39,14 +39,10 @@ const Result = styled("div")`
   max-height: calc(100vh - 325px);
 `
 
-function Schedule() {
-  const { scheduleStore } = useStores()
-  const { selectedDate, selectedDateItems } = scheduleStore
-
-  const handleSelect = (date: Date) => {
-    scheduleStore.selectedDate = date
-    scheduleStore.fetchByDate(date)
-  }
+export const Schedule = () => {
+  const [date, setDate] = useState<Date>(new Date())
+  const query = useQuery(GetScheduleDocument, { variables: { date } })
+  const selectedDateItems = query.data?.schedule.items
 
   return (
     <Container>
@@ -57,20 +53,13 @@ function Schedule() {
         }}
       />
       <Result>
-        <ScheduleTimeline entries={selectedDateItems.data ?? []} zoom={500} />
+        <ScheduleTimeline entries={selectedDateItems} zoom={500} />
       </Result>
       <Sidebar>
-        <CalendarInput value={selectedDate} onChange={handleSelect} />
+        <CalendarInput value={date} onChange={setDate} />
       </Sidebar>
     </Container>
   )
 }
 
-Schedule.getInitialProps = async (context: NextPageContext) => {
-  const { scheduleStore } = context.manager.stores
-  await scheduleStore.fetchByDate(scheduleStore.selectedDate)
-
-  return {}
-}
-
-export default observer(Schedule)
+export default Schedule

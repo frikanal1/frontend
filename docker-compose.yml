@@ -7,13 +7,13 @@ services:
       POSTGRES_PASSWORD: fk
       POSTGRES_DB: fk
     ports:
-      - 5432:5432
+      - "5432:5432"
 
   db-adminer:
     image: adminer
     restart: always
     ports:
-      - 8082:8080
+      - "8082:8080"
 
   toches:
     image: frikanalen/toches
@@ -22,7 +22,7 @@ services:
       - DATABASE_URL=postgres://postgres:fk@db/fk
       - FK_API_KEY=1234
     ports:
-      - 8080:80
+      - "8080:80"
 
   mock-data:
     image: frikanalen/toches

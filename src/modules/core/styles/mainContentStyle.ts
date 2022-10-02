@@ -1,14 +1,12 @@
 import { css } from "@emotion/react"
-import { CONTENT_WIDTH, CONTENT_WIDTH_PADDING } from "../constants"
+import { GENERAL_BREAKPOINT, MAX_PAGE_WIDTH } from "../constants"
 
 export const mainContentStyle = css`
-  max-width: ${CONTENT_WIDTH}px;
+  max-width: ${MAX_PAGE_WIDTH};
   width: 100%;
 
-  @media (max-width: ${CONTENT_WIDTH + CONTENT_WIDTH_PADDING}px) {
+  @media (max-width: ${GENERAL_BREAKPOINT}) {
     max-width: 100%;
     width: 100%;
-
-    padding: 0px 24px;
   }
 `
