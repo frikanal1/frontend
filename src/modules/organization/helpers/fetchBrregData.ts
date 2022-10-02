@@ -1,5 +1,3 @@
-import axios from "axios"
-
 export type BrregAddress = {
   adresse: string[]
   kommune: string
@@ -16,8 +14,8 @@ export type BrregData = {
 
 export const fetchBrregData = async (organization: string) => {
   try {
-    const { data } = await axios.get<BrregData>(`https://data.brreg.no/enhetsregisteret/api/enheter/${organization}`)
-    return data
+    const res = await fetch(`https://data.brreg.no/enhetsregisteret/api/enheter/${organization}`)
+    return (await res.json()) as BrregData
   } catch {
     return
   }
