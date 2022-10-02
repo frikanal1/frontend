@@ -1,29 +1,16 @@
 import { styled } from "@mui/system"
-import { styled as MuiStyled } from "@mui/system"
-
 import { ExternalLink } from "src/modules/ui/components/ExternalLink"
 import { mainContentStyle } from "../styles/mainContentStyle"
 
 export const Container = styled("footer")`
-  margin-top: 32px;
-  margin-bottom: 32px;
-
-  display: flex;
-  justify-content: center;
-`
-
-const Content = styled("div")`
   ${mainContentStyle}
 
   display: flex;
+  > span {
+    flex: 1;
+    color: ${(props) => props.theme.palette.text.secondary};
+  }
 `
-
-const Copyright = MuiStyled("span")`
-  flex: 1;
-  color: ${(props) => props.theme.palette.text.secondary};
-`
-
-const Links = styled("nav")``
 
 const Link = styled(ExternalLink)`
   margin-left: 16px;
@@ -32,14 +19,12 @@ const Link = styled(ExternalLink)`
 export function Footer() {
   return (
     <Container>
-      <Content>
-        <Copyright>© 2009 - {new Date().getFullYear()} Foreningen Frikanalen</Copyright>
-        <Links>
-          <Link href="https://github.com/Frikanalen/frikanalen">GitHub</Link>
-          <Link href="https://frikanalen.no/api/">API</Link>
-          <Link href="https://frikanalen.no/xmltv/">XMLTV</Link>
-        </Links>
-      </Content>
+      <span>© 2009 - {new Date().getFullYear()} Foreningen Frikanalen</span>
+      <nav>
+        <Link href="https://github.com/Frikanalen/frikanalen">GitHub</Link>
+        <Link href="https://frikanalen.no/api/">API</Link>
+        <Link href="https://frikanalen.no/xmltv/">XMLTV</Link>
+      </nav>
     </Container>
   )
 }

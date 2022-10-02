@@ -8,11 +8,11 @@ import "@uiw/react-markdown-preview/markdown.css"
 import { TextField } from "@mui/material"
 import Link from "next/link"
 import { Meta } from "../../../modules/core/components/Meta"
-import { AdminFieldSet } from "../../../modules/form/components/AdminFieldSet"
+import { AdminFieldSet } from "../../../modules/core/components/AdminFieldSet"
 import { useMutation, useQuery } from "@apollo/client"
 import { GetBulletinDocument, UpdateBulletinDocument } from "../../../generated/graphql"
-import { SaveButton } from "../../../modules/form/components/SaveButton"
-import { RequireAuthentication } from "../../../modules/auth/components/RequireAuthentication"
+import { SaveButton } from "../../../modules/core/components/SaveButton"
+import { RequireAuthentication } from "../../../modules/core/components/RequireAuthentication"
 
 const MDEditor = dynamic<MDEditorProps>(() => import("@uiw/react-md-editor"), {
   ssr: false,

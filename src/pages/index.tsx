@@ -1,10 +1,14 @@
+import dynamic from "next/dynamic"
+import { Suspense } from "react"
+
 import { styled } from "@mui/system"
 import { Meta } from "src/modules/core/components/Meta"
-import { LiveVideoPlayer } from "src/modules/video/components/LiveVideoPlayer"
 import React from "react"
 import { BulletinFrontpage } from "../modules/bulletins/BulletinFrontpage"
 import { ScheduleFrontpageWidget } from "../modules/schedule/components/ScheduleFrontpageWidget"
-
+const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveVideoPlayer"), {
+  suspense: true,
+})
 const breakpoint = 880
 
 const Container = styled("div")`
@@ -41,7 +45,9 @@ export const IndexPage = () => (
     />
     <LiveVideo>
       <h3>Direkte</h3>
-      <LiveVideoPlayer width={1280} height={720} src="https://beta.frikanalen.no/stream/program.m3u8" />
+      <Suspense>
+        <LiveVideoPlayer width={1280} height={720} src="https://beta.frikanalen.no/stream/program.m3u8" />
+      </Suspense>
       <ScheduleFrontpageWidget />
     </LiveVideo>
     <Sidebar>

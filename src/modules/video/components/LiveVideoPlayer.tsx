@@ -35,7 +35,7 @@ export const VideoJS = ({ options, onReady }: VideoJSProps) => {
     } else {
       playerRef.current.autoplay(true)
     }
-  }, [options, videoRef])
+  }, [options, videoRef, onReady])
 
   // Dispose the Video.js player when the functional component unmounts
   useEffect(() => {
@@ -96,3 +96,5 @@ export function LiveVideoPlayer(props: LiveVideoPlayerProp) {
     </AspectContainer>
   )
 }
+
+export default LiveVideoPlayer

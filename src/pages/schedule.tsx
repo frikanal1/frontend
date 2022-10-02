@@ -1,6 +1,6 @@
 import { styled } from "@mui/system"
 import { Meta } from "src/modules/core/components/Meta"
-import { CalendarInput } from "src/modules/input/components/CalendarInput"
+import { CalendarInput } from "src/modules/core/components/CalendarInput"
 import React, { useState } from "react"
 import { ScheduleTimeline } from "src/modules/schedule/components/ScheduleTimeline/ScheduleTimeline"
 import { useQuery } from "@apollo/client"

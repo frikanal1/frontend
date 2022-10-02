@@ -1,6 +1,5 @@
 import { styled } from "@mui/system"
 import { AspectContainer } from "src/modules/core/components/AspectContainer"
-import { PrimaryModal } from "src/modules/modal/components/PrimaryModal"
 import React from "react"
 import { Button, Dialog, TextField } from "@mui/material"
 import Nope from "nope-validator"
@@ -8,7 +7,7 @@ import { nopeResolver } from "@hookform/resolvers/nope"
 import { useForm, FieldValues } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 
-const Container = styled(PrimaryModal.Container)`
+const Container = styled("div")`
   width: 650px;
   padding: 1em;
   .MuiTextField-root {

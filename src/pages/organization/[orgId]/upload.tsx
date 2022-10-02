@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { styled } from "@mui/system"
-import { FileInput } from "src/modules/input/components/FileInput"
+import { FileInput } from "src/modules/core/components/FileInput"
 import { useRouter } from "next/router"
 import { useQuery } from "@apollo/client"
 import { GetOrganizationDocument } from "../../../generated/graphql"

@@ -1,6 +1,6 @@
 import React from "react"
 import { styled } from "@mui/system"
-import { RequireAuthentication } from "src/modules/auth/components/RequireAuthentication"
+import { RequireAuthentication } from "src/modules/core/components/RequireAuthentication"
 import { Meta } from "src/modules/core/components/Meta"
 import { GetProfileDocument } from "../generated/graphql"
 import { useQuery } from "@apollo/client"

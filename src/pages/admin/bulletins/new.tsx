@@ -8,7 +8,7 @@ import { Button, TextField } from "@mui/material"
 
 import Link from "next/link"
 import { Meta } from "../../../modules/core/components/Meta"
-import { AdminFieldSet } from "../../../modules/form/components/AdminFieldSet"
+import { AdminFieldSet } from "../../../modules/core/components/AdminFieldSet"
 import { useRouter } from "next/router"
 import { ErrorMessage } from "@hookform/error-message"
 import { Controller, FieldValues, useForm } from "react-hook-form"
