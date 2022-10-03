@@ -9,7 +9,7 @@ export type OrganizationRoleItemProps = {
 
 const RoleName: Record<RoleType, string> = { EDITOR: "Redaktør", MEMBER: "Medlem" }
 
-export const RoleCard = ({ role }: OrganizationRoleItemProps) => (
+export const UserRoleCard = ({ role }: OrganizationRoleItemProps) => (
   <Card variant={"outlined"} sx={{ width: "100%;" }}>
     <CardHeader
       title={
