@@ -40,9 +40,13 @@ export const ScheduleFrontpageWidget = () => {
 
   const [time, setTime] = useState<Date>(new Date())
   useInterval(() => setTime(new Date()), 1000)
-  const currentlyPlaying = getPlayingNow(time, scheduleItems)
 
   if (!scheduleItems) return null
+
+  const currentlyPlaying = getPlayingNow(time, scheduleItems)
+
+  if (currentlyPlaying == -1) return null
+
   return (
     <>
       <ScheduleItemBlurb entry={scheduleItems[currentlyPlaying]} />
