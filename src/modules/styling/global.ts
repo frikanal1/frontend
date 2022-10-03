@@ -93,6 +93,7 @@ export const global = (theme: Theme) => css`
 
   h3 {
     margin: 0;
+    margin-bottom: 1rem;
     font-weight: 400;
     font-size: 3rem;
     line-height: 1.167;
