@@ -9,6 +9,7 @@ import { Meta } from "../../../modules/core/components/Meta"
 import React from "react"
 import { useQuery } from "@apollo/client"
 import { Bulletin, GetBulletinsDocument } from "../../../generated/graphql"
+import { RequireAuthentication } from "../../../modules/core/components/RequireAuthentication"
 
 const Container = styled("div")``
 
@@ -69,21 +70,23 @@ export const BulletinAdminPage = () => {
   const bulletins = query.data?.bulletins.items
 
   return (
-    <Container>
-      <Meta meta={{ title: "Administrer bulletins" }} />
-      <Link href={"/admin"} passHref>
-        <a>
-          <h1>Administratorfunksjoner</h1>
-        </a>
-      </Link>
-      <h2>Bulletins</h2>
-      <CardDeck>
-        <NewBulletinCard />
-        {bulletins?.map((bulletin) => (
-          <BulletinCard key={bulletin.id} bulletin={bulletin} />
-        ))}
-      </CardDeck>
-    </Container>
+    <RequireAuthentication>
+      <Container>
+        <Meta meta={{ title: "Administrer bulletins" }} />
+        <Link href={"/admin"} passHref>
+          <a>
+            <h1>Administratorfunksjoner</h1>
+          </a>
+        </Link>
+        <h2>Bulletins</h2>
+        <CardDeck>
+          <NewBulletinCard />
+          {bulletins?.map((bulletin) => (
+            <BulletinCard key={bulletin.id} bulletin={bulletin} />
+          ))}
+        </CardDeck>
+      </Container>
+    </RequireAuthentication>
   )
 }
 
