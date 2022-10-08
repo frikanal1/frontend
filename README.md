@@ -10,10 +10,10 @@ First, install the dependencies (obviously this requires yarn)
 
 `yarn`
 
-Then spin up a docker-compose with a database and backend with mock data:
+Then build and run the services, or just spin up a docker-compose with a database and backend with mock data:
 
 `docker-compose up -d`
 
 Then:
 
-* `yarn run dev` - if you are using a local backend (in which case it will expect to find it at `localhost:8000`), or 
+`yarn run dev`
