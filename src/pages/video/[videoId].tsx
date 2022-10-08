@@ -2,12 +2,13 @@ import { styled } from "@mui/system"
 import { VideoPlayer } from "src/modules/video/components/VideoPlayer"
 import React from "react"
 import { Meta } from "src/modules/core/components/Meta"
-import { GetVideoDocument } from "../../generated/graphql"
-import { useQuery } from "@apollo/client"
+import { GetVideoDocument, Video } from "../../generated/graphql"
 import { VideoPageMetaBar } from "../../modules/video/components/videoPageMetaBar"
 import { LatestVideosSidebar } from "../../modules/video/components/latestVideosSidebar"
 import { VideoPageBreakpoint } from "../../modules/video/constants"
-import { useRouter } from "next/router"
+import { GetServerSideProps } from "next"
+import assert from "assert"
+import { client } from "../../modules/apollo/client"
 
 const Container = styled("div")`
   display: flex;
@@ -22,12 +23,12 @@ const Content = styled("div")`
   flex: 1;
 `
 
-export const VideoPage = () => {
-  const { videoId } = useRouter().query
+interface VideoPageProps {
+  video?: Video
+}
 
-  const query = useQuery(GetVideoDocument, { variables: { videoId: videoId as string } })
-
-  const { video } = query.data || {}
+export const VideoPage = ({ video }: VideoPageProps) => {
+  console.log(video)
 
   if (!video) return null
 
@@ -47,6 +48,16 @@ export const VideoPage = () => {
       <LatestVideosSidebar organization={video.organization} />
     </Container>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const videoId = context.params?.videoId
+
+  assert(videoId)
+
+  const { data } = await client.query({ query: GetVideoDocument, variables: { videoId: videoId as string } })
+
+  return { props: { video: data.video } }
 }
 
 export default VideoPage
