@@ -47,7 +47,7 @@ const Time = styled("span")`
 `
 
 export type ScheduleItemSummary = {
-  entry: FrontpageScheduleFragment
+  entry?: FrontpageScheduleFragment
 }
 
 export function ScheduleItemSummary({ entry }: ScheduleItemSummary) {

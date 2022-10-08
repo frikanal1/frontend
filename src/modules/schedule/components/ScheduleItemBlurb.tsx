@@ -13,26 +13,20 @@ const Description = styled("p")`
 
 export type ScheduleItemBlurbProps = {
   entry: FrontpageScheduleFragment
-  className?: string
 }
 
-export function ScheduleItemBlurb(props: ScheduleItemBlurbProps) {
-  const { entry, className } = props
-  const { video } = entry
-
-  return (
-    <Container className={className}>
-      <h4>
-        <Link href={`/video/${video.id}`} passHref>
-          <a>{video.title}</a>
-        </Link>
-      </h4>
-      <h5>
-        <Link href={`/organization/${video.organization.id}`} passHref>
-          <a>{video.organization.name}</a>
-        </Link>
-      </h5>
-      <Description>{video.description}</Description>
-    </Container>
-  )
-}
+export const ScheduleItemBlurb = ({ entry: { video } }: ScheduleItemBlurbProps) => (
+  <Container>
+    <h4>
+      <Link href={`/video/${video.id}`} passHref>
+        <a>{video.title}</a>
+      </Link>
+    </h4>
+    <h5>
+      <Link href={`/organization/${video.organization.id}`} passHref>
+        <a>{video.organization.name}</a>
+      </Link>
+    </h5>
+    <Description>{video.description}</Description>
+  </Container>
+)
