@@ -51,6 +51,8 @@ export type ScheduleItemSummary = {
 }
 
 export function ScheduleItemSummary({ entry }: ScheduleItemSummary) {
+  if (!entry) return null
+
   return (
     <Container>
       <PrimaryInfo>
