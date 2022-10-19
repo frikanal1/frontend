@@ -1,27 +1,27 @@
-query GetBulletins ($perPage: Int!) {
-    bulletins (perPage: $perPage){
-        items {
-            ...BulletinFields
-        }
+query GetBulletins($perPage: Int!) {
+  bulletins(perPage: $perPage) {
+    items {
+      ...BulletinFields
     }
+  }
 }
 
 query GetBulletin($bulletinId: ID!) {
-    bulletin (id: $bulletinId) {
-        ...BulletinFields
-    }
+  bulletin(id: $bulletinId) {
+    ...BulletinFields
+  }
 }
 
-mutation UpdateBulletin ($bulletin: BulletinInput!) {
-    bulletin(bulletin: $bulletin) {
-        ...BulletinFields
-    }
+mutation UpdateBulletin($bulletin: BulletinInput!) {
+  bulletin(bulletin: $bulletin) {
+    ...BulletinFields
+  }
 }
 
 fragment BulletinFields on Bulletin {
-    id
-    text
-    title
-    createdAt
-    updatedAt
+  id
+  text
+  title
+  createdAt
+  updatedAt
 }

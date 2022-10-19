@@ -1,22 +1,20 @@
-
-
 fragment FrontpageSchedule on ScheduleItem {
-   startsAt
-    video {
-        id
-        title
-        description
-        organization {
-            id
-            name
-        }
+  startsAt
+  video {
+    id
+    title
+    description
+    organization {
+      id
+      name
     }
+  }
 }
 
 query GetFrontpage {
-    schedule (filter: {}) {
-        items {
-            ...FrontpageSchedule
-        }
+  schedule(filter: {}) {
+    items {
+      ...FrontpageSchedule
     }
+  }
 }

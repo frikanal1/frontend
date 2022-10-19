@@ -1,39 +1,39 @@
-query GetLatestVideos ($orgId: ID!) {
-    organization (id: $orgId) {
-        id
-        ...LatestVideos
-    }
+query GetLatestVideos($orgId: ID!) {
+  organization(id: $orgId) {
+    id
+    ...LatestVideos
+  }
 }
 
 fragment LatestVideos on Organization {
-    latestVideos {
-        ...BasicVideoMetadata
-        ...VideoAssets
-    }
+  latestVideos {
+    ...BasicVideoMetadata
+    ...VideoAssets
+  }
 }
 
-mutation MutateOrganization ($organization: OrganizationInput!) {
-    organization(organization: $organization) {
-        ...OrganizationData
-    }
+mutation MutateOrganization($organization: OrganizationInput!) {
+  organization(organization: $organization) {
+    ...OrganizationData
+  }
 }
 
-query GetOrganization ($orgId: ID!) {
-    organization(id: $orgId) {
-        ...OrganizationData
-    }
+query GetOrganization($orgId: ID!) {
+  organization(id: $orgId) {
+    ...OrganizationData
+  }
 }
 
 fragment OrganizationData on Organization {
+  id
+  name
+  description
+  homepage
+  postalAddress
+  streetAddress
+  editor {
     id
     name
-    description
-    homepage
-    postalAddress
-    streetAddress
-    editor {
-        id
-        name
-        email
-    }
+    email
+  }
 }
