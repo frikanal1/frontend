@@ -5,7 +5,7 @@ extends:
   #  - airbnb-typescript
   - "plugin:react/recommended"
   - "prettier"
-  - "next"
+  - "next/core-web-vitals"
 parserOptions:
   project: "./tsconfig.json"
   ecmaFeatures:
