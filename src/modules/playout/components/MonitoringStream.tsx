@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import JSMpeg from "@cycjimmy/jsmpeg-player"
 import { styled } from "@mui/system"
-import { AspectContainer } from "src/modules/core/components/AspectContainer"
+import * as AspectRatio from "@radix-ui/react-aspect-ratio"
 
 const Content = styled("div")`
   width: 100%;
@@ -36,8 +36,8 @@ export const MonitoringStream = () => {
   }
 
   return (
-    <AspectContainer width={1280} height={720}>
+    <AspectRatio.Root ratio={1.777}>
       <Content ref={containerRef} onClick={toggleMute} />
-    </AspectContainer>
+    </AspectRatio.Root>
   )
 }

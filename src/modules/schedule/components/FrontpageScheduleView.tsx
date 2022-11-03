@@ -1,19 +1,9 @@
-import { ScheduleItemSummary } from "./ScheduleItemSummary"
+import { UpcomingProgramme } from "./UpcomingProgramme"
 import React, { useState } from "react"
-import { styled } from "@mui/system"
-import { ScheduleItemBlurb } from "./ScheduleItemBlurb"
+import { CurrentProgramme } from "./CurrentProgramme"
 import { FrontpageScheduleFragment, GetFrontpageDocument, Maybe } from "../../../generated/graphql"
 import { useQuery } from "@apollo/client"
 import { useInterval } from "usehooks-ts"
-
-const NextTitle = styled("h3")`
-  margin-top: 32px;
-  font-size: 1.5em;
-`
-
-const Schedule = styled("div")`
-  margin-top: 16px;
-`
 
 /**
  * Returns the index of the last element in the array where predicate is true, and -1
@@ -34,11 +24,13 @@ export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: n
 const getPlayingNow = (now: Date, items?: Maybe<Array<Maybe<FrontpageScheduleFragment>>>) =>
   findLastIndex(items || [], (i) => (i ? new Date(i.startsAt) <= now : true))
 
-export const ScheduleFrontpageWidget = () => {
+export const FrontpageScheduleView = () => {
   const query = useQuery(GetFrontpageDocument)
   const scheduleItems = query?.data?.schedule?.items
 
   const [time, setTime] = useState<Date>(new Date())
+
+  // Update the UI every second
   useInterval(() => setTime(new Date()), 1000)
 
   if (!scheduleItems) return null
@@ -48,13 +40,14 @@ export const ScheduleFrontpageWidget = () => {
   if (currentlyPlaying == -1) return null
 
   return (
-    <>
-      <ScheduleItemBlurb entry={scheduleItems[currentlyPlaying]} />
-      <NextTitle>Senere</NextTitle>
-      <Schedule>
-        <ScheduleItemSummary entry={scheduleItems[currentlyPlaying + 1]} />
-        <ScheduleItemSummary entry={scheduleItems[currentlyPlaying + 2]} />
-      </Schedule>
-    </>
+    <div className="bg-slate-800 text-slate-100">
+      <div className={"p-2"}>
+        <CurrentProgramme entry={scheduleItems[currentlyPlaying]} />
+      </div>
+      <div className="p-2 bg-slate-700">
+        <UpcomingProgramme className="text-slate-200" entry={scheduleItems[currentlyPlaying + 1]} />
+        <UpcomingProgramme className="text-slate-300" entry={scheduleItems[currentlyPlaying + 2]} />
+      </div>
+    </div>
   )
 }

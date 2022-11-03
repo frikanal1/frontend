@@ -1,7 +1,10 @@
 import { styled } from "@mui/system"
 import { EmptyState } from "src/modules/ui/components/EmptyState"
-import { VideoGridItem } from "./VideoGridItem"
-import { Video } from "../../../generated/graphql"
+import { LatestVideosFragment } from "../../../generated/graphql"
+import { AspectContainer } from "../../core/components/AspectContainer"
+import Link from "next/link"
+import { format } from "date-fns"
+import { nb } from "date-fns/locale"
 
 const Grid = styled("ul")`
   padding-left: 0;
@@ -11,7 +14,7 @@ const Grid = styled("ul")`
 `
 
 export type VideoGridProps = {
-  videos?: Array<Pick<Video, "id">>
+  videos?: LatestVideosFragment["latestVideos"]
 }
 
 export function VideoGrid({ videos }: VideoGridProps) {
@@ -20,8 +23,26 @@ export function VideoGrid({ videos }: VideoGridProps) {
 
   return (
     <Grid>
-      {videos.map((v) => (
-        <VideoGridItem key={v.id} videoId={v.id} />
+      {videos.map(({ id, title, createdAt, images }) => (
+        <div key={id}>
+          <div>
+            <AspectContainer width={1280} height={720}>
+              <Link href={`/video/${id}`} passHref>
+                <a>
+                  <img alt={"thumbnail"} src={images.thumbLarge} />
+                </a>
+              </Link>
+            </AspectContainer>
+          </div>
+          <div>
+            <div>
+              <Link href={`/video/${id}`} passHref>
+                <a>{title}</a>
+              </Link>
+            </div>
+          </div>
+          <div>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</div>
+        </div>
       ))}
     </Grid>
   )

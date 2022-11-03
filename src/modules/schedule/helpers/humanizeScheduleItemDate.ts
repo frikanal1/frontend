@@ -10,11 +10,11 @@ export const humanizeScheduleItemDate = (date: Date) => {
   }
 
   if (secondDifference < 60) {
-    return `${secondDifference} sek`
+    return `om ${secondDifference} sek`
   }
 
   if (differenceInMinutes(date, now) < 60) {
-    return `${Math.round(secondDifference / 60)} min`
+    return `om ${Math.round(secondDifference / 60)} min`
   }
 
   if (isToday(date)) {

@@ -49,12 +49,12 @@ interface OrganizationPageProps {
   orgId: string
 }
 
-interface OrganizationPageParams extends ParsedUrlQuery {
+export interface OrganizationPageParams extends ParsedUrlQuery {
   orgId: string
 }
 
 export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => {
-  const { data } = useQuery(GetOrganizationDocument, { variables: { orgId: orgId } })
+  const { data } = useQuery(GetOrganizationDocument, { variables: { orgId } })
 
   if (!data?.organization) return null
 

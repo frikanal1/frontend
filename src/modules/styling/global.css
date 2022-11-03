@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    box-sizing: border-box;
+}
+
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: 100%;
+}
+
+#__next {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}

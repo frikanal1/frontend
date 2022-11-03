@@ -1,11 +1,11 @@
 import { styled } from "@mui/system"
-import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import React from "react"
 import { Button, Dialog, TextField } from "@mui/material"
 import Nope from "nope-validator"
 import { nopeResolver } from "@hookform/resolvers/nope"
 import { useForm, FieldValues } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
+import * as AspectRatio from "@radix-ui/react-aspect-ratio"
 
 const Container = styled("div")`
   width: 650px;
@@ -73,9 +73,9 @@ export const TextSlideEditorDialog = ({ open, onClose }: { open: boolean; onClos
 
           <TextField margin={"normal"} multiline fullWidth label={"Tekst"} {...register("text")} />
           <ErrorMessage errors={errors} name={"text"} />
-          <AspectContainer width={1280} height={720}>
+          <AspectRatio.Root ratio={1.777}>
             <Preview style={{ backgroundImage: `url(${previewURL})` }} />
-          </AspectContainer>
+          </AspectRatio.Root>
           <div className={"buttons"}>
             <Button variant="contained" type={"submit"}>
               Lagre

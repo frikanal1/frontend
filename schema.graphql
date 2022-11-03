@@ -99,6 +99,7 @@ type Video {
     createdAt: DateTime!
     description: String!
     id: ID!
+    images: VideoImages!
     organization: Organization!
     title: String!
     updatedAt: DateTime!
@@ -109,6 +110,12 @@ type VideoAsset {
     id: ID!
     path: String!
     type: String!
+}
+
+type VideoImages {
+    thumbLarge: String!
+    thumbMedium: String!
+    thumbSmall: String!
 }
 
 type VideoPagination {

@@ -1,9 +1,9 @@
 import { css } from "@emotion/react"
 import { styled } from "@mui/system"
 import { isSameDay, isToday } from "date-fns"
-import { AspectContainer } from "src/modules/core/components/AspectContainer"
 import { IconButton } from "src/modules/ui/components/IconButton"
 import { useState } from "react"
+import * as AspectRatio from "@radix-ui/react-aspect-ratio"
 
 const Container = styled("div")``
 
@@ -183,11 +183,11 @@ export function CalendarInput(props: CalendarInputProps) {
 
     return (
       <DateNumberContainer key={day}>
-        <AspectContainer width={1} height={1}>
+        <AspectRatio.Root ratio={1}>
           <DateNumber onClick={() => selectDate(date)} type={type}>
             {date.getDate()}
           </DateNumber>
-        </AspectContainer>
+        </AspectRatio.Root>
       </DateNumberContainer>
     )
   }

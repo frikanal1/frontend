@@ -1,51 +1,73 @@
 query GetVideos {
-  videos {
-    items {
-      id
-      title
-      organization {
-        id
-        name
-      }
-      createdAt
+    videos {
+        items {
+            id
+            title
+            organization {
+                id
+                name
+            }
+            createdAt
+        }
     }
-  }
 }
 
 query GetVideo($videoId: ID!) {
-  video(id: $videoId) {
-    ...BasicVideoMetadata
-    ...VideoAssets
-    organization {
-      ...LatestVideos
+    video(id: $videoId) {
+        ...BasicVideoMetadata
+        ...VideoAssets
+        organization {
+            ...LatestVideos
+        }
     }
-  }
 }
 
 fragment VideoAssets on Video {
-  assets {
-    id
-    type
-    path
-  }
+    assets {
+        id
+        type
+        path
+    }
 }
 
 fragment BasicVideoMetadata on Video {
-  id
-  title
-  description
-  createdAt
-  organization {
     id
-    name
-  }
+    title
+    description
+    createdAt
+    organization {
+        id
+        name
+    }
+    images {
+        thumbLarge
+        thumbMedium
+        thumbSmall
+    }
 }
 
 fragment LatestVideos on Organization {
-  id
-  name
-
-  latestVideos {
     id
-  }
+    name
+
+    latestVideos {
+        id
+        title
+        description
+        createdAt
+        organization {
+            id
+            name
+        }
+        images {
+            thumbLarge
+            thumbMedium
+            thumbSmall
+        }
+        assets {
+            id
+            type
+            path
+        }
+    }
 }

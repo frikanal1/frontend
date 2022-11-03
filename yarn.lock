@@ -682,6 +682,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto-flex/-/roboto-flex-4.5.2.tgz#f487bd75a52c9fcb3a77d05b10766afbe5c77393"
   integrity sha512-GYG8WbC9K8HdIYwIzgPb7dc4CrMMb0QUOP6IYPeuVvd33PyZRvVvu1CvRzXhqbI+trV37Ti3WBCfJJl9RvsVTQ==
 
+"@fontsource/roboto-mono@^4.5.8":
+  version "4.5.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto-mono/-/roboto-mono-4.5.8.tgz#f3a48195528b10e154c98365671de14e27605bdb"
+  integrity sha512-AW44UkbQD0w1CT5mzDbsvhGZ6/bb0YmZzoELj6Sx8vcVEzcbYGUdt2Dtl5zqlOuYMWQFY1mniwWyVv+Bm/lVxw==
+
 "@fontsource/roboto-serif@^4.5.8":
   version "4.5.8"
   resolved "https://registry.yarnpkg.com/@fontsource/roboto-serif/-/roboto-serif-4.5.8.tgz#b99210ae5b06516c2c3e38cdc4c8f83d2028b3c8"
@@ -1396,6 +1401,14 @@
   version "2.11.6"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
+
+"@radix-ui/react-aspect-ratio@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-aspect-ratio/-/react-aspect-ratio-1.0.1.tgz#acac370e9efe4b1be44fd2d9a8d7970a7b9fabea"
+  integrity sha512-wwsJUTTuDC8w3Nu/B61Cy3mpzm6pj/tJVG6ajkQAJcCqt1q+XRB3DxDRFDBzjm8JfK125Z6esf5yOmfOAAr0Og==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-primitive" "1.0.1"
 
 "@radix-ui/react-compose-refs@1.0.0":
   version "1.0.0"

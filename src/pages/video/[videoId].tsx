@@ -1,34 +1,25 @@
-import { styled } from "@mui/system"
 import { VideoPlayer } from "src/modules/video/components/VideoPlayer"
 import React from "react"
 import { Meta } from "src/modules/core/components/Meta"
-import { GetVideoDocument, Video } from "../../generated/graphql"
+import { GetVideoDocument, GetVideoQuery } from "../../generated/graphql"
 import { VideoPageMetaBar } from "../../modules/video/components/videoPageMetaBar"
 import { LatestVideosSidebar } from "../../modules/video/components/latestVideosSidebar"
-import { VideoPageBreakpoint } from "../../modules/video/constants"
 import { GetServerSideProps } from "next"
 import assert from "assert"
 import { client } from "../../modules/apollo/client"
+import { ModuleHeading } from "../../refactor/moduleHeading"
+import { ParsedUrlQuery } from "querystring"
 
-const Container = styled("div")`
-  display: flex;
-  width: 100%;
-
-  @media (max-width: ${VideoPageBreakpoint}px) {
-    flex-direction: column;
-  }
-`
-
-const VStack = styled("div")`
-  flex: 1;
-`
+export interface VideoPageParams extends ParsedUrlQuery {
+  videoId: string
+}
 
 interface VideoPageProps {
-  video: Video
+  video: GetVideoQuery["video"]
 }
 
 export const VideoPage = ({ video }: VideoPageProps) => (
-  <Container>
+  <div className={"flex gap-5 flex-col lg:flex-row "}>
     <Meta
       meta={{
         title: video.title,
@@ -36,21 +27,27 @@ export const VideoPage = ({ video }: VideoPageProps) => (
         author: video.organization.name,
       }}
     />
-    <VStack>
-      <VideoPlayer video={video} width={1280} height={720} />
-      <VideoPageMetaBar {...video} />
-    </VStack>
-    <LatestVideosSidebar latestVideos={video.organization} />
-  </Container>
+    <div className={"flex flex-col max-w-[1280px]  "}>
+      <ModuleHeading className={"py-3 text-slate-900 "}>{video.title}</ModuleHeading>
+      <div className="bg-slate-800">
+        <VideoPlayer video={video} />
+        <VideoPageMetaBar video={video} />
+      </div>
+    </div>
+    <LatestVideosSidebar className={"lg:w-1/3 pt-16"} latestVideos={video.organization} />
+  </div>
 )
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const videoId = context.params?.videoId
+export const getServerSideProps: GetServerSideProps<VideoPageProps> = async (ctx) => {
+  const { videoId } = ctx.params as VideoPageParams
 
   assert(videoId)
 
-  const { data } = await client.query({ query: GetVideoDocument, variables: { videoId: videoId as string } })
-  return { props: { video: data.video } }
+  const {
+    data: { video },
+  } = await client.query({ query: GetVideoDocument, variables: { videoId: videoId as string } })
+
+  return { props: { video } }
 }
 
 export default VideoPage

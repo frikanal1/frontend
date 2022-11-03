@@ -1,5 +1,4 @@
 import styled from "@emotion/styled"
-import { AspectContainer } from "src/modules/core/components/AspectContainer"
 
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js"
 import "video.js/dist/video-js.css"
@@ -74,15 +73,14 @@ const Container = styled.div`
 
 export type LiveVideoPlayerProp = {
   src: string
-  width: number
-  height: number
 }
+import * as AspectRatio from "@radix-ui/react-aspect-ratio"
 
 export function LiveVideoPlayer(props: LiveVideoPlayerProp) {
-  const { src, width, height } = props
+  const { src } = props
 
   return (
-    <AspectContainer width={width} height={height}>
+    <AspectRatio.Root ratio={1.777}>
       <Container>
         <VideoJS
           options={{
@@ -93,7 +91,7 @@ export function LiveVideoPlayer(props: LiveVideoPlayerProp) {
           }}
         />
       </Container>
-    </AspectContainer>
+    </AspectRatio.Root>
   )
 }
 

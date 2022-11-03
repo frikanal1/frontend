@@ -11,7 +11,7 @@ export default function About() {
           description: "Her kan du lese vedtektene for Foreningen Frikanalen",
         }}
       />
-      <article className={"prose lg:prose-xl"}>
+      <article>
         <header>
           <h2>Vedtekter for Foreningen Frikanalen</h2>
           <p>
