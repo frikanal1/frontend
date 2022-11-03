@@ -78,17 +78,15 @@ export default function About() {
             Alle individer og ikke-kommersielle organisasjoner kan tegne medlemskap i Frikanalen og få sitt innhold
             sendt på riksdekkende fjernsyn.
           </p>
-          <p>
-            Slik går du frem:
-            <TutorialList>
-              <li>
-                Opprett en bruker på denne nettsiden, ved å trykke på «Logg inn» oppe til høyre, og så «Registrer ny
-                konto?»
-              </li>
-              <li>Fra din brukerprofil, opprett en ny organisasjon</li>
-              <li>For informasjon om kontingent og innmelding, se «Kontakt oss» lenger nede på denne siden</li>
-            </TutorialList>
-          </p>
+          <p>Slik går du frem:</p>
+          <TutorialList>
+            <li>
+              Opprett en bruker på denne nettsiden, ved å trykke på «Logg inn» oppe til høyre, og så «Registrer ny
+              konto?»
+            </li>
+            <li>Fra din brukerprofil, opprett en ny organisasjon</li>
+            <li>For informasjon om kontingent og innmelding, se «Kontakt oss» lenger nede på denne siden</li>
+          </TutorialList>
         </section>
         <section>
           <h5>...som frivillig</h5>

@@ -11,7 +11,6 @@ import "core-js/stable"
 import "regenerator-runtime/runtime"
 import { GetServerSideProps } from "next/types"
 import getConfig from "next/config"
-import { Button } from "../../../modules/ui/components/Button"
 
 export interface RequireUserIsEditorOfProps {
   // The organization against which we check the
@@ -52,36 +51,42 @@ const UploadIcon = () => (
   </svg>
 )
 
-const FileSelector = ({ handleStart }: { handleStart: (file: File) => void }) => {
+const UploadFileSelector = ({ handleStart }: { handleStart: (file: File) => void }) => {
   const [file, setFile] = useState<Maybe<File>>()
 
-  return (
-    <>
-      <div className="max-w-xl p-2">
-        <label className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
-          <span className="flex items-center space-x-2">
-            <UploadIcon />
-            <span className="font-medium text-gray-600">
-              Drop files to Attach, or <span className="text-blue-600 underline">browse</span>
-            </span>
-          </span>
-          <input
-            type="file"
-            name="file_upload"
-            className="hidden"
-            onChange={(event) => {
-              console.log(event)
-              setFile(event.target.files?.item(0))
-            }}
-          />
-        </label>
-      </div>
-      {file?.name}
-      <Button className="" onClick={() => file && handleStart(file)}>
-        Upload
-      </Button>
-    </>
+  const FileSelector = () => (
+    <label className="flex justify-center w-full h-32 px-4 transition bg-white appearance-none cursor-pointer hover:border-gray-400 focus:outline-none border-4 border-gray-300 border-dashed rounded-2xl ">
+      <span className="flex items-center space-x-2">
+        <UploadIcon />
+        <span className="font-medium text-gray-600">
+          Drop files to Attach, or <span className="text-blue-600 underline">browse</span>
+        </span>
+      </span>
+      <input
+        type="file"
+        name="file_upload"
+        className="hidden"
+        onChange={(event) => setFile(event.target.files?.item(0))}
+      />
+    </label>
   )
+
+  const FileConfirmation = () => (
+    <div className=" w-full h-32 px-4 transition bg-white">
+      <div>Filnavn:</div>
+      <div>{file!.name}</div>
+      <div>Filstørrelse:</div>
+      <div>{file!.size}</div>
+      <button
+        className="border-2 border-black rounded-lg shadow-lg px-4 py-2 w-40"
+        onClick={() => file && handleStart(file)}
+      >
+        Last opp
+      </button>
+    </div>
+  )
+
+  return <div className="max-w-xl p-2">{!file ? <FileSelector /> : <FileConfirmation />}</div>
 }
 
 const UploadProgressBar = ({ progress }: { progress: number }) => (
@@ -128,6 +133,7 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
         onAfterResponse: (req: any) => {
           const xhr = req.getUnderlyingObject() as XMLHttpRequest
           // Kludge to get an onSuccess which also reads mediaId/jobId
+          // The last PATCH will return 200, others return 204 No Content
           if (req._method === "PATCH" && xhr.status === 200) {
             const { jobId } = JSON.parse(xhr.responseText)
             // setMediaId(mediaId)
@@ -151,7 +157,7 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
     <RequireUserIsEditorOf organization={organization}>
       <div className="max-w">
         <h3 className="text-xl">Last opp video for {organization.name}</h3>
-        {!upload && <FileSelector handleStart={handleSetUpload} />}
+        {!upload && <UploadFileSelector handleStart={handleSetUpload} />}
         {upload && !jobId && <UploadProgressBar progress={uploadProgress} />}
         {jobId && jobId}
       </div>

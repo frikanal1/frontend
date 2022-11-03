@@ -11,7 +11,7 @@ export default function About() {
           description: "Her kan du lese vedtektene for Foreningen Frikanalen",
         }}
       />
-      <article>
+      <article className={"prose lg:prose-xl"}>
         <header>
           <h2>Vedtekter for Foreningen Frikanalen</h2>
           <p>
@@ -22,7 +22,7 @@ export default function About() {
         <section>
           <h4>§ 1. Navn</h4>
 
-          <p>Foreningen Frikanalen er en selvstendig forening stiftet 14.06.2007. </p>
+          <p>Foreningen Frikanalen er en selvstendig forening stiftet 14.06.2007.</p>
         </section>
         <section>
           <h4>§ 2. Formål</h4>
@@ -156,6 +156,7 @@ export default function About() {
             <h5>§ 5-1. Styrets oppgaver</h5>
 
             <p>Styret skal:</p>
+
             <ul>
               <li>lede Foreningen Frikanalen i perioden mellom Årsmøtene</li>
               <li>iverksette Årsmøtets vedtak</li>

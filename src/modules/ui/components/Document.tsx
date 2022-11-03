@@ -1,12 +1,11 @@
 import { styled } from "@mui/system"
-import { GENERAL_BREAKPOINT } from "../../core/constants"
+import { ReactNode } from "react"
 
-export const Document = styled("div")`
-  @media (max-width: ${GENERAL_BREAKPOINT}) {
-    max-width: 100%;
-    width: 100%;
-  }
+const DocumentComponent = ({ className, children }: { className?: string; children?: ReactNode }) => (
+  <div className={"max-w-500px prose lg:prose-xl prose-p:m-0 " + className}>{children}</div>
+)
 
+export const Document = styled(DocumentComponent)`
   section {
     margin-left: 1.5rem;
 
