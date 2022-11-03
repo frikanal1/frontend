@@ -9,6 +9,7 @@ import { ApolloClient, ApolloProvider } from "@apollo/client"
 import { UserProvider } from "src/refactor/UserContext"
 import { AppProps } from "next/app"
 import { client } from "../modules/apollo/client"
+import "../modules/styling/global.css"
 
 type FKAppProps = AppProps & {
   apolloClient?: ApolloClient<object>

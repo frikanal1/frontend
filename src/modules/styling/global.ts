@@ -1,6 +1,5 @@
 import { css } from "@emotion/react"
 import { Theme } from "@mui/system"
-
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
@@ -46,6 +45,7 @@ export const global = (theme: Theme) => css`
           max-width: ${MAIN_CONTENT_WIDTH};
           width: 100%;
           margin-right: auto;
+          margin-left: auto;
         }
         width: 100%;
       }

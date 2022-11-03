@@ -54,11 +54,13 @@ interface OrganizationPageParams extends ParsedUrlQuery {
 }
 
 export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => {
-  const query = useQuery(GetOrganizationDocument, { variables: { orgId: orgId } })
+  const { data } = useQuery(GetOrganizationDocument, { variables: { orgId: orgId } })
 
-  if (!query.data?.organization) return null
+  if (!data?.organization) return null
 
-  const { name, description, postalAddress, streetAddress, editor } = query.data.organization
+  const { organization } = data
+
+  const { name, description, postalAddress, streetAddress, editor, latestVideos } = organization
 
   return (
     <Container>
@@ -70,7 +72,7 @@ export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => 
       />
       <h3>{name}</h3>
       <p className={"description"}>{description}</p>
-      <LatestVideosGrid organizationId={orgId} />
+      <LatestVideosGrid latestVideos={latestVideos} />
 
       <SecondaryInfo>
         <InfoSection icon="pencil" title="Redaktør">
@@ -92,7 +94,7 @@ export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => 
 export const getServerSideProps: GetServerSideProps<OrganizationPageProps> = async (ctx) => {
   const { orgId } = ctx.params as OrganizationPageParams
 
-  return { props: { orgId: orgId } }
+  return { props: { orgId } }
 }
 
 export default OrganizationPage

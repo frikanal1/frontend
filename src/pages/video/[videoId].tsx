@@ -19,36 +19,30 @@ const Container = styled("div")`
   }
 `
 
-const Content = styled("div")`
+const VStack = styled("div")`
   flex: 1;
 `
 
 interface VideoPageProps {
-  video?: Video
+  video: Video
 }
 
-export const VideoPage = ({ video }: VideoPageProps) => {
-  console.log(video)
-
-  if (!video) return null
-
-  return (
-    <Container>
-      <Meta
-        meta={{
-          title: video.title,
-          description: video.description,
-          author: video.organization.name,
-        }}
-      />
-      <Content>
-        <VideoPlayer video={video} width={1280} height={720} />
-        <VideoPageMetaBar {...video} />
-      </Content>
-      <LatestVideosSidebar organization={video.organization} />
-    </Container>
-  )
-}
+export const VideoPage = ({ video }: VideoPageProps) => (
+  <Container>
+    <Meta
+      meta={{
+        title: video.title,
+        description: video.description,
+        author: video.organization.name,
+      }}
+    />
+    <VStack>
+      <VideoPlayer video={video} width={1280} height={720} />
+      <VideoPageMetaBar {...video} />
+    </VStack>
+    <LatestVideosSidebar latestVideos={video.organization} />
+  </Container>
+)
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const videoId = context.params?.videoId
@@ -56,7 +50,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   assert(videoId)
 
   const { data } = await client.query({ query: GetVideoDocument, variables: { videoId: videoId as string } })
-
   return { props: { video: data.video } }
 }
 

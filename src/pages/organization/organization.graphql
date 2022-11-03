@@ -1,17 +1,3 @@
-query GetLatestVideos($orgId: ID!) {
-  organization(id: $orgId) {
-    id
-    ...LatestVideos
-  }
-}
-
-fragment LatestVideos on Organization {
-  latestVideos {
-    ...BasicVideoMetadata
-    ...VideoAssets
-  }
-}
-
 mutation MutateOrganization($organization: OrganizationInput!) {
   organization(organization: $organization) {
     ...OrganizationData
@@ -21,6 +7,7 @@ mutation MutateOrganization($organization: OrganizationInput!) {
 query GetOrganization($orgId: ID!) {
   organization(id: $orgId) {
     ...OrganizationData
+    ...LatestVideos
   }
 }
 

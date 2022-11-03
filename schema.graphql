@@ -19,10 +19,10 @@ type BulletinPagination {
 }
 
 type Mutation {
-    bulletin(bulletin: BulletinInput!): Bulletin
+    bulletin(bulletin: BulletinInput!): Bulletin!
     login(email: String!, password: String!): User
     logout: Boolean
-    organization(organization: OrganizationInput!): Organization
+    organization(organization: OrganizationInput!): Organization!
 }
 
 type Organization {
@@ -136,13 +136,13 @@ input BulletinInput {
 }
 
 input OrganizationInput {
-    brregId: String!
+    brregId: String
     description: String
     homepage: String
     id: ID
-    name: String!
-    postalAddress: String!
-    streetAddress: String!
+    name: String
+    postalAddress: String
+    streetAddress: String
 }
 
 input ScheduleFilter {
