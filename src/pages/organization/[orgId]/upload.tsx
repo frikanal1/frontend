@@ -26,17 +26,27 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
     <span className={"text-lg lg:text-5xl font-bold lg:font-black lg:block"}>{children}</span>
   )
 
-  const Step = ({ children, className }: { children: ReactNode; className?: string }) => (
-    <div className={"lg:w-1/3 text-lg lg:text-2xl p-2 lg:p-5 font-bold " + className ?? ""}>{children}</div>
+  const Step = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+    <div className={"lg:w-1/3 text-lg lg:text-2xl p-2 lg:p-5 font-bold " + className}>{children}</div>
   )
 
-  const ColoredBar = ({ children, className }: { children: ReactNode; className?: string }) => (
-    <div className={"flex p-3 flex-col lg:flex-row " + className ?? ""}>{children}</div>
+  const ColoredBar = ({
+    children,
+    className = "",
+    disabled = false,
+  }: {
+    children: ReactNode
+    className?: string
+    disabled?: boolean
+  }) => (
+    <div className={"flex p-3 flex-col lg:flex-row " + className ?? ""} aria-disabled={disabled}>
+      {children}
+    </div>
   )
 
   return (
     <RequireUserIsEditor organization={organization}>
-      <div className="w-[900px] max-w-full">
+      <div className="">
         <h3 className="text-3xl bg-black font-bold text-white p-8">Ny video for {organization.name}</h3>
         <ColoredBar className={"lg:min-h-[200px] bg-gradient-to-t from-teal-500 to-teal-400 text-black"}>
           <Step>
@@ -47,17 +57,21 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
           </div>
         </ColoredBar>
         <ColoredBar
-          className={`bg-gradient-to-t from-teal-400 to-teal-300 text-black ${mediaId || "grayscale opacity-50"}`}
+          disabled={!mediaId}
+          className={
+            `bg-gradient-to-t from-teal-400 to-teal-300 text-black transition-all delay-500 duration-500 ease-in-out ` +
+            ` aria-disabled:opacity-50 aria-disabled:grayscale`
+          }
         >
           <Step>
             <StepNumber>2.</StepNumber> oppgi metadata
           </Step>
-          <div className={`w-full px-5 `}>
+          <div className={`w-full px-5`}>
             {mediaId && <VideoCreationForm mediaId={mediaId} organizationId={organization.id} onCreated={setVideoId} />}
           </div>
         </ColoredBar>
         <ColoredBar
-          className={`bg-gradient-to-t from-teal-300 to-teal-200 text-black ${videoId || "grayscale opacity-60"}`}
+          className={`bg-gradient-to-t from-teal-300 to-teal-200 text-black ${videoId || "grayscale opacity-50"}`}
         >
           <Step>
             <StepNumber>3.</StepNumber> publisér!

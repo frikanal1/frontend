@@ -1,42 +1,62 @@
-import React from "react"
-import { styled } from "@mui/system"
+import React, { useContext, useState } from "react"
 import { RequireAuthentication } from "src/modules/core/components/RequireAuthentication"
 import { Meta } from "src/modules/core/components/Meta"
-import { GetProfileDocument } from "../generated/graphql"
-import { useQuery } from "@apollo/client"
-import { UserProfileForm } from "../refactor/UserProfileForm"
-import { UserRoleList } from "../refactor/UserRoleList"
-import { USER_PROFILE_BREAKPOINT } from "../modules/core/constants"
+import UploadPage from "./organization/[orgId]/upload"
+import { UserMenu, UserMenuSelector, UserMenuState } from "../refactor/UserMenu"
+import { ModuleHeading } from "src/refactor/ModuleHeading"
+import userContext from "../refactor/UserContext"
 
-const Container = styled("div")`
-  width: 100%;
-  > div {
-    display: flex;
-
-    @media (max-width: ${USER_PROFILE_BREAKPOINT}px) {
-      flex-direction: column;
-    }
-  }
-`
+const OrgSelector = () => {
+  const { activeOrganization, setActiveOrganization, session } = useContext(userContext)
+  return (
+    <div>
+      <h2 className={"text-3xl py-2"}>Velg aktiv organisasjon</h2>
+      <p className={"text-3xl py-2"}>Placeholder, skal bli bedre!</p>
+      <div>
+        {session?.user?.roles.map((x, idx) => (
+          <div
+            key={idx}
+            onClick={() => setActiveOrganization(x.organization.id)}
+            className={activeOrganization == x.organization.id ? "bg-black text-red-400" : ""}
+          >
+            {x.role} {x.organization.name}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function Profile() {
-  const query = useQuery(GetProfileDocument)
-  const user = query.data?.session.user
+  const { activeOrganization } = useContext(userContext)
+
+  const [currentMenu, setCurrentMenu] = useState<UserMenuState>("newVideo")
+
+  const buildMenu = (): UserMenu => ({
+    newVideo: {
+      title: "Ny video",
+      menu: <UploadPage orgId={activeOrganization || ""} />,
+    },
+    organizations: { title: "Organisasjoner", menu: <OrgSelector /> },
+    profile: { title: "Profil", menu: <div>Profile</div> },
+  })
+
+  const userMenu = buildMenu()
 
   return (
-    <Container>
-      <h1>Din profil</h1>
-      <Meta
-        meta={{
-          title: "Din profil",
-          description: "",
-        }}
-      />
-      <div>
-        <UserProfileForm />
-        <UserRoleList roles={user?.roles} />
+    <div className={"w-full"}>
+      <ModuleHeading>Meny</ModuleHeading>
+      <div className={"flex w-full"}>
+        <Meta
+          meta={{
+            title: "Brukermeny",
+            description: "",
+          }}
+        />
+        <UserMenuSelector className={"basis-1/3"} onSelect={setCurrentMenu} menu={userMenu} />
+        <div className={"grow"}>{userMenu[currentMenu].menu}</div>
       </div>
-    </Container>
+    </div>
   )
 }
 

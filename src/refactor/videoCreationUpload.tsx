@@ -90,7 +90,7 @@ export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
         }
       >
         <UploadFileSelector handleStart={handleSetUpload} />
-        {upload && !jobId && <UploadProgressBar progress={uploadProgress} />}
+        {upload && <UploadProgressBar progress={uploadProgress} />}
       </div>
     </div>
   )
