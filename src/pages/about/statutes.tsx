@@ -1,6 +1,7 @@
 import { Meta } from "src/modules/core/components/Meta"
 import { Document } from "src/modules/ui/components/Document"
 import React from "react"
+import { AboutLinkBar } from "./index"
 
 export default function About() {
   return (
@@ -11,6 +12,7 @@ export default function About() {
           description: "Her kan du lese vedtektene for Foreningen Frikanalen",
         }}
       />
+      <AboutLinkBar />
       <article>
         <header>
           <h2>Vedtekter for Foreningen Frikanalen</h2>

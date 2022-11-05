@@ -5,6 +5,10 @@ schema {
     mutation: Mutation
 }
 
+interface VideoMutationError {
+    message: String!
+}
+
 type Bulletin {
     createdAt: DateTime!
     id: ID!
@@ -23,6 +27,7 @@ type Mutation {
     login(email: String!, password: String!): User
     logout: Boolean
     organization(organization: OrganizationInput!): Organization!
+    video: VideoMutations
 }
 
 type Organization {
@@ -118,9 +123,28 @@ type VideoImages {
     thumbSmall: String!
 }
 
+type VideoMutationPayload {
+    error: VideoMutationError
+    status: MutationStatus!
+    video: Video
+    videoId: ID
+}
+
+type VideoMutations {
+    create(input: VideoInput!): VideoMutationPayload!
+    publish(videoId: ID!): VideoMutationPayload!
+    unpublish(videoId: ID!): VideoMutationPayload!
+    update(input: VideoInput!): VideoMutationPayload!
+}
+
 type VideoPagination {
     items: [Video]!
     pageInfo: PaginationInfo!
+}
+
+enum MutationStatus {
+    ERROR
+    SUCCESS
 }
 
 enum RoleType {
@@ -160,4 +184,12 @@ input ScheduleFilter {
 input VideoFilter {
     organizationId: ID
     query: String
+}
+
+input VideoInput {
+    description: String
+    id: ID
+    mediaId: ID
+    organizationId: ID
+    title: String
 }

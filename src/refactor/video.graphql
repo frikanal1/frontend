@@ -12,6 +12,25 @@ query GetVideos {
     }
 }
 
+mutation CreateVideo ($title: String!, $description: String!, $mediaId: ID!, $organizationId: ID!) {
+    video {
+        create(input: {title: $title, description: $description, mediaId: $mediaId, organizationId: $organizationId}) {
+            status
+            video {
+                id
+            }
+        }
+    }
+}
+
+mutation PublishVideo ($videoId: ID!) {
+    video {
+        publish(videoId: $videoId) {
+            status
+        }
+    }
+}
+
 query GetVideo($videoId: ID!) {
     video(id: $videoId) {
         ...BasicVideoMetadata

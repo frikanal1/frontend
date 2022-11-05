@@ -1,8 +1,6 @@
 import { Meta } from "src/modules/core/components/Meta"
 import { Document } from "src/modules/ui/components/Document"
 import { ExternalLink } from "src/modules/ui/components/ExternalLink"
-import { Quote } from "src/modules/ui/components/Quote"
-import { Typography } from "@mui/material"
 import { styled } from "@mui/system"
 import Link from "next/link"
 
@@ -14,27 +12,15 @@ const TutorialList = styled("ul")`
   }
 `
 
-const AboutLinkBarDiv = styled("div")`
-  display: flex;
-  a {
-    text-decoration: underline;
-    font-weight: bold;
-
-    color: #a6415c;
-    &: hover {
-      color: #f24949;
-    }
-  }
-`
-
 export const AboutLinkBar = () => (
-  <AboutLinkBarDiv>
-    <Typography variant={"h4"}>
-      <Link href="/about/statutes" passHref>
-        <a>Vedtekter</a>
-      </Link>
-    </Typography>
-  </AboutLinkBarDiv>
+  <div className={"space-x-3"}>
+    <Link href="/about" passHref>
+      <a>Om oss</a>
+    </Link>
+    <Link href="/about/statutes" passHref>
+      <a>Vedtekter</a>
+    </Link>
+  </div>
 )
 
 export default function About() {
@@ -46,17 +32,17 @@ export default function About() {
           description: "Informasjon om Frikanalen og hvordan du kan bli medlem",
         }}
       />
-      <h2>Frikanalen er sivilsamfunnets videoplatform</h2>
-      <Quote
-        citation={{
-          name: "Frikanalens formålsparagraf",
-          href: "/about/statutes",
-        }}
-      >
-        Målet med Frikanalen er å styrke ytringsfrihet og deltakerdemokratiet ved å gi flere mulighet til å ytre seg i
-        TV-mediet
-      </Quote>
+      <h2 className={"pt-5"}>Sivilsamfunnets videoplatform</h2>
       <AboutLinkBar />
+      <div className={"bg-emerald-900 text-white p-5"}>
+        <div className={"font-extrabold text-right"}>
+          «Målet med Frikanalen er å styrke ytringsfrihet og deltakerdemokratiet ved å gi flere mulighet til å ytre seg
+          i TV-mediet»
+        </div>
+        <Link href={"/about/statutes"} passHref>
+          <a className={"text-emerald-300 hover:text-emerald-200 no-underline"}>Frikanalens formålsparagraf</a>
+        </Link>
+      </div>
       <p>
         Vi ønsker i samarbeid med våre medlemsorganisasjoner å styrke norsk samfunnsliv og frivillighet med en
         ukommersiell videoplattform uten forhåndssensur.

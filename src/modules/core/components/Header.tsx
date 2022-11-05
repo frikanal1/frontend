@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export function Header() {
   return (
-    <header className={`pt-10`}>
+    <header className={`py-5 lg:py-16`}>
       <div>
         <Link href={"/"} passHref>
           <div>

@@ -1,6 +1,6 @@
 import Nope from "nope-validator"
 
-const RegisterFormSchema = Nope.object().shape({
+export const RegisterFormSchema = Nope.object().shape({
   firstName: Nope.string().required("Du må oppgi et fornavn"),
   lastName: Nope.string().required("Du må oppgi et etternavn"),
   email: Nope.string().required("Du må oppgi en e-post addresse"),

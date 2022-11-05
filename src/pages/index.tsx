@@ -3,14 +3,14 @@ import React, { Suspense } from "react"
 import { Meta } from "src/modules/core/components/Meta"
 import { FrontpageBulletins } from "../modules/bulletins/FrontpageBulletins"
 import { FrontpageScheduleView } from "../modules/schedule/components/FrontpageScheduleView"
-import { ModuleHeading } from "../refactor/moduleHeading"
+import { ModuleHeading } from "../refactor/ModuleHeading"
 
 const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveVideoPlayer"), {
   suspense: true,
 })
 
 const FrontpageLiveVideo = () => (
-  <div className="bg-slate-800">
+  <div className="bg-gradient-to-b from-slate-800 to-slate-900 drop-shadow-2xl">
     <Suspense>
       <LiveVideoPlayer src="https://beta.frikanalen.no/stream/program.m3u8" />
     </Suspense>
@@ -27,7 +27,7 @@ export const IndexPage = () => (
         type: "website",
       }}
     />
-    <div className={"lg:grow"}>
+    <div className={"lg:grow "}>
       <ModuleHeading>Direkte</ModuleHeading>
       <FrontpageLiveVideo />
     </div>

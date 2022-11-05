@@ -7,7 +7,7 @@ import { UserProvider } from "src/refactor/UserContext"
 import { AppProps } from "next/app"
 import { client } from "../modules/apollo/client"
 import "../modules/styling/global.css"
-import "@fontsource/roboto-flex"
+import "@fontsource/roboto-flex/variable-full.css"
 import "@fontsource/roboto-mono"
 import "@fontsource/roboto-serif"
 
@@ -21,9 +21,10 @@ const CustomApp = ({ Component, pageProps, apolloClient = client }: FKAppProps) 
       <ThemeContext>
         <div className="flex flex-col max-w-[1500px] min-h-full grow mr-auto ml-auto w-full px-3 ">
           <Header />
-          <main className="grow flex w-full">
+          <main className="flex w-full">
             <Component {...pageProps} />
           </main>
+          <div className={"grow"}>&nbsp;</div>
           <Footer />
         </div>
       </ThemeContext>

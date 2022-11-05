@@ -7,7 +7,7 @@ import { LatestVideosSidebar } from "../../modules/video/components/latestVideos
 import { GetServerSideProps } from "next"
 import assert from "assert"
 import { client } from "../../modules/apollo/client"
-import { ModuleHeading } from "../../refactor/moduleHeading"
+import { ModuleHeading } from "../../refactor/ModuleHeading"
 import { ParsedUrlQuery } from "querystring"
 
 export interface VideoPageParams extends ParsedUrlQuery {
@@ -19,7 +19,7 @@ interface VideoPageProps {
 }
 
 export const VideoPage = ({ video }: VideoPageProps) => (
-  <div className={"flex gap-5 flex-col lg:flex-row "}>
+  <div className={"flex gap-5 flex-col lg:flex-row w-full"}>
     <Meta
       meta={{
         title: video.title,
@@ -27,14 +27,16 @@ export const VideoPage = ({ video }: VideoPageProps) => (
         author: video.organization.name,
       }}
     />
-    <div className={"flex flex-col max-w-[1280px]  "}>
-      <ModuleHeading className={"py-3 text-slate-900 "}>{video.title}</ModuleHeading>
-      <div className="bg-slate-800">
+    <div className={"flex flex-col max-w-[1280px] w-full"}>
+      <div className="bg-slate-800 drop-shadow-2xl text-sm w-full">
+        <ModuleHeading className={"text-slate-100 bg-gradient-to-b from-slate-800 to-slate-900 p-8 pb-5"}>
+          {video.title}
+        </ModuleHeading>
         <VideoPlayer video={video} />
         <VideoPageMetaBar video={video} />
       </div>
     </div>
-    <LatestVideosSidebar className={"lg:w-1/3 pt-16"} latestVideos={video.organization} />
+    <LatestVideosSidebar className={"lg:w-1/3 drop-shadow-lg"} latestVideos={video.organization} />
   </div>
 )
 

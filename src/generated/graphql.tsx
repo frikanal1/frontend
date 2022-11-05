@@ -41,6 +41,7 @@ export type Mutation = {
   login?: Maybe<User>;
   logout?: Maybe<Scalars['Boolean']>;
   organization: Organization;
+  video?: Maybe<VideoMutations>;
 };
 
 
@@ -58,6 +59,11 @@ export type MutationLoginArgs = {
 export type MutationOrganizationArgs = {
   organization: OrganizationInput;
 };
+
+export enum MutationStatus {
+  Error = 'ERROR',
+  Success = 'SUCCESS'
+}
 
 export type Organization = {
   __typename?: 'Organization';
@@ -225,6 +231,54 @@ export type VideoImages = {
   thumbSmall: Scalars['String'];
 };
 
+export type VideoInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  mediaId?: InputMaybe<Scalars['ID']>;
+  organizationId?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type VideoMutationError = {
+  message: Scalars['String'];
+};
+
+export type VideoMutationPayload = {
+  __typename?: 'VideoMutationPayload';
+  error?: Maybe<VideoMutationError>;
+  status: MutationStatus;
+  video?: Maybe<Video>;
+  videoId?: Maybe<Scalars['ID']>;
+};
+
+export type VideoMutations = {
+  __typename?: 'VideoMutations';
+  create: VideoMutationPayload;
+  publish: VideoMutationPayload;
+  unpublish: VideoMutationPayload;
+  update: VideoMutationPayload;
+};
+
+
+export type VideoMutationsCreateArgs = {
+  input: VideoInput;
+};
+
+
+export type VideoMutationsPublishArgs = {
+  videoId: Scalars['ID'];
+};
+
+
+export type VideoMutationsUnpublishArgs = {
+  videoId: Scalars['ID'];
+};
+
+
+export type VideoMutationsUpdateArgs = {
+  input: VideoInput;
+};
+
 export type VideoPagination = {
   __typename?: 'VideoPagination';
   items: Array<Maybe<Video>>;
@@ -325,6 +379,23 @@ export type GetVideosQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetVideosQuery = { __typename?: 'Query', videos: { __typename?: 'VideoPagination', items: Array<{ __typename?: 'Video', id: string, title: string, createdAt: any, organization: { __typename?: 'Organization', id: string, name: string } } | null> } };
 
+export type CreateVideoMutationVariables = Exact<{
+  title: Scalars['String'];
+  description: Scalars['String'];
+  mediaId: Scalars['ID'];
+  organizationId: Scalars['ID'];
+}>;
+
+
+export type CreateVideoMutation = { __typename?: 'Mutation', video?: { __typename?: 'VideoMutations', create: { __typename?: 'VideoMutationPayload', status: MutationStatus, video?: { __typename?: 'Video', id: string } | null } } | null };
+
+export type PublishVideoMutationVariables = Exact<{
+  videoId: Scalars['ID'];
+}>;
+
+
+export type PublishVideoMutation = { __typename?: 'Mutation', video?: { __typename?: 'VideoMutations', publish: { __typename?: 'VideoMutationPayload', status: MutationStatus } } | null };
+
 export type GetVideoQueryVariables = Exact<{
   videoId: Scalars['ID'];
 }>;
@@ -360,4 +431,6 @@ export const GetProfileDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const LogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutMutation, LogoutMutationVariables>;
 export const GetVideosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetVideos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"videos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetVideosQuery, GetVideosQueryVariables>;
+export const CreateVideoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateVideo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"description"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mediaId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"video"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"create"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"description"},"value":{"kind":"Variable","name":{"kind":"Name","value":"description"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"mediaId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mediaId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"organizationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"organizationId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"video"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<CreateVideoMutation, CreateVideoMutationVariables>;
+export const PublishVideoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"PublishVideo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"video"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publish"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"videoId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<PublishVideoMutation, PublishVideoMutationVariables>;
 export const GetVideoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetVideo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"video"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"videoId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"BasicVideoMetadata"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"VideoAssets"}},{"kind":"Field","name":{"kind":"Name","value":"organization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LatestVideos"}}]}}]}}]}},...BasicVideoMetadataFragmentDoc.definitions,...VideoAssetsFragmentDoc.definitions,...LatestVideosFragmentDoc.definitions]} as unknown as DocumentNode<GetVideoQuery, GetVideoQueryVariables>;

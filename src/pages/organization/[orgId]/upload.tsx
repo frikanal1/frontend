@@ -1,118 +1,73 @@
-import React, { useCallback, useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { useQuery } from "@apollo/client"
-import { GetOrganizationDocument, Maybe } from "../../../generated/graphql"
-import { useCookie } from "react-use"
-import * as Progress from "@radix-ui/react-progress"
-
-import { useTus } from "use-tus"
-// Polyfills for useTus - else it throws "ReferenceError: regeneratorRuntime is not defined"
-import "core-js/stable"
-import "regenerator-runtime/runtime"
-import { GetServerSideProps } from "next/types"
-import getConfig from "next/config"
-import { OrganizationPageParams } from "./index"
+import { GetOrganizationDocument } from "../../../generated/graphql"
 import { RequireUserIsEditor } from "../../../refactor/requireUserIsEditor"
-import { UploadFileSelector } from "../../../refactor/uploadFileSelector"
+import { VideoCreationUpload } from "../../../refactor/videoCreationUpload"
+import { OrganizationPageParams } from "./index"
+import { GetServerSideProps } from "next"
+import { VideoCreationForm } from "src/refactor/VideoCreationForm"
+import { VideoCreationPublish } from "../../../refactor/VideoCreationPublish"
 
-interface UploadPageProps {
+export interface UploadPageProps {
   orgId: string
 }
 
-const { publicRuntimeConfig } = getConfig()
-
-const UploadProgressBar = ({ progress }: { progress: number }) => (
-  <div>
-    <Progress.Root
-      max={100}
-      value={progress}
-      className={"border-black bg-red w-full h-9 relative overflow-hidden"}
-      style={{ borderRadius: "99999px" }}
-    >
-      <Progress.Indicator
-        className={"border-red-100 border-2 w-full h-9 bg-red-100"}
-        style={{
-          transform: `translateX(-${100 - progress}%)`,
-          transition: "transform 660ms cubic-bezier(0.65, 0, 0.35, 1)",
-        }}
-      />
-    </Progress.Root>
-  </div>
-)
-
 export const UploadPage = ({ orgId }: UploadPageProps) => {
   const { data } = useQuery(GetOrganizationDocument, { variables: { orgId } })
-  const { upload, setUpload } = useTus({ autoStart: true })
-  const [csrfToken] = useCookie("fk-csrf")
-  // const [mediaId, setMediaId] = useState()
-  const [jobId, setJobId] = useState()
-  const [uploadProgress, setUploadProgress] = useState<number>(0)
 
-  const handleSetUpload = useCallback(
-    (file?: Maybe<File>) => {
-      if (!file) return
+  const [mediaId, setMediaId] = useState<string>()
+  const [videoId, setVideoId] = useState<string>()
 
-      setUpload(file, {
-        endpoint: publicRuntimeConfig.FK_API + "/upload/video",
-        onBeforeRequest: (req) => {
-          if (!csrfToken) throw new Error("Cannot upload without CSRF token!")
-          const xhr = req.getUnderlyingObject() as XMLHttpRequest
-          xhr.withCredentials = true
-          xhr.setRequestHeader("X-CSRF-Token", csrfToken)
-        },
-        onProgress: (bytesSent, bytesTotal) => {
-          setUploadProgress((bytesSent / bytesTotal) * 100)
-        },
-        chunkSize: 2 ** 23, // or Node throws a server-side exception of some sort
-        onAfterResponse: (req: any) => {
-          const xhr = req.getUnderlyingObject() as XMLHttpRequest
-          // Kludge to get an onSuccess which also reads mediaId/jobId
-          // The last PATCH will return 200, others return 204 No Content
-          if (req._method === "PATCH" && xhr.status === 200) {
-            const { jobId } = JSON.parse(xhr.responseText)
-            // setMediaId(mediaId)
-            setJobId(jobId)
-          }
-        },
-        metadata: {
-          filename: file.name,
-          filetype: file.type,
-        },
-      })
-    },
-    [setUpload, csrfToken]
-  )
-
-  if (!csrfToken || !data) return null
+  if (!data) return null
 
   const { organization } = data
 
+  const StepNumber = ({ children }: { children: string }) => (
+    <span className={"text-lg lg:text-5xl font-bold lg:font-black lg:block"}>{children}</span>
+  )
+
+  const Step = ({ children, className }: { children: ReactNode; className?: string }) => (
+    <div className={"lg:w-1/3 text-lg lg:text-2xl p-2 lg:p-5 font-bold " + className ?? ""}>{children}</div>
+  )
+
+  const ColoredBar = ({ children, className }: { children: ReactNode; className?: string }) => (
+    <div className={"flex p-3 flex-col lg:flex-row " + className ?? ""}>{children}</div>
+  )
+
   return (
     <RequireUserIsEditor organization={organization}>
-      <div className="w-full">
-        <h3 className="text-3xl bg-black text-white p-8">Ny video for {organization.name}</h3>
-        <div className={"bg-amber-900 flex text-white p-3"}>
-          <div className={"w-1/5 text-2xl p-5"}>
-            <div className={"text-5xl"}>1.</div> last opp fil
+      <div className="w-[900px] max-w-full">
+        <h3 className="text-3xl bg-black font-bold text-white p-8">Ny video for {organization.name}</h3>
+        <ColoredBar className={"lg:min-h-[200px] bg-gradient-to-t from-teal-500 to-teal-400 text-black"}>
+          <Step>
+            <StepNumber>1.</StepNumber> last opp fil
+          </Step>
+          <div className={"w-full px-5"}>
+            <VideoCreationUpload onComplete={setMediaId} />
           </div>
-          <div className={"grow"}>
-            <div>
-              <UploadFileSelector handleStart={handleSetUpload} />
-              {upload && !jobId && <UploadProgressBar progress={uploadProgress} />}
+        </ColoredBar>
+        <ColoredBar
+          className={`bg-gradient-to-t from-teal-400 to-teal-300 text-black ${mediaId || "grayscale opacity-50"}`}
+        >
+          <Step>
+            <StepNumber>2.</StepNumber> oppgi metadata
+          </Step>
+          <div className={`w-full px-5 `}>
+            {mediaId && <VideoCreationForm mediaId={mediaId} organizationId={organization.id} onCreated={setVideoId} />}
+          </div>
+        </ColoredBar>
+        <ColoredBar
+          className={`bg-gradient-to-t from-teal-300 to-teal-200 text-black ${videoId || "grayscale opacity-60"}`}
+        >
+          <Step>
+            <StepNumber>3.</StepNumber> publisér!
+          </Step>
+          {videoId && (
+            <div className={"flex p-5 w-full min-h-full"}>
+              <VideoCreationPublish videoId={videoId} />
             </div>
-          </div>
-        </div>
-        <div className={"bg-amber-500 text-black flex p-3"}>
-          <div className={"w-1/5 text-2xl p-5"}>
-            <div className={"text-5xl"}>2.</div> oppgi metadata
-          </div>
-          <div className={"grow"}>{jobId && jobId}</div>
-        </div>
-        <div className={"bg-amber-300 text-black flex p-3"}>
-          <div className={"w-1/5 text-2xl p-5"}>
-            <div className={"text-5xl"}>3.</div> publisér!
-          </div>
-          <div className={"grow"}>Checkbox her, jeg bekrefter det juridiske, bla bla</div>
-        </div>
+          )}
+        </ColoredBar>
       </div>
     </RequireUserIsEditor>
   )

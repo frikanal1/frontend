@@ -14,9 +14,9 @@ export const FrontpageBulletins = () => {
   return (
     <div className="space-y-4">
       {bulletins.map(({ id, title, createdAt, text }) => (
-        <div key={id}>
-          <div className={"bg-slate-800 text-slate-200 p-2"}>
-            <h4 className={"lg:text-xl font-bold"}>{title}</h4>
+        <div key={id} className={"drop-shadow-md"}>
+          <div className={"bg-slate-800 text-slate-200 p-2 "}>
+            <h4 className={"lg:text-xl font-bold tracking-wide"}>{title}</h4>
             <div className={"text-slate-300 text-sm"}>{format(new Date(createdAt), "d. MMM Y", { locale: nb })}</div>
           </div>
           <div className={"bg-slate-200 p-2 prose prose-sm lg:prose-md prose-heading:font-sans min-w-full"}>
