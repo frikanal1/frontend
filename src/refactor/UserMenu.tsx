@@ -25,7 +25,7 @@ export const UserMenuSelector = ({ onSelect, className = "", menu }: UserMenuSel
   return (
     <div className={"pr-10 " + className}>
       <div className={"min-h-[400px] w-full"}>
-        <div className={"text-3xl font-bold space-y-1 w-full div:"}>
+        <div className={"text-3xl font-bold space-y-4 w-full"}>
           {Object.entries(menu).map(([key, { title }]) => (
             <div key={key} className={menuStyle(key === activeItem)} onClick={() => onClick(key as UserMenuState)}>
               {title}

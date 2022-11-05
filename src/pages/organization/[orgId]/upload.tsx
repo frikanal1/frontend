@@ -7,6 +7,7 @@ import { OrganizationPageParams } from "./index"
 import { GetServerSideProps } from "next"
 import { VideoCreationForm } from "src/refactor/VideoCreationForm"
 import { VideoCreationPublish } from "../../../refactor/VideoCreationPublish"
+import FileDownloadDoneRoundedIcon from "@mui/icons-material/FileDownloadDoneRounded"
 
 export interface UploadPageProps {
   orgId: string
@@ -48,12 +49,21 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
     <RequireUserIsEditor organization={organization}>
       <div className="">
         <h3 className="text-3xl bg-black font-bold text-white p-8">Ny video for {organization.name}</h3>
-        <ColoredBar className={"lg:min-h-[200px] bg-gradient-to-t from-teal-500 to-teal-400 text-black"}>
+        <ColoredBar className={" bg-gradient-to-t from-teal-500 to-teal-400 text-black"}>
           <Step>
             <StepNumber>1.</StepNumber> last opp fil
           </Step>
           <div className={"w-full px-5"}>
-            <VideoCreationUpload onComplete={setMediaId} />
+            {!mediaId ? (
+              <VideoCreationUpload onComplete={setMediaId} />
+            ) : (
+              <div className={"flex h-full items-center"}>
+                <div className={"text-5xl border-black"}>
+                  <FileDownloadDoneRoundedIcon sx={{ fontSize: "inherit", marginRight: ".25em" }} />
+                  ferdig
+                </div>
+              </div>
+            )}
           </div>
         </ColoredBar>
         <ColoredBar

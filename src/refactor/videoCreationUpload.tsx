@@ -41,7 +41,6 @@ export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
   const { upload, setUpload } = useTus({ autoStart: true })
   const [csrfToken] = useCookie("fk-csrf")
   const [uploadProgress, setUploadProgress] = useState<number>(0)
-  const [jobId, setJobId] = useState()
 
   const handleSetUpload = useCallback(
     (file?: Maybe<File>) => {
@@ -64,9 +63,8 @@ export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
           // Kludge to get an onSuccess which also reads mediaId/jobId
           // The last PATCH will return 200, others return 204 No Content
           if (req._method === "PATCH" && xhr.status === 200) {
-            const { mediaId, jobId } = JSON.parse(xhr.responseText)
+            const { mediaId } = JSON.parse(xhr.responseText)
             onComplete(mediaId.toString())
-            setJobId(jobId)
           }
         },
         metadata: {
@@ -81,7 +79,7 @@ export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
   if (!csrfToken) return null
 
   return (
-    <div className={"text-teal-900 bg-teal-100 rounded-2xl w-full p-2"}>
+    <div className={"text-teal-900 bg-teal-100 rounded-2xl w-full h-full p-2"}>
       <div
         className={
           "p-2 w-full " +

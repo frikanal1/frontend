@@ -11,12 +11,16 @@ export const VideoCreationPublish = ({ videoId }: VideoCreationPublishProps) => 
   const [mutate] = useMutation(PublishVideoDocument, { variables: { videoId: videoId } })
 
   return (
-    <div className={"flex flex-col gap-3 w-full"}>
-      Gratulerer! Videoen din er nå lastet opp. Du kan se en forhåndsvisning på{" "}
-      <Link href={`/video/${videoId}`} passHref>
-        <a>videosiden</a>
-      </Link>
-      Inntil du publiserer, er den kun synlig for deg.
+    <div className={"flex flex-col gap-3 w-full text-xl"}>
+      <div>Gratulerer! Videoen din er nå lastet opp.</div>
+      <div>
+        Du kan se en forhåndsvisning på{" "}
+        <Link href={`/video/${videoId}`} passHref>
+          <a className={"font-bold"}>videosiden</a>
+        </Link>
+        .
+      </div>
+      <div>Inntil du publiserer, er den kun synlig for deg.</div>
       <div className={"ml-auto"}>
         <Button
           className="bg-teal-200 hover:bg-teal-100"

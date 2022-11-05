@@ -1,3 +1,4 @@
+import AttachFileIcon from "@mui/icons-material/AttachFile"
 import { useState } from "react"
 import { Maybe } from "../generated/graphql"
 
@@ -6,8 +7,9 @@ export const UploadFileSelector = ({ handleStart }: { handleStart: (file: File) 
 
   // FIXME: I used font-serif here because I haven't got
   const FileSelector = () => (
-    <label className="italic block lg:text-1xl font-serif w-full text-center min-h-[130px] flex cursor-pointer">
+    <label className="italic block lg:text-2xl font-serif w-full text-center min-h-[130px] flex cursor-pointer">
       <div className={"h-fit m-auto"}>
+        <AttachFileIcon sx={{ fontSize: "30px", marginRight: ".25em" }} />
         Trekk filer til dette feltet, eller <span className="cursor-pointer text-blue-600 underline">velg fil</span>
         <input
           type="file"
