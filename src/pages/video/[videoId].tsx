@@ -32,7 +32,7 @@ export const VideoPage = ({ video }: VideoPageProps) => (
         <VideoPageMetaBar video={video} />
       </div>
     </div>
-    <LatestVideosSidebar className={"lg:w-1/3 drop-shadow-lg"} latestVideos={video.organization} />
+    <LatestVideosSidebar className={"lg:w-1/3 drop-shadow-md"} latestVideos={video.organization} />
   </div>
 )
 

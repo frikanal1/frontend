@@ -1,18 +1,18 @@
 import React, { ReactNode, useState } from "react"
 import { useQuery } from "@apollo/client"
-import { GetOrganizationDocument } from "../../../generated/graphql"
-import { RequireUserIsEditor } from "../../../refactor/requireUserIsEditor"
-import { VideoCreationUpload, VideoUploadDone } from "../../../refactor/videoCreationUpload"
-import { OrganizationPageParams } from "./index"
+import { GetOrganizationDocument } from "../generated/graphql"
+import { RequireUserIsEditor } from "./requireUserIsEditor"
+import { VideoCreationUpload, VideoUploadDone } from "./videoCreationUpload"
+import { OrganizationPageParams } from "../pages/organization/[orgId]"
 import { GetServerSideProps } from "next"
 import { VideoCreationForm } from "src/refactor/VideoCreationForm"
-import { VideoCreationPublish } from "../../../refactor/VideoCreationPublish"
+import { VideoCreationPublish } from "./VideoCreationPublish"
 
 export interface UploadPageProps {
   orgId: string
 }
 
-export const UploadPage = ({ orgId }: UploadPageProps) => {
+export const UploadVideoDialog = ({ orgId }: UploadPageProps) => {
   const { data } = useQuery(GetOrganizationDocument, { variables: { orgId } })
 
   const [mediaId, setMediaId] = useState<string>()
@@ -47,12 +47,14 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
   return (
     <RequireUserIsEditor organization={organization}>
       <div className="shadow-xl">
-        <h3 className="text-3xl bg-black font-bold text-green-300 px-8 py-5">Ny video for {organization.name}</h3>
+        <h3 className="text-3xl bg-gradient-to-b from-green-800 to-green-900 font-bold text-green-200 px-8 py-5">
+          Ny video for {organization.name}
+        </h3>
         <ColoredBar className={" bg-gradient-to-t from-green-500 to-green-400 text-black"}>
           <Step>
             <StepNumber>1.</StepNumber> last opp fil
           </Step>
-          <div className={"w-full px-5"}>
+          <div className={"w-full px-5 py-3"}>
             {!mediaId ? <VideoCreationUpload onComplete={setMediaId} /> : <VideoUploadDone />}
           </div>
         </ColoredBar>
@@ -66,7 +68,7 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
           <Step>
             <StepNumber>2.</StepNumber> oppgi metadata
           </Step>
-          <div className={`w-full px-5`}>
+          <div className={`w-full px-5 py-3`}>
             {mediaId && <VideoCreationForm mediaId={mediaId} organizationId={organization.id} onCreated={setVideoId} />}
           </div>
         </ColoredBar>
@@ -77,7 +79,7 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
             <StepNumber>3.</StepNumber> publisér!
           </Step>
           {videoId && (
-            <div className={"flex p-5 w-full min-h-full"}>
+            <div className={"flex p-5 py-3 w-full min-h-full"}>
               <VideoCreationPublish videoId={videoId} />
             </div>
           )}
@@ -93,4 +95,4 @@ export const getServerSideProps: GetServerSideProps<UploadPageProps> = async ({ 
   return { props: { orgId } }
 }
 
-export default UploadPage
+export default UploadVideoDialog

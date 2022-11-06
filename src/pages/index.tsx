@@ -9,7 +9,7 @@ const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveV
 })
 
 export const Frontpage = () => (
-  <div className="flex grow flex-col lg:flex-row gap-2 lg:gap-8">
+  <div className="flex grow flex-col gap-2 xl:flex-row xl:gap-8">
     <Meta
       meta={{
         title: "Direkte",
@@ -25,7 +25,7 @@ export const Frontpage = () => (
         <FrontpageScheduleView />
       </div>
     </div>
-    <div className={"lg:w-1/3"}>
+    <div className={"xl:w-1/3"}>
       <FrontpageBulletins />
     </div>
   </div>

@@ -11,7 +11,7 @@ const NavLink = ({ children, href, className }: { children: string; href?: strin
 
   const active = router.pathname == href
 
-  const baseStyle = "min-w-fit font-black text-4xl mr-5 underline-offset-8 transition "
+  const baseStyle = "min-w-fit font-black text-4xl mr-5 underline-offset-4 transition "
   const linkStyle = active ? "text-[#E88840] underline decoration-4 " : "text-gray-600 hover:text-gray-800 "
 
   return (
@@ -39,9 +39,9 @@ const NewUserThingie = () => {
   )
 }
 
-export function NavLinks() {
+export function NavLinks({ className }: { className?: string }) {
   return (
-    <nav className="flex align-center text-2xl mt-10 mb-2 py-4">
+    <nav className={className}>
       <Link href={"/"} passHref>
         <NavLink>Direkte</NavLink>
       </Link>

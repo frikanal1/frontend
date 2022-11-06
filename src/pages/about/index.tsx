@@ -66,9 +66,9 @@ export default function About() {
               </Link>
             </div>
           </div>
-          <div className={"prose-xl font-serif px-2"}>
+          <div className={"prose-xl max-w-prose mx-auto font-serif text-justify px-2"}>
             <p>
-              Vi ønsker i samarbeid med våre medlemsorganisasjoner å styrke norsk samfunnsliv og frivillighet med en
+              I samarbeid med våre medlemsorganisasjoner vil vi styrke norsk samfunnsliv og frivillighet med en
               ukommersiell videoplattform uten forhåndssensur.
             </p>
             <p>

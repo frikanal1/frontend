@@ -1,27 +1,43 @@
 import React, { useContext, useState } from "react"
 import { RequireAuthentication } from "src/modules/core/components/RequireAuthentication"
 import { Meta } from "src/modules/core/components/Meta"
-import UploadPage from "./organization/[orgId]/upload"
+import UploadVideoDialog from "../refactor/UploadVideoDialog"
 import { UserMenu, UserMenuSelector, UserMenuState } from "../refactor/UserMenu"
 import userContext from "../refactor/UserContext"
+import { RoleType } from "../generated/graphql"
 
 const OrgSelector = () => {
   const { activeOrganization, setActiveOrganization, session } = useContext(userContext)
   return (
-    <div>
+    <div className={"p-8"}>
       <h2 className={"text-3xl py-2"}>Velg aktiv organisasjon</h2>
-      <p className={"text-3xl py-2"}>Placeholder, skal bli bedre!</p>
-      <div>
+      <div className={"flex flex-wrap"}>
         {session?.user?.roles.map((x, idx) => (
           <div
             key={idx}
             onClick={() => setActiveOrganization(x.organization)}
-            className={activeOrganization?.id == x.organization.id ? "bg-black text-red-400" : ""}
+            className={
+              "p-1 px-4 rounded-lg w-48 m-2 border-2 border-black " +
+              (activeOrganization?.id == x.organization.id ? "bg-black text-green-200 border-green-300" : "")
+            }
           >
-            {x.role} {x.organization.name}
+            {x.organization.name}
           </div>
         ))}
       </div>
+    </div>
+  )
+}
+
+const OrgMenu = () => {
+  const { session } = useContext(userContext)
+
+  return (
+    <div className="bg-gradient-to-b from-green-100 to-green-200">
+      <h3 className="text-3xl bg-gradient-to-b from-green-800 to-green-900 font-bold text-green-100 px-8 py-5">
+        Organisasjoner
+      </h3>
+      {(session?.user?.roles?.filter((x) => x.role === RoleType.Editor)?.length || 0) > 1 && <OrgSelector />}
     </div>
   )
 }
@@ -34,9 +50,9 @@ function Profile() {
   const buildMenu = (): UserMenu => ({
     newVideo: {
       title: "Ny video",
-      menu: <UploadPage orgId={activeOrganization?.id || ""} />,
+      menu: <UploadVideoDialog orgId={activeOrganization?.id || ""} />,
     },
-    organizations: { title: "Organisasjoner", menu: <OrgSelector /> },
+    organizations: { title: "Organisasjoner", menu: <OrgMenu /> },
     profile: { title: "Profil", menu: <div>Profile</div> },
   })
 
@@ -51,7 +67,7 @@ function Profile() {
             description: "",
           }}
         />
-        <UserMenuSelector className={"basis-1/4"} onSelect={setCurrentMenu} menu={userMenu} />
+        <UserMenuSelector className={"basis-1/4 shrink-0"} onSelect={setCurrentMenu} menu={userMenu} />
         <div className={"grow"}>{userMenu[currentMenu].menu}</div>
       </div>
     </div>

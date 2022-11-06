@@ -3,6 +3,7 @@ import Link from "next/link"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
 import React from "react"
+import ReactMarkdown from "react-markdown"
 
 export const VideoPageMetaBar = ({
   className,
@@ -28,7 +29,7 @@ export const VideoPageMetaBar = ({
           <div>
             <div className={"text-white opacity-60 text-xl bold font-condensed"}>beskrivelse</div>
             <div className={"whitespace-pre-wrap break-words py-2 prose-invert prose opacity-90 lg:prose-xl"}>
-              {description}
+              <ReactMarkdown>{description}</ReactMarkdown>
             </div>
           </div>
         </div>

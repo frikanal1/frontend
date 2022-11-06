@@ -10,11 +10,11 @@ interface LatestVideosSidebarProps {
 
 export const LatestVideosSidebar = ({ className, latestVideos }: LatestVideosSidebarProps) => (
   <div className={"w-full lg:w-1/3 " + className || ""}>
-    <div className="space-y-5 pb-1 lg:px-3 ">
-      <div className={"p-6 bg-gradient-to-b from-red-700 to-red-900 text-white "}>
-        <h3 className={"text-xl lg:text-3xl text-white opacity-80 font-bold"}>Nyeste videoer</h3>
-        <h5 className="text-l lg:text-2xl text-white opacity-70 font-semibold lg:pb-1 ">
-          fra{" "}
+    <div className="space-y-5 lg:px-3 ">
+      <div className={"p-4 bg-gradient-to-b from-red-700 to-red-900 text-white "}>
+        <h3 className={"text-xl lg:text-3xl text-white mix-blend-luminosity opacity-90 font-bold"}>Nyeste videoer</h3>
+        <h5 className="text-l lg:text-2xl text-white mix-blend-luminosity opacity-80 font-semibold lg:pb-1 ">
+          <span className={"font-semibold text-gray-300"}>fra </span>
           <span className={"font-bold"}>
             <Link href={`/organization/${latestVideos.id}`} passHref>
               <a>{latestVideos.name}</a>

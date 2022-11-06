@@ -1,5 +1,3 @@
-import styled from "@emotion/styled"
-
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js"
 import "video.js/dist/video-js.css"
 import { useEffect, useRef } from "react"
@@ -21,13 +19,10 @@ export const VideoJS = ({ options, onReady }: VideoJSProps) => {
       if (!videoElement) return
 
       const player = (playerRef.current = videojs(videoElement, options, () => {
-        console.log("player is ready")
-
         player.tech().on("usage", (e) => {
           console.log(e.name)
         })
         onReady && onReady(player)
-        //player.play()
       }))
 
       // You can update player in the `else` block here, for example:
@@ -51,26 +46,6 @@ export const VideoJS = ({ options, onReady }: VideoJSProps) => {
   return <video ref={videoRef} className="video-js vjs-big-play-centered" />
 }
 
-const Container = styled.div`
-  position: relative;
-
-  > div {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-  }
-
-  border-radius: 4px;
-  overflow: hidden;
-
-  height: 100%;
-  width: 100%;
-
-  box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
-`
-
 export type LiveVideoPlayerProp = {
   src: string
 }
@@ -80,17 +55,17 @@ export function LiveVideoPlayer(props: LiveVideoPlayerProp) {
   const { src } = props
 
   return (
-    <AspectRatio.Root ratio={1.777}>
-      <Container>
-        <VideoJS
-          options={{
-            fluid: true,
-            html5: { hls: { overrideNative: true } },
-            controls: true,
-            sources: [{ src, type: "application/x-mpegURL" }],
-          }}
-        />
-      </Container>
+    <AspectRatio.Root ratio={16 / 9}>
+      <VideoJS
+        options={{
+          autoplay: true,
+          muted: true,
+          fluid: true,
+          html5: { hls: { overrideNative: true } },
+          controls: true,
+          sources: [{ src, type: "application/x-mpegURL" }],
+        }}
+      />
     </AspectRatio.Root>
   )
 }
