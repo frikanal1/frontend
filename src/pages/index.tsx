@@ -8,16 +8,7 @@ const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveV
   suspense: true,
 })
 
-const FrontpageLiveVideo = () => (
-  <div className="bg-gradient-to-b from-green-400 to-green-900 drop-shadow-2xl">
-    <Suspense>
-      <LiveVideoPlayer src="https://beta.frikanalen.no/stream/program.m3u8" />
-    </Suspense>
-    <FrontpageScheduleView />
-  </div>
-)
-
-export const IndexPage = () => (
+export const Frontpage = () => (
   <div className="flex grow flex-col lg:flex-row gap-2 lg:gap-8">
     <Meta
       meta={{
@@ -27,7 +18,12 @@ export const IndexPage = () => (
       }}
     />
     <div className={"lg:grow "}>
-      <FrontpageLiveVideo />
+      <div className="bg-gradient-to-b from-green-400 to-green-900 drop-shadow-2xl">
+        <Suspense>
+          <LiveVideoPlayer src="https://beta.frikanalen.no/stream/program.m3u8" />
+        </Suspense>
+        <FrontpageScheduleView />
+      </div>
     </div>
     <div className={"lg:w-1/3"}>
       <FrontpageBulletins />
@@ -35,4 +31,4 @@ export const IndexPage = () => (
   </div>
 )
 
-export default IndexPage
+export default Frontpage

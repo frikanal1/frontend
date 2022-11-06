@@ -13,18 +13,28 @@ export default function About() {
         }}
       />
       <AboutLinkBar />
-      <div className={"max-w-[800px] mx-auto"}>
-        <Document>
-          <article>
+      <Document>
+        <article className={"flex flex-col lg:flex-row"}>
+          <div>
             <header>
-              <h2 className={"not-prose !mt-2 !text-5xl"}>Vedtekter for Foreningen Frikanalen</h2>
-              <p>
-                (Vedtatt på stiftelsesmøtet 14. juni 2007. Revidert av årsmøtet 4. februar 2008, 28.april 2011 og 28.
-                mai 2015.)
-              </p>
+              <div className={"max-w-[900px] mx-auto space-y-2"}>
+                <h2 className={"text-6xl font-bold"}>Vedtekter</h2>
+                <h2 className={"text-4xl font-semibold"}>
+                  for <span className={"font-bold"}>Foreningen Frikanalen</span>
+                </h2>
+                <p>Vedtatt på stiftelsesmøtet 14. juni 2007.</p>
+                <p>Revidert av årsmøtet 4. februar 2008, 28.april 2011 og 28. mai 2015.</p>
+              </div>
             </header>
+          </div>
+          <div
+            className={
+              "max-w-prose mx-auto prose text-justify lg:prose-xl prose-slate prose-p:ml-4 " +
+              "prose-h5:font-sans prose-h5:font-bold prose-li:ml-4 prose-li:font-serif prose-p:font-serif [&_section]:ml-4 "
+            }
+          >
             <section>
-              <h4>§ 1. Navn</h4>
+              <h4 className={"lg:!mt-0"}>§ 1. Navn</h4>
 
               <p>Foreningen Frikanalen er en selvstendig forening stiftet 14.06.2007.</p>
             </section>
@@ -201,9 +211,9 @@ export default function About() {
                 eiendeler skal fordeles.
               </p>
             </section>
-          </article>
-        </Document>
-      </div>
+          </div>
+        </article>
+      </Document>
     </div>
   )
 }
