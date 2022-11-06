@@ -6,27 +6,31 @@ import React from "react"
 
 export const VideoPageMetaBar = ({
   className,
-  video: { organization, createdAt, description },
+  video: { organization, createdAt, description, title },
 }: {
   video: BasicVideoMetadataFragment
   className?: string
 }) => {
   return (
-    <div className={"pb-10 " + className || ""}>
-      <div className={"bg-gradient-to-b from-green-900 to-green-800 p-8"}>
-        <span className={"text-white opacity-60 text-xl bold font-condensed"}>
-          publisert <span className={"font-bold"}>{format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</span> av
-        </span>
-        <h3 className={"lg:text-4xl text-white opacity-80 font-bold p-2"}>
-          <Link href={`/organization/${organization.id}`} passHref>
-            <a>{organization.name}</a>
-          </Link>
-        </h3>
-      </div>
-      <div className={"px-8"}>
-        <div className={"text-white opacity-60 text-xl bold font-condensed"}>beskrivelse</div>
-        <div className={"whitespace-pre-wrap break-words p-2 prose-invert prose opacity-90 lg:prose-xl"}>
-          {description}
+    <div className={className}>
+      <div className={"p-12 bg-gradient-to-tr from-gray-800/80 to-gray-500/80 mix-blend-luminosity "}>
+        <h2 className={"text-5xl pb-1 text-white font-bold mix-blend-luminosity opacity-80"}>{title}</h2>
+        <div className={"py-1 pt-2"}>
+          <span className={"text-white opacity-60 text-xl font-condensed"}>
+            publisert{" "}
+            <span className={"font-semibold"}>{format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</span> av
+          </span>
+          <h3 className={"lg:text-4xl text-gray-300 hover:text-white opacity-90 font-semibold py-2"}>
+            <Link href={`/organization/${organization.id}`} passHref>
+              <a>{organization.name}</a>
+            </Link>
+          </h3>
+          <div>
+            <div className={"text-white opacity-60 text-xl bold font-condensed"}>beskrivelse</div>
+            <div className={"whitespace-pre-wrap break-words py-2 prose-invert prose opacity-90 lg:prose-xl"}>
+              {description}
+            </div>
+          </div>
         </div>
       </div>
     </div>

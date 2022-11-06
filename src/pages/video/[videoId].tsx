@@ -7,7 +7,6 @@ import { LatestVideosSidebar } from "../../modules/video/components/latestVideos
 import { GetServerSideProps } from "next"
 import assert from "assert"
 import { client } from "../../modules/apollo/client"
-import { ModuleHeading } from "../../refactor/ModuleHeading"
 import { ParsedUrlQuery } from "querystring"
 
 export interface VideoPageParams extends ParsedUrlQuery {
@@ -29,13 +28,6 @@ export const VideoPage = ({ video }: VideoPageProps) => (
     />
     <div className={"flex flex-col max-w-[1280px] w-full"}>
       <div className="bg-green-800 drop-shadow-2xl text-sm w-full">
-        <ModuleHeading
-          className={
-            "text-white bg-gradient-to-b from-transparent to-gray-800 opacity-90 mix-blend-luminosity p-8 pb-5"
-          }
-        >
-          {video.title}
-        </ModuleHeading>
         <VideoPlayer video={video} />
         <VideoPageMetaBar video={video} />
       </div>
