@@ -40,13 +40,12 @@ export const FrontpageScheduleView = () => {
   if (currentlyPlaying == -1) return null
 
   return (
-    <div className="text-green-100">
+    <div className="px-2">
       <div className={"p-5"}>
-        <div className={"text-xl text-green-400 font-bold font-condensed"}>nå</div>
         <CurrentProgramme entry={scheduleItems[currentlyPlaying]} />
       </div>
       <div className={"px-5 space-y-2 py-5"}>
-        <div className={"text-xl text-green-500 font-bold font-condensed"}>senere</div>
+        <div className={"text-xl text-white opacity-60 mix-blend-luminosity font-bold font-condensed"}>senere</div>
         <UpcomingProgramme className="text-green-200 pb-3 font-light" entry={scheduleItems[currentlyPlaying + 1]} />
         <UpcomingProgramme className="text-green-300 font-light" entry={scheduleItems[currentlyPlaying + 2]} />
       </div>

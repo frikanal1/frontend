@@ -3,7 +3,6 @@ import React, { Suspense } from "react"
 import { Meta } from "src/modules/core/components/Meta"
 import { FrontpageBulletins } from "../modules/bulletins/FrontpageBulletins"
 import { FrontpageScheduleView } from "../modules/schedule/components/FrontpageScheduleView"
-import { ModuleHeading } from "../refactor/ModuleHeading"
 
 const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveVideoPlayer"), {
   suspense: true,
@@ -19,7 +18,7 @@ const FrontpageLiveVideo = () => (
 )
 
 export const IndexPage = () => (
-  <div className="flex grow flex-col lg:flex-row gap-2 lg:gap-4">
+  <div className="flex grow flex-col lg:flex-row gap-2 lg:gap-8">
     <Meta
       meta={{
         title: "Direkte",
@@ -31,7 +30,6 @@ export const IndexPage = () => (
       <FrontpageLiveVideo />
     </div>
     <div className={"lg:w-1/3"}>
-      <ModuleHeading className={""}>Nyheter</ModuleHeading>
       <FrontpageBulletins />
     </div>
   </div>

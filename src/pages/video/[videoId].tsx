@@ -28,8 +28,12 @@ export const VideoPage = ({ video }: VideoPageProps) => (
       }}
     />
     <div className={"flex flex-col max-w-[1280px] w-full"}>
-      <div className="bg-slate-800 drop-shadow-2xl text-sm w-full">
-        <ModuleHeading className={"text-slate-100 bg-gradient-to-b from-slate-800 to-slate-900 p-8 pb-5"}>
+      <div className="bg-green-800 drop-shadow-2xl text-sm w-full">
+        <ModuleHeading
+          className={
+            "text-white bg-gradient-to-b from-transparent to-gray-800 opacity-90 mix-blend-luminosity p-8 pb-5"
+          }
+        >
           {video.title}
         </ModuleHeading>
         <VideoPlayer video={video} />

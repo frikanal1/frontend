@@ -13,10 +13,10 @@ export type UserMenu = Record<UserMenuState, { title: string; menu: ReactNode }>
 
 export const UserMenuSelector = ({ onSelect, className = "", menu }: UserMenuSelectorProps) => {
   const menuStyle = (active: boolean) =>
-    "transition-all duration-100 drop-shadow-lg hover:shadow-md p-4 pl-5 my-4 cursor-pointer font-extrabold font-wide border-b-4 " +
+    "transition-all duration-100 hover:text-orange-700 drop-shadow-lg hover:shadow-md p-4 pl-5 my-4 cursor-pointer font-extrabold font-wide border-b-4 " +
     (active
-      ? " border-b-gray-700 bg-gradient-to-tl from-orange-400 to-orange-300 text-black hover:text-orange-800"
-      : " border-b-gray-500 hover:text-orange-700 ")
+      ? " border-b-gray-700 bg-gradient-to-tl from-orange-400 to-orange-300 text-gray-900"
+      : "border-b-gray-500 text-gray-700")
 
   const [activeItem, setActiveItem] = useState<UserMenuState>("newVideo")
   const onClick = (menuEntry: UserMenuState) => {
@@ -27,7 +27,7 @@ export const UserMenuSelector = ({ onSelect, className = "", menu }: UserMenuSel
   return (
     <div className={className}>
       <div className={"min-h-[500px] "}>
-        <div className={"bg-gradient-to-tr from-red-600 via-red-700 to-red-900 drop-shadow-lg"}>
+        <div className={"bg-gradient-to-tr from-red-700 via-red-800 to-red-900 drop-shadow-lg"}>
           <ModuleHeading className={"text-gray-100 p-5 mb-4 pt-28 "}>Brukermeny</ModuleHeading>
         </div>
         <div className={"text-3xl font-bold "}>

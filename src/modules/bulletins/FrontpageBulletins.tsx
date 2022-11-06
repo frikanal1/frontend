@@ -14,14 +14,14 @@ export const FrontpageBulletins = () => {
   return (
     <div className="space-y-4">
       {bulletins.map(({ id, title, createdAt, text }) => (
-        <div key={id} className={"drop-shadow-md"}>
-          <div className={"bg-gradient-to-b from-orange-800 to-orange-900 text-orange-200 p-2 "}>
+        <div key={id} className={"shadow-md border-2"}>
+          <div className={"bg-gradient-to-b from-red-800 via-red-900 to-red-900 text-red-100 p-4"}>
             <h4 className={"lg:text-3xl font-bold tracking-wide"}>{title}</h4>
-            <div className={"text-orange-300 text-lg"}>{format(new Date(createdAt), "d. MMM Y", { locale: nb })}</div>
+            <div className={"text-red-200 text-lg"}>{format(new Date(createdAt), "d. MMM Y", { locale: nb })}</div>
           </div>
           <div
             className={
-              "bg-gradient-to-bl from-orange-100 to-orange-200 p-2 prose prose-sm lg:prose-lg prose-heading:font-sans min-w-full"
+              "border-gray-100 border-1 border-t-0 px-4 py-2 pb-4 prose prose-sm lg:prose-lg prose-heading:font-sans min-w-full"
             }
           >
             <ReactMarkdown>{text}</ReactMarkdown>
