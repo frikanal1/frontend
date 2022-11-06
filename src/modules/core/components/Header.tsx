@@ -6,15 +6,15 @@ import Link from "next/link"
 
 export function Header() {
   return (
-    <header className={`py-5 lg:py-10 lg:pt-20`}>
+    <header className={`py-5 lg:py-2 lg:pt-24`}>
       <div>
         <Link href={"/"} passHref>
           <div>
-            <Logo className={"w-72 lg:w-96 cursor-pointer"} />
+            <Logo className={"w-72 lg:w-[500px] cursor-pointer"} />
           </div>
         </Link>
-        <div className={"flex items-center py-5"}>
-          <nav className="flex align-center">
+        <div className={"flex items-end py-10"}>
+          <nav className="flex align-center text-2xl">
             <NavLinks />
           </nav>
           <HeaderAuthBar />

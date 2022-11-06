@@ -13,10 +13,10 @@ export type UserMenu = Record<UserMenuState, { title: string; menu: ReactNode }>
 
 export const UserMenuSelector = ({ onSelect, className = "", menu }: UserMenuSelectorProps) => {
   const menuStyle = (active: boolean) =>
-    "p-4 my-4 cursor-pointer font-extrabold font-wide border-b-4" +
+    "transition-all duration-100 drop-shadow-lg hover:shadow-md p-4 pl-5 my-4 cursor-pointer font-extrabold font-wide border-b-4 " +
     (active
-      ? " border-b-gray-700 bg-gradient-to-tl from-orange-700 to-orange-600 text-orange-100 hover:text-white"
-      : " border-b-gray-400 hover:text-orange-700 ")
+      ? " border-b-gray-700 bg-gradient-to-tl from-orange-400 to-orange-300 text-black hover:text-orange-800"
+      : " border-b-gray-500 hover:text-orange-700 ")
 
   const [activeItem, setActiveItem] = useState<UserMenuState>("newVideo")
   const onClick = (menuEntry: UserMenuState) => {
@@ -27,12 +27,12 @@ export const UserMenuSelector = ({ onSelect, className = "", menu }: UserMenuSel
   return (
     <div className={className}>
       <div className={"min-h-[500px] "}>
-        <div className={"bg-gradient-to-t from-orange-800 via-orange-700 to-orange-700 "}>
-          <ModuleHeading className={"text-gray-100 p-4 mb-4"}>Brukermeny</ModuleHeading>
+        <div className={"bg-gradient-to-tr from-red-600 via-red-700 to-red-900 drop-shadow-lg"}>
+          <ModuleHeading className={"text-gray-100 p-5 mb-4 pt-28 "}>Brukermeny</ModuleHeading>
         </div>
         <div className={"text-3xl font-bold "}>
           {Object.entries(menu).map(([key, { title }]) => (
-            <div key={key} className={menuStyle(key === activeItem)} onClick={() => onClick(key as UserMenuState)}>
+            <div key={key} className={menuStyle(key === activeItem)} onMouseDown={() => onClick(key as UserMenuState)}>
               {title}
             </div>
           ))}

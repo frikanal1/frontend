@@ -10,7 +10,7 @@ const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveV
 })
 
 const FrontpageLiveVideo = () => (
-  <div className="bg-gradient-to-b from-slate-800 to-slate-900 drop-shadow-2xl">
+  <div className="bg-gradient-to-b from-green-400 to-green-900 drop-shadow-2xl">
     <Suspense>
       <LiveVideoPlayer src="https://beta.frikanalen.no/stream/program.m3u8" />
     </Suspense>
@@ -28,11 +28,10 @@ export const IndexPage = () => (
       }}
     />
     <div className={"lg:grow "}>
-      <ModuleHeading>Direkte</ModuleHeading>
       <FrontpageLiveVideo />
     </div>
     <div className={"lg:w-1/3"}>
-      <ModuleHeading>Nyheter</ModuleHeading>
+      <ModuleHeading className={""}>Nyheter</ModuleHeading>
       <FrontpageBulletins />
     </div>
   </div>

@@ -85,9 +85,7 @@ export type HeaderLinkProps = {
   accent: Accent
 }
 
-export function HeaderLink(props: HeaderLinkProps) {
-  const { to, label, accent } = props
-
+export function HeaderLink({ to, label, accent }: HeaderLinkProps) {
   const router = useRouter()
   const active = router.pathname == to
 

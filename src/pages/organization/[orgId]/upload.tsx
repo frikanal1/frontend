@@ -46,8 +46,8 @@ export const UploadPage = ({ orgId }: UploadPageProps) => {
 
   return (
     <RequireUserIsEditor organization={organization}>
-      <div className="">
-        <h3 className="text-3xl bg-black font-bold text-white p-8">Ny video for {organization.name}</h3>
+      <div className="shadow-xl">
+        <h3 className="text-3xl bg-black font-bold text-green-300 px-8 py-5">Ny video for {organization.name}</h3>
         <ColoredBar className={" bg-gradient-to-t from-green-500 to-green-400 text-black"}>
           <Step>
             <StepNumber>1.</StepNumber> last opp fil

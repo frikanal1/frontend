@@ -20,7 +20,7 @@ export function UpcomingProgramme({ className, entry }: UpcomingProgrammeProps) 
           <a className={""}>{entry.video.organization.name}</a>
         </Link>
       </div>
-      <span className={"font-mono font-condensed text-slate-400 font-bold"}>
+      <span className={"font-mono font-condensed text-green-400 font-bold"}>
         {humanizeScheduleItemDate(new Date(entry.startsAt))}
       </span>
     </div>
