@@ -3,7 +3,6 @@ import { RequireAuthentication } from "src/modules/core/components/RequireAuthen
 import { Meta } from "src/modules/core/components/Meta"
 import UploadPage from "./organization/[orgId]/upload"
 import { UserMenu, UserMenuSelector, UserMenuState } from "../refactor/UserMenu"
-import { ModuleHeading } from "src/refactor/ModuleHeading"
 import userContext from "../refactor/UserContext"
 
 const OrgSelector = () => {
@@ -16,8 +15,8 @@ const OrgSelector = () => {
         {session?.user?.roles.map((x, idx) => (
           <div
             key={idx}
-            onClick={() => setActiveOrganization(x.organization.id)}
-            className={activeOrganization == x.organization.id ? "bg-black text-red-400" : ""}
+            onClick={() => setActiveOrganization(x.organization)}
+            className={activeOrganization?.id == x.organization.id ? "bg-black text-red-400" : ""}
           >
             {x.role} {x.organization.name}
           </div>
@@ -35,7 +34,7 @@ function Profile() {
   const buildMenu = (): UserMenu => ({
     newVideo: {
       title: "Ny video",
-      menu: <UploadPage orgId={activeOrganization || ""} />,
+      menu: <UploadPage orgId={activeOrganization?.id || ""} />,
     },
     organizations: { title: "Organisasjoner", menu: <OrgSelector /> },
     profile: { title: "Profil", menu: <div>Profile</div> },
@@ -45,15 +44,14 @@ function Profile() {
 
   return (
     <div className={"w-full"}>
-      <ModuleHeading>Meny</ModuleHeading>
-      <div className={"flex w-full"}>
+      <div className={"flex w-full gap-8"}>
         <Meta
           meta={{
             title: "Brukermeny",
             description: "",
           }}
         />
-        <UserMenuSelector className={"basis-1/3"} onSelect={setCurrentMenu} menu={userMenu} />
+        <UserMenuSelector className={"basis-1/4"} onSelect={setCurrentMenu} menu={userMenu} />
         <div className={"grow"}>{userMenu[currentMenu].menu}</div>
       </div>
     </div>

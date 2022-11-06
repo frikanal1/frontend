@@ -1,4 +1,5 @@
 import AttachFileIcon from "@mui/icons-material/AttachFile"
+import prettyBytes from "pretty-bytes"
 import { useState } from "react"
 import { Maybe } from "../generated/graphql"
 
@@ -22,12 +23,17 @@ export const UploadFileSelector = ({ handleStart }: { handleStart: (file: File) 
   )
 
   const FileConfirmation = () => (
-    <div className="w-full h-full">
-      <div>Filnavn: {file!.name}</div>
-      <div>Filstørrelse: {file!.size}</div>
-      <button className="border-2 border-teal-700 rounded-lg p-2 m-2 w-40" onClick={() => file && handleStart(file)}>
-        Last opp
-      </button>
+    <div className="w-full min-h-[130px] lg:text-2xl flex flex-col content-center">
+      <div className={"text-center"}>
+        <div className={"pb-2 pt-10"}>
+          {file!.name} <div>({prettyBytes(file!.size)})</div>
+        </div>
+      </div>
+      <div className={"flex flex-col items-end"}>
+        <button className="border-2 border-teal-700 rounded-lg p-2 m-2 w-40" onClick={() => file && handleStart(file)}>
+          Last opp
+        </button>
+      </div>
     </div>
   )
 

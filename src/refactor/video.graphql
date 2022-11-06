@@ -31,6 +31,15 @@ mutation PublishVideo ($videoId: ID!) {
     }
 }
 
+mutation DeleteVideo ($videoId: ID!) {
+    video {
+        delete(videoId: $videoId) {
+            status
+        }
+    }
+}
+
+
 query GetVideo($videoId: ID!) {
     video(id: $videoId) {
         ...BasicVideoMetadata

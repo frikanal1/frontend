@@ -132,6 +132,7 @@ type VideoMutationPayload {
 
 type VideoMutations {
     create(input: VideoInput!): VideoMutationPayload!
+    delete(videoId: ID!): VideoMutationPayload!
     publish(videoId: ID!): VideoMutationPayload!
     unpublish(videoId: ID!): VideoMutationPayload!
     update(input: VideoInput!): VideoMutationPayload!

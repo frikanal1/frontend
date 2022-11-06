@@ -6,8 +6,13 @@ import { GetSessionDocument, Maybe, RoleType, UserSessionFragment } from "../gen
 type UserContextType = {
   session?: Maybe<UserSessionFragment>
 
-  activeOrganization: Maybe<string>
-  setActiveOrganization: (activeOrganization: string) => void
+  activeOrganization: Maybe<activeOrg>
+  setActiveOrganization: (activeOrganization: activeOrg) => void
+}
+
+interface activeOrg {
+  id: string
+  name: string
 }
 
 const UserContext = createContext<UserContextType>({
@@ -17,7 +22,7 @@ const UserContext = createContext<UserContextType>({
 
 export const UserProvider = ({ children }: { children?: React.ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<Maybe<UserSessionFragment> | undefined>()
-  const [activeOrganization, setActiveOrganization] = useState<Maybe<string>>(null)
+  const [activeOrganization, setActiveOrganization] = useState<Maybe<activeOrg>>(null)
 
   // Ensures that the active organization is correct for the user, defaults to the first
   // organization (which will be the only organization for most users)
@@ -26,10 +31,18 @@ export const UserProvider = ({ children }: { children?: React.ReactNode }) => {
       setActiveOrganization(null)
     } else {
       if (
-        !session.user.roles.filter(({ organization: { id } }) => id === activeOrganization).length ||
-        !activeOrganization
+        !activeOrganization ||
+        !session.user.roles.filter(({ organization: { id } }) => id === activeOrganization.id).length
       ) {
-        setActiveOrganization(session.user.roles.find(({ role }) => role === RoleType.Editor)?.organization.id || null)
+        const firstAndBestOrganization =
+          session.user.roles.find(({ role }) => role === RoleType.Editor)?.organization || null
+
+        if (firstAndBestOrganization) {
+          const { id, name } = firstAndBestOrganization
+          setActiveOrganization({ id, name })
+        } else {
+          setActiveOrganization(null)
+        }
       }
     }
   }

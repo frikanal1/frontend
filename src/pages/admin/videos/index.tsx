@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { styled } from "@mui/system"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
@@ -8,8 +7,6 @@ import React from "react"
 import { Edit } from "@mui/icons-material"
 import { GetVideosDocument } from "../../../generated/graphql"
 import { useQuery } from "@apollo/client"
-
-const Container = styled("div")``
 
 export const VideoAdminList = () => {
   const query = useQuery(GetVideosDocument)
@@ -51,14 +48,14 @@ export const VideoAdminList = () => {
   ]
 
   return (
-    <Container>
+    <div className={"w-full"}>
       <Meta meta={{ title: "Videoer" }} />
       <Link href={"/admin"} passHref>
         <a>
-          <h1>Administratorfunksjoner</h1>
+          <h1 className={"text-4xl font-bold p-2"}>Administratorfunksjoner</h1>
         </a>
       </Link>
-      <h2>Videoer</h2>
+      <h2 className={"text-2xl font-bold p-2"}>Videoer</h2>
       <DataGrid
         disableSelectionOnClick
         autoHeight
@@ -67,7 +64,7 @@ export const VideoAdminList = () => {
         pageSize={5}
         rowsPerPageOptions={[5]}
       />
-    </Container>
+    </div>
   )
 }
 

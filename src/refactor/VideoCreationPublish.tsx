@@ -23,7 +23,7 @@ export const VideoCreationPublish = ({ videoId }: VideoCreationPublishProps) => 
       <div>Inntil du publiserer, er den kun synlig for deg.</div>
       <div className={"ml-auto"}>
         <Button
-          className="bg-teal-200 hover:bg-teal-100"
+          className="bg-green-200 hover:bg-green-100"
           variant="contained"
           onClick={async () => {
             await mutate()

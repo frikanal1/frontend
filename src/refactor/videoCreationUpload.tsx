@@ -4,6 +4,7 @@ import { useCookie } from "react-use"
 import { useTus } from "use-tus"
 
 import "regenerator-runtime/runtime"
+import FileDownloadDoneRoundedIcon from "@mui/icons-material/FileDownloadDoneRounded"
 
 import { UploadFileSelector } from "./uploadFileSelector"
 import { Maybe } from "../generated/graphql"
@@ -20,7 +21,7 @@ const UploadProgressBar = ({ progress }: { progress: number }) => (
     >
       <Progress.Indicator
         className={
-          "w-full h-9 bg-gradient-to-br from-teal-600 to-teal-900 text-teal-100 font-bold text-lg flex justify-center"
+          "w-full h-9 bg-gradient-to-br from-green-600 to-green-900 text-green-100 font-bold text-lg flex justify-center"
         }
         style={{
           transform: `translateX(-${100 - progress}%)`,
@@ -36,6 +37,15 @@ const UploadProgressBar = ({ progress }: { progress: number }) => (
 interface VideoFileUploadProps {
   onComplete: (mediaId: string) => void
 }
+
+export const VideoUploadDone = () => (
+  <div className={"flex h-full items-center"}>
+    <div className={"text-5xl border-black"}>
+      <FileDownloadDoneRoundedIcon sx={{ fontSize: "inherit", marginRight: ".25em" }} />
+      ferdig
+    </div>
+  </div>
+)
 
 export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
   const { upload, setUpload } = useTus({ autoStart: true })
@@ -79,12 +89,12 @@ export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
   if (!csrfToken) return null
 
   return (
-    <div className={"text-teal-900 bg-teal-100 rounded-2xl w-full h-full p-2"}>
+    <div className={"text-green-900 bg-green-100 rounded-2xl w-full h-full p-2"}>
       <div
         className={
           "p-2 w-full " +
-          "transition appearance-none  hover:border-teal-500 " +
-          "border-[5px] border-teal-600 rounded-2xl border-dashed"
+          "transition appearance-none  hover:border-green-500 " +
+          "border-[5px] border-green-600 rounded-2xl border-dashed"
         }
       >
         <UploadFileSelector handleStart={handleSetUpload} />

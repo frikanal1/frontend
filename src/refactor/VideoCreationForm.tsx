@@ -80,7 +80,7 @@ export const VideoCreationForm = ({ mediaId, organizationId, onCreated }: VideoC
         </div>
         <div className="ml-auto">
           <Button
-            className="flex gap-2 bg-teal-200 hover:bg-teal-100"
+            className="flex gap-2 bg-green-200 hover:bg-green-100"
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
