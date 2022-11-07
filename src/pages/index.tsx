@@ -23,7 +23,7 @@ export const Frontpage = () => (
       </Suspense>
       <FrontpageScheduleView />
     </div>
-    <div className={"xl:w-1/3"}>
+    <div className={"xl:basis-1/3"}>
       <FrontpageBulletins />
     </div>
   </div>

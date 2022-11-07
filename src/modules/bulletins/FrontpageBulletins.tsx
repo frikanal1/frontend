@@ -9,11 +9,9 @@ export const FrontpageBulletins = () => {
 
   const bulletins = query.data?.bulletins.items
 
-  if (!bulletins) return null
-
   return (
     <div className="space-y-4">
-      {bulletins.map(({ id, title, createdAt, text }) => (
+      {bulletins?.map(({ id, title, createdAt, text }) => (
         <div key={id} className={"shadow-md"}>
           <div className={"bg-gradient-to-b from-red-800 via-red-900 to-red-900 text-red-100 p-4"}>
             <h4 className={"lg:text-3xl font-bold tracking-wide"}>{title}</h4>
