@@ -9,10 +9,10 @@ const NavLink = ({ children, href, className }: { children: string; href?: strin
   const router = useRouter()
   const linkRef = useRef<HTMLAnchorElement>(null)
 
-  const active = router.pathname == href
+  const active = "/" + router.pathname.split("/")[1] == href
 
-  const baseStyle = "min-w-fit font-black text-4xl mr-5 underline-offset-4 transition "
-  const linkStyle = active ? "text-[#E88840] underline decoration-4 " : "text-gray-600 hover:text-gray-800 "
+  const baseStyle = "min-w-fit font-black transition px-2 hover:border-b-[#E88840]/50 hover:border-b-4 "
+  const linkStyle = active ? "text-[#E88840] border-b-[#E88840] border-b-4 " : "text-gray-600 hover:text-gray-800 "
 
   return (
     <a ref={linkRef} href={href} className={baseStyle + linkStyle + className}>

@@ -9,7 +9,7 @@ export interface UpcomingProgrammeProps {
 
 export function UpcomingProgramme({ className, entry }: UpcomingProgrammeProps) {
   return (
-    <div className={"flex w-full " + className}>
+    <div className={"flex w-full flex-col xl:flex-row " + className}>
       <div className={"grow flex flex-col"}>
         <Link href={`/video/${entry?.video.id}`} passHref>
           <a className={"whitespace-nowrap font-bold overflow-hidden text-ellipsis"}>{entry?.video.title}</a>

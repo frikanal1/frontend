@@ -22,7 +22,7 @@ const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
     <Link href={to} passHref>
       <a
         className={
-          "hover:text-black transition-color duration-200 ease-in-out font-extrabold " +
+          "hover:text-black transition-color duration-200 p-2 ease-in-out font-extrabold " +
           (isActive ? "text-green-500" : "")
         }
       >
@@ -33,7 +33,7 @@ const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
 }
 
 export const AboutLinkBar = () => (
-  <div className={"space-x-3 text-3xl pb-6 font-bold text-gray-500"}>
+  <div className={"space-x-3 text-3xl pb-6 font-bold text-gray-500 border-t-gray-300 -px-1 w-1/2 border-t-4"}>
     <AboutLink to={"/about"}>Om oss</AboutLink>
     <AboutLink to={"/about/statutes"}>Vedtekter</AboutLink>
   </div>

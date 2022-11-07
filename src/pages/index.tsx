@@ -9,7 +9,7 @@ const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveV
 })
 
 export const Frontpage = () => (
-  <div className="flex grow flex-col gap-4 xl:flex-row xl:gap-8">
+  <div className="flex flex-col gap-4 xl:flex-row xl:gap-8">
     <Meta
       meta={{
         title: "Direkte",
