@@ -49,9 +49,9 @@ export default function About() {
         }}
       />
       <AboutLinkBar />
-      <div className={"flex flex-col lg:flex-row"}>
+      <div className={"flex flex-col gap-4 lg:flex-row"}>
         <div className={"lg:basis-1/4"}>
-          <div className={"bg-emerald-700 italic-semi text-white p-5 m-2"}>
+          <div className={"bg-emerald-700 italic-semi text-white p-5"}>
             <div className={"font-extrabold text-2xl italic-semi"}>
               « Målet med Frikanalen er å styrke ytringsfrihet og deltakerdemokratiet ved å gi flere mulighet til å ytre
               seg i TV-mediet. »
@@ -65,9 +65,9 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div className={"font-serif text-justify p-5 pt-1"}>
-          <h2 className={"text-4xl"}>Frikanalen er sivilsamfunnets videoplatform</h2>
-          <div className={"prose-xl max-w-prose "}>
+        <div className={"text-justify p-4"}>
+          <h2 className={"text-3xl font-bold"}>Frikanalen er sivilsamfunnets videoplatform</h2>
+          <div className={"prose-xl max-w-prose prose-p:font-serif "}>
             <p>
               I samarbeid med våre medlemsorganisasjoner vil vi styrke norsk samfunnsliv og frivillighet med en
               ukommersiell videoplattform uten forhåndssensur.
