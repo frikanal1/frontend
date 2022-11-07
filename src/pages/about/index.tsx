@@ -1,5 +1,4 @@
 import { Meta } from "src/modules/core/components/Meta"
-import { Document } from "src/modules/ui/components/Document"
 import { ExternalLink } from "src/modules/ui/components/ExternalLink"
 import { styled } from "@mui/system"
 import Link from "next/link"
@@ -43,22 +42,21 @@ export const AboutLinkBar = () => (
 export default function About() {
   return (
     <div className={"w-full"}>
+      <Meta
+        meta={{
+          title: "Om",
+          description: "Informasjon om Frikanalen og hvordan du kan bli medlem",
+        }}
+      />
       <AboutLinkBar />
-      <div className={"max-w-[800px] mx-auto"}>
-        <Document>
-          <Meta
-            meta={{
-              title: "Om",
-              description: "Informasjon om Frikanalen og hvordan du kan bli medlem",
-            }}
-          />
-          <h2 className={"m-0 px-2 py-1 text-4xl"}>Frikanalen er sivilsamfunnets videoplatform</h2>
+      <div className={"flex flex-col lg:flex-row"}>
+        <div className={"lg:basis-1/4"}>
           <div className={"bg-emerald-700 italic-semi text-white p-5 m-2"}>
-            <div className={"font-extrabold text-3xl italic-semi"}>
+            <div className={"font-extrabold text-2xl italic-semi"}>
               « Målet med Frikanalen er å styrke ytringsfrihet og deltakerdemokratiet ved å gi flere mulighet til å ytre
               seg i TV-mediet. »
             </div>
-            <div className={"text-right pr-2"}>
+            <div className={"text-right pt-2 pr-2"}>
               <Link href={"/about/statutes"} passHref>
                 <a className={"text-emerald-200 text-xl hover:text-emerald-100 no-underline"}>
                   Frikanalens formålsparagraf
@@ -66,7 +64,10 @@ export default function About() {
               </Link>
             </div>
           </div>
-          <div className={"prose-xl max-w-prose mx-auto font-serif text-justify px-2"}>
+        </div>
+        <div className={"font-serif text-justify p-5 pt-1"}>
+          <h2 className={"text-4xl"}>Frikanalen er sivilsamfunnets videoplatform</h2>
+          <div className={"prose-xl max-w-prose "}>
             <p>
               I samarbeid med våre medlemsorganisasjoner vil vi styrke norsk samfunnsliv og frivillighet med en
               ukommersiell videoplattform uten forhåndssensur.
@@ -117,7 +118,7 @@ export default function About() {
               <ExternalLink href="mailto:toresbe@protonmail.com">toresbe@protonmail.com</ExternalLink>
             </p>
           </div>
-        </Document>
+        </div>
       </div>
     </div>
   )

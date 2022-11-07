@@ -34,7 +34,7 @@ const NewUserThingie = () => {
   ) : (
     <div onClick={() => setLoginOpen(true)}>
       <Login open={loginOpen} onClose={() => setLoginOpen(false)} />
-      <NavLink>Login</NavLink>
+      <NavLink>Logg inn</NavLink>
     </div>
   )
 }

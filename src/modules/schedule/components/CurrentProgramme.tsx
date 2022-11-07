@@ -18,7 +18,7 @@ export const CurrentProgramme = ({ entry }: ScheduleItemBlurbProps) => (
         <a>av {entry?.video?.organization.name}</a>
       </Link>
     </h5>
-    <div className="whitespace-pre-wrap break-words prose prose-invert prose-md lg:prose-lg lg:p-4">
+    <div className="whitespace-pre-wrap break-words prose prose-invert prose-md lg:prose-xl lg:p-4">
       <ReactMarkdown>{entry?.video?.description || ""}</ReactMarkdown>
     </div>
   </div>

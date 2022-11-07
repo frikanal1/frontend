@@ -9,7 +9,7 @@ const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveV
 })
 
 export const Frontpage = () => (
-  <div className="flex grow flex-col gap-2 xl:flex-row xl:gap-8">
+  <div className="flex grow flex-col gap-4 xl:flex-row xl:gap-8">
     <Meta
       meta={{
         title: "Direkte",
@@ -17,13 +17,11 @@ export const Frontpage = () => (
         type: "website",
       }}
     />
-    <div className={"lg:grow "}>
-      <div className="bg-gradient-to-b from-green-400 to-green-900 drop-shadow-2xl">
-        <Suspense>
-          <LiveVideoPlayer src="https://beta.frikanalen.no/stream/program.m3u8" />
-        </Suspense>
-        <FrontpageScheduleView />
-      </div>
+    <div className="xl:grow bg-gradient-to-b from-green-400 to-green-900 drop-shadow-2xl">
+      <Suspense>
+        <LiveVideoPlayer src="https://beta.frikanalen.no/stream/program.m3u8" />
+      </Suspense>
+      <FrontpageScheduleView />
     </div>
     <div className={"xl:w-1/3"}>
       <FrontpageBulletins />
