@@ -40,8 +40,8 @@ interface VideoFileUploadProps {
 
 export const VideoUploadDone = () => (
   <div className={"flex h-full items-center"}>
-    <div className={"text-5xl border-black"}>
-      <FileDownloadDoneRoundedIcon sx={{ fontSize: "inherit", marginRight: ".25em" }} />
+    <div className={"text-5xl font-semibold border-black"}>
+      <FileDownloadDoneRoundedIcon sx={{ fontSize: "inherit", marginRight: ".25em", marginBottom: ".125em" }} />
       ferdig
     </div>
   </div>
