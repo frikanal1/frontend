@@ -1,13 +1,4 @@
-import styled from "../../modules/styling/transientStyled"
 import { AboutLinkBar } from "./index"
-
-const TutorialList = styled("ul")`
-  li {
-    list-style-type: disc;
-    margin: 0.5em;
-    margin-left: 2em;
-  }
-`
 
 export const MembershipPage = () => {
   return (
@@ -26,14 +17,14 @@ export const MembershipPage = () => {
             sendt på riksdekkende fjernsyn.
           </p>
           <p>Slik går du frem:</p>
-          <TutorialList>
+          <ul>
             <li>
               Opprett en bruker på denne nettsiden, ved å trykke på «Logg inn» oppe til høyre, og så «Registrer ny
               konto?»
             </li>
             <li>Fra din brukerprofil, opprett en ny organisasjon</li>
             <li>For informasjon om kontingent og innmelding, se «Kontakt oss» lenger nede på denne siden</li>
-          </TutorialList>
+          </ul>
         </section>
       </div>
     </div>

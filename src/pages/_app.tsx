@@ -1,7 +1,6 @@
 import React from "react"
 import { Header } from "src/modules/core/components/Header"
 import { Footer } from "src/modules/core/components/Footer"
-import { ThemeContext } from "src/modules/styling/components/ThemeContext"
 import { ApolloClient, ApolloProvider } from "@apollo/client"
 import { UserProvider } from "src/refactor/UserContext"
 import { AppProps } from "next/app"
@@ -18,21 +17,19 @@ type FKAppProps = AppProps & {
 const CustomApp = ({ Component, pageProps, apolloClient = client }: FKAppProps) => (
   <ApolloProvider client={apolloClient}>
     <UserProvider>
-      <ThemeContext>
-        <div
-          className={
-            "max-w-[1500px] min-h-screen mx-auto w-full md:px-3 flex flex-col items-stretch justify-between pt-3 md:pt-5 xl:pt-24"
-          }
-        >
-          <div>
-            <Header className={"px-2 md:px-0"} />
-            <main className="">
-              <Component {...pageProps} />
-            </main>
-          </div>
-          <Footer className={"text-slate-800 my-4"} />
+      <div
+        className={
+          "max-w-[1500px] min-h-screen mx-auto w-full md:px-3 flex flex-col items-stretch justify-between pt-3 md:pt-5 xl:pt-24"
+        }
+      >
+        <div>
+          <Header className={"px-2 md:px-0"} />
+          <main className="">
+            <Component {...pageProps} />
+          </main>
         </div>
-      </ThemeContext>
+        <Footer className={"text-slate-800 my-4"} />
+      </div>
     </UserProvider>
   </ApolloProvider>
 )
