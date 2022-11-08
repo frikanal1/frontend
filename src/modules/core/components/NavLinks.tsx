@@ -24,12 +24,12 @@ export const NavLink = ({ children, href, className }: { children: ReactNode; hr
   )
 }
 
-export const NewUserThingie = () => {
+export const UserLinkOrLoginButton = () => {
   const { session } = useContext(UserContext)
   const [loginOpen, setLoginOpen] = useState<boolean>(false)
 
   return session?.user ? (
-    <Link href={"/profile"} passHref>
+    <Link href={"/user"} passHref>
       <NavLink>Brukermeny</NavLink>
     </Link>
   ) : (
@@ -48,13 +48,16 @@ export function NavLinks({ className }: { className?: string }) {
       <Link href={"/"} passHref>
         <NavLink>Direkte</NavLink>
       </Link>
+      <Link href={"/video"} passHref>
+        <NavLink>Arkiv</NavLink>
+      </Link>
       <Link href={"/schedule"} passHref>
         <NavLink>Sendeplan</NavLink>
       </Link>
       <Link href={"/about"} passHref>
         <NavLink>Om oss</NavLink>
       </Link>
-      <NewUserThingie />
+      <UserLinkOrLoginButton />
     </nav>
   )
 }

@@ -5,45 +5,32 @@ import { Section } from "src/modules/ui/components/Section"
 import React from "react"
 import { GetServerSideProps, NextPage } from "next"
 import { ParsedUrlQuery } from "querystring"
-import { GetOrganizationDocument } from "../../../generated/graphql"
+import { GetOrganizationDocument, GetOrganizationQuery } from "../../../generated/graphql"
 import { useQuery } from "@apollo/client"
 import { LatestVideosGrid } from "../../../modules/organization/components/latestVideosGrid"
-
-const breakpoint = 1250
-
-const Container = styled("div")`
-  width: 100%;
-
-  .description {
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-`
-
-const SecondaryInfo = styled("div")`
-  white-space: pre-wrap;
-  word-break: break-word;
-  width: 100%;
-
-  justify-content: space-around;
-
-  display: flex;
-
-  @media (max-width: ${breakpoint}px) {
-    flex-direction: column;
-  }
-`
+import ReactMarkdown from "react-markdown"
 
 const InfoSection = styled(Section)`
   margin-left: 32px;
   min-width: 200px;
   white-space: pre-wrap;
   line-height: 1.4;
-  @media (max-width: ${breakpoint}px) {
-    margin-left: 0px;
-    margin-top: 32px;
-  }
 `
+const LegalInfo = ({ organization: { editor, postalAddress, streetAddress } }: GetOrganizationQuery) => (
+  <div className={"flex items-stretch w-full"}>
+    <InfoSection icon="pencil" title="Redaktør">
+      {editor.name}
+      <br />
+      <ExternalLink href={`mailto:${editor.email}`}>{editor.email}</ExternalLink>
+    </InfoSection>
+    <InfoSection icon="mail" title="Postadresse">
+      {postalAddress}
+    </InfoSection>
+    <InfoSection icon="home" title="Besøksadresse">
+      {streetAddress}
+    </InfoSection>
+  </div>
+)
 
 interface OrganizationPageProps {
   orgId: string
@@ -60,34 +47,23 @@ export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => 
 
   const { organization } = data
 
-  const { name, description, postalAddress, streetAddress, editor, latestVideos } = organization
+  const { name, description, latestVideos } = organization
 
   return (
-    <Container>
+    <div className={"pt-4"}>
       <Meta
         meta={{
           title: name,
           description: description || "",
         }}
       />
-      <h3>{name}</h3>
-      <p className={"description"}>{description}</p>
+      <h2 className={"text-5xl text-green-800 font-black "}>{name}</h2>
+      <div className={"description py-3"}>
+        <ReactMarkdown>{description || ""}</ReactMarkdown>
+      </div>
       <LatestVideosGrid latestVideos={latestVideos} />
-
-      <SecondaryInfo>
-        <InfoSection icon="pencil" title="Redaktør">
-          {editor.name}
-          <br />
-          <ExternalLink href={`mailto:${editor.email}`}>{editor.email}</ExternalLink>
-        </InfoSection>
-        <InfoSection icon="mail" title="Postadresse">
-          {postalAddress}
-        </InfoSection>
-        <InfoSection icon="home" title="Besøksadresse">
-          {streetAddress}
-        </InfoSection>
-      </SecondaryInfo>
-    </Container>
+      <LegalInfo organization={organization} />
+    </div>
   )
 }
 

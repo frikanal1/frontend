@@ -11,7 +11,7 @@ const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
   return (
     <div
       className={
-        "transition-color border-b-4 leading-7 text-green-500 " +
+        "transition-color border-b-4 leading-8 text-green-500 " +
         (isActive
           ? "border-b-green-500"
           : "border-b-transparent contrast-0 hover:text-gray-700 hover:border-b-gray-700 hover:contrast-50")

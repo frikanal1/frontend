@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react"
 import { Meta } from "src/modules/core/components/Meta"
-import UploadVideoDialog from "../refactor/UploadVideoDialog"
-import { UserMenu, UserMenuSelector, UserMenuState } from "../refactor/UserMenu"
-import userContext from "../refactor/UserContext"
-import { RoleType } from "../generated/graphql"
+import UploadVideoDialog from "../../refactor/UploadVideoDialog"
+import { UserMenu, UserMenuSelector, UserMenuState } from "../../refactor/UserMenu"
+import userContext from "../../refactor/UserContext"
+import { RoleType } from "../../generated/graphql"
 
 const OrgSelector = () => {
   const { activeOrganization, setActiveOrganization, session } = useContext(userContext)
@@ -41,7 +41,7 @@ const OrgMenu = () => {
   )
 }
 
-function Profile() {
+function Index() {
   const { activeOrganization } = useContext(userContext)
 
   const [currentMenu, setCurrentMenu] = useState<UserMenuState>("newVideo")
@@ -73,4 +73,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default Index
