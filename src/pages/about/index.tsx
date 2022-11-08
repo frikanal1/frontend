@@ -17,11 +17,11 @@ const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
           : "border-b-transparent contrast-0 hover:text-gray-700 hover:border-b-gray-700 hover:contrast-50")
       }
     >
-      <Link href={to} passHref>
-        <a className={"font-extrabold"}>{children}</a>
+      <Link href={to} passHref className={"font-extrabold"}>
+        {children}
       </Link>
     </div>
-  )
+  );
 }
 
 export const AboutLinkBar = () => (
@@ -52,10 +52,13 @@ export default function About() {
               ytre seg i TV-mediet.&nbsp;»
             </div>
             <div className={"text-right pt-2 pr-2"}>
-              <Link href={"/about/statutes"} passHref>
-                <a className={"text-orange-900 text-xl hover:text-orange-100 no-underline"}>
+              <Link
+                href={"/about/statutes"}
+                passHref
+                className={"text-orange-900 text-xl hover:text-orange-100 no-underline"}>
+                
                   Frikanalens formålsparagraf
-                </a>
+                
               </Link>
             </div>
           </div>
@@ -76,5 +79,5 @@ export default function About() {
         </div>
       </div>
     </div>
-  )
+  );
 }

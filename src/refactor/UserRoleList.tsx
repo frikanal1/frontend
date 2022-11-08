@@ -28,7 +28,7 @@ export const UserRoleList = ({ roles }: UserRoleListProps) => (
     <div>
       <Button variant={"outlined"}>
         <Link href={"/organization/new"} passHref>
-          <a>Ny organisasjon</a>
+          Ny organisasjon
         </Link>
       </Button>
     </div>

@@ -35,13 +35,13 @@ interface LinkBoxProps {
 
 const LinkBox = ({ icon: Icon, children, href }: LinkBoxProps) => {
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <FunctionBox>
         <Icon sx={{ fontSize: 72 }} />
         {children}
       </FunctionBox>
     </Link>
-  )
+  );
 }
 
 export const AdminPage = () => {

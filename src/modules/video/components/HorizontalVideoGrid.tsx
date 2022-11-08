@@ -18,15 +18,15 @@ export function HorizontalVideoGrid({ videos }: VideoGridProps) {
         <div key={id} className={"max-w-[250px] h-[300px] bg-gradient-to-b from-green-100 to-green-200 rounded-md"}>
           <div className={"flex h-full flex-col justify-between"}>
             <Link href={`/video/${id}`} passHref>
-              <a>
-                <img className="aspect-video block" alt={"thumbnail"} src={images.thumbLarge} />
-                <div className={"p-2"}>{title}</div>
-              </a>
+
+              <img className="aspect-video block" alt={"thumbnail"} src={images.thumbLarge} />
+              <div className={"p-2"}>{title}</div>
+
             </Link>
             <div className={"p-2"}>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</div>
           </div>
         </div>
       ))}
     </div>
-  )
+  );
 }

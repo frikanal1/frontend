@@ -29,7 +29,7 @@ export const UserLinkOrLoginButton = () => {
   const [loginOpen, setLoginOpen] = useState<boolean>(false)
 
   return session?.user ? (
-    <Link href={"/user"} passHref>
+    <Link href={"/user"} passHref legacyBehavior>
       <NavLink>Brukermeny</NavLink>
     </Link>
   ) : (
@@ -39,25 +39,25 @@ export const UserLinkOrLoginButton = () => {
       </Popover>
       <NavLink>Logg inn</NavLink>
     </div>
-  )
+  );
 }
 
 export function NavLinks({ className }: { className?: string }) {
   return (
     <nav className={className}>
-      <Link href={"/"} passHref>
+      <Link href={"/"} passHref legacyBehavior>
         <NavLink>Direkte</NavLink>
       </Link>
-      <Link href={"/video"} passHref>
+      <Link href={"/video"} passHref legacyBehavior>
         <NavLink>Arkiv</NavLink>
       </Link>
-      <Link href={"/schedule"} passHref>
+      <Link href={"/schedule"} passHref legacyBehavior>
         <NavLink>Sendeplan</NavLink>
       </Link>
-      <Link href={"/about"} passHref>
+      <Link href={"/about"} passHref legacyBehavior>
         <NavLink>Om oss</NavLink>
       </Link>
       <UserLinkOrLoginButton />
     </nav>
-  )
+  );
 }

@@ -15,8 +15,8 @@ export const VideoCreationPublish = ({ videoId }: VideoCreationPublishProps) => 
       <div>Gratulerer! Videoen din er nå lastet opp.</div>
       <div>
         Du kan se en forhåndsvisning på{" "}
-        <Link href={`/video/${videoId}`} passHref>
-          <a className={"font-bold"}>videosiden</a>
+        <Link href={`/video/${videoId}`} passHref className={"font-bold"}>
+          videosiden
         </Link>
         .
       </div>
@@ -33,5 +33,5 @@ export const VideoCreationPublish = ({ videoId }: VideoCreationPublishProps) => 
         </Button>
       </div>
     </div>
-  )
+  );
 }

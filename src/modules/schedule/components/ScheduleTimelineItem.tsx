@@ -55,15 +55,15 @@ export function ScheduleTimelineItem({ entry }: ScheduleTimelineItemProps) {
       <PrimaryInfo>
         <Title>
           <Link href={`/video/${video.id}`} passHref>
-            <a>{video.title}</a>
+            {video.title}
           </Link>
         </Title>
         <Organization>
           <Link href={`/organization/${video.organization.id}`} passHref>
-            <a>{video.organization.name}</a>
+            {video.organization.name}
           </Link>
         </Organization>
       </PrimaryInfo>
     </Container>
-  )
+  );
 }

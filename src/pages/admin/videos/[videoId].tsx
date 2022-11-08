@@ -103,19 +103,19 @@ export const VideoAdminDetail = ({ videoId }: VideoAdminDetailProps) => {
     <div className={"w-full"}>
       <Meta meta={{ title: "Administrer video" }} />
       <Link href={"/admin"} passHref>
-        <a>
-          <h1 className={"text-4xl font-bold p-2"}>Administratorfunksjoner</h1>
-        </a>
+
+        <h1 className={"text-4xl font-bold p-2"}>Administratorfunksjoner</h1>
+
       </Link>
       <Link href={"/admin/videos"} passHref>
-        <a>
-          <h2 className={"text-2xl font-bold p-2"}>Videoer</h2>
-        </a>
+
+        <h2 className={"text-2xl font-bold p-2"}>Videoer</h2>
+
       </Link>
       {data?.video && <VideoEditForm video={data?.video} />}
       <VideoDeleteButton videoId={videoId} />
     </div>
-  )
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<VideoAdminDetailProps> = async (ctx) => {
