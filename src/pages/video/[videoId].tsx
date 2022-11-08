@@ -26,11 +26,9 @@ export const VideoPage = ({ video }: VideoPageProps) => (
         author: video.organization.name,
       }}
     />
-    <div className={"flex flex-col max-w-[1280px] w-full"}>
-      <div className="bg-green-800 drop-shadow-2xl text-sm w-full">
-        <VideoPlayer video={video} />
-        <VideoPageMetaBar video={video} />
-      </div>
+    <div className={"bg-green-800 drop-shadow-2xl h-fit"}>
+      <VideoPlayer video={video} />
+      <VideoPageMetaBar video={video} />
     </div>
     <LatestVideosSidebar className={"lg:w-1/3 drop-shadow-md"} latestVideos={video.organization} />
   </div>

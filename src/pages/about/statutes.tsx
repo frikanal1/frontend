@@ -4,7 +4,7 @@ import { AboutLinkBar } from "./index"
 
 export default function About() {
   return (
-    <div className={"w-full"}>
+    <div className={""}>
       <Meta
         meta={{
           title: "Våre vedtekter",
@@ -12,19 +12,24 @@ export default function About() {
         }}
       />
       <AboutLinkBar />
-      <article className={"flex gap-4 flex-col lg:flex-row"}>
-        <header className={"lg:basis-1/3 space-y-2"}>
-          <h2 className={"text-6xl font-bold"}>Vedtekter</h2>
-          <h2 className={"text-4xl font-semibold"}>
+      <article className={"flex flex-col lg:flex-row "}>
+        <header className={"text-gray-900 p-4 lg:pr-12 lg:pb-24 bg-gradient-to-b from-green-200 to-green-300 h-fit"}>
+          <h2 className={"text-5xl font-bold"}>Vedtekter</h2>
+          <div className={"text-xl font-semibold"}>
             for <span className={"font-bold"}>Foreningen Frikanalen</span>
-          </h2>
-          <p>Vedtatt på stiftelsesmøtet 14. juni 2007.</p>
-          <p>Revidert av årsmøtet 4. februar 2008, 28.april 2011 og 28. mai 2015.</p>
+          </div>
+          <div className={"font-serif text-sm pt-3"}>
+            <p>Vedtatt på stiftelsesmøtet 14. juni 2007.</p>
+            <p>
+              Revidert av årsmøtet 4. februar 2008, <br />
+              28.april 2011 og 28. mai 2015.
+            </p>
+          </div>
         </header>
 
         <div
           className={
-            "max-w-prose prose text-justify lg:prose-xl prose-slate prose-p:ml-4 " +
+            "pr-2 pt-1 max-w-[800px] prose text-justify lg:prose-lg prose-slate prose-p:ml-4 " +
             "prose-h5:font-sans prose-h5:font-bold prose-li:ml-4 prose-li:font-serif prose-p:font-serif [&_section]:ml-4 "
           }
         >
@@ -121,7 +126,7 @@ export default function About() {
                 på Årsmøte skal sendes til medlemmene senest 2 uker før Årsmøtet. Alle saker som er mottatt innen denne
                 fristen, skal legges fram for Årsmøtet. Dette gjelder også forslag til vedtektsendringer.
               </p>
-            </section>{" "}
+            </section>
             <section>
               <h5>§ 4-2. Dagsorden for Årsmøtet</h5>
 

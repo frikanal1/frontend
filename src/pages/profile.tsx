@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react"
-import { RequireAuthentication } from "src/modules/core/components/RequireAuthentication"
 import { Meta } from "src/modules/core/components/Meta"
 import UploadVideoDialog from "../refactor/UploadVideoDialog"
 import { UserMenu, UserMenuSelector, UserMenuState } from "../refactor/UserMenu"
@@ -59,7 +58,7 @@ function Profile() {
   const userMenu = buildMenu()
 
   return (
-    <div className={"w-full"}>
+    <div className={"w-full pt-4"}>
       <div className={"flex w-full gap-8"}>
         <Meta
           meta={{
@@ -74,10 +73,4 @@ function Profile() {
   )
 }
 
-export default function Page() {
-  return (
-    <RequireAuthentication>
-      <Profile />
-    </RequireAuthentication>
-  )
-}
+export default Profile

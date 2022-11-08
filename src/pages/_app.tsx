@@ -19,14 +19,18 @@ const CustomApp = ({ Component, pageProps, apolloClient = client }: FKAppProps) 
   <ApolloProvider client={apolloClient}>
     <UserProvider>
       <ThemeContext>
-        <div className={"max-w-[1500px] min-h-screen mx-auto w-full px-3 flex flex-col justify-between pt-5 xl:pt-24"}>
+        <div
+          className={
+            "max-w-[1500px] min-h-screen mx-auto w-full md:px-3 flex flex-col items-stretch justify-between pt-3 md:pt-5 xl:pt-24"
+          }
+        >
           <div>
-            <Header />
-            <main className="w-full mb-auto">
+            <Header className={"px-2 md:px-0"} />
+            <main className="">
               <Component {...pageProps} />
             </main>
           </div>
-          <Footer />
+          <Footer className={"text-slate-800 my-4"} />
         </div>
       </ThemeContext>
     </UserProvider>

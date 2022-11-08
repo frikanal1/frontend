@@ -36,15 +36,13 @@ export const FrontpageScheduleView = () => {
   const currentlyPlaying = getPlayingNow(time, scheduleItems)
 
   return (
-    <div className="px-2">
-      <div className={"xl:p-5"}>
-        <CurrentProgramme entry={scheduleItems?.[currentlyPlaying]} />
+    <div className="p-4 xl:p-8">
+      <CurrentProgramme entry={scheduleItems?.[currentlyPlaying]} />
+      <div className={"md:text-xl text-white opacity-60 mix-blend-luminosity font-bold font-condensed xl:pt-2"}>
+        senere
       </div>
-      <div className={"space-y-2 px-0 p-2 xl:p-5"}>
-        <div className={"text-xl text-white opacity-60 mix-blend-luminosity font-bold font-condensed"}>senere</div>
-        <UpcomingProgramme className="text-green-200 font-light" entry={scheduleItems?.[currentlyPlaying + 1]} />
-        <UpcomingProgramme className="text-green-300 font-light" entry={scheduleItems?.[currentlyPlaying + 2]} />
-      </div>
+      <UpcomingProgramme className="text-green-200 font-light" entry={scheduleItems?.[currentlyPlaying + 1]} />
+      <UpcomingProgramme className="text-green-300 font-light" entry={scheduleItems?.[currentlyPlaying + 2]} />
     </div>
   )
 }

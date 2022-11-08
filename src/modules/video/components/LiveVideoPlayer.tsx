@@ -1,5 +1,7 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js"
-import "video.js/dist/video-js.css"
+import "video.js/dist/video-js.min.css"
+import "videojs-mobile-ui/dist/videojs-mobile-ui.css"
+import "videojs-mobile-ui/dist/videojs-mobile-ui.min"
 import { useEffect, useRef } from "react"
 
 interface VideoJSProps {
@@ -46,28 +48,24 @@ export const VideoJS = ({ options, onReady }: VideoJSProps) => {
   return <video ref={videoRef} className="video-js vjs-big-play-centered" />
 }
 
-export type LiveVideoPlayerProp = {
+export type LiveVideoPlayerProps = {
   src: string
+  className?: string
 }
-import * as AspectRatio from "@radix-ui/react-aspect-ratio"
 
-export function LiveVideoPlayer(props: LiveVideoPlayerProp) {
-  const { src } = props
-
-  return (
-    <AspectRatio.Root ratio={16 / 9}>
-      <VideoJS
-        options={{
-          autoplay: true,
-          muted: true,
-          fluid: true,
-          html5: { hls: { overrideNative: true } },
-          controls: true,
-          sources: [{ src, type: "application/x-mpegURL" }],
-        }}
-      />
-    </AspectRatio.Root>
-  )
-}
+export const LiveVideoPlayer = ({ className, src }: LiveVideoPlayerProps) => (
+  <div className={className}>
+    <VideoJS
+      options={{
+        autoplay: true,
+        muted: true,
+        fluid: true,
+        html5: { hls: { overrideNative: true } },
+        controls: true,
+        sources: [{ src, type: "application/x-mpegURL" }],
+      }}
+    />
+  </div>
+)
 
 export default LiveVideoPlayer

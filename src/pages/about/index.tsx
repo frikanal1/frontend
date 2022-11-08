@@ -1,17 +1,7 @@
 import { Meta } from "src/modules/core/components/Meta"
-import { ExternalLink } from "src/modules/ui/components/ExternalLink"
-import { styled } from "@mui/system"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
-
-const TutorialList = styled("ul")`
-  li {
-    list-style-type: disc;
-    margin: 0.5em;
-    margin-left: 2em;
-  }
-`
 
 const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
   const router = useRouter()
@@ -19,22 +9,27 @@ const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
   const isActive = router.pathname.toString() == to
 
   return (
-    <Link href={to} passHref>
-      <a
-        className={
-          "hover:text-black transition-color duration-200 p-2 ease-in-out font-extrabold " +
-          (isActive ? "text-green-500" : "")
-        }
-      >
-        {children}
-      </a>
-    </Link>
+    <div
+      className={
+        "transition-color border-b-4 leading-7 text-green-500 " +
+        (isActive
+          ? "border-b-green-500"
+          : "border-b-transparent contrast-0 hover:text-gray-700 hover:border-b-gray-700 hover:contrast-50")
+      }
+    >
+      <Link href={to} passHref>
+        <a className={"font-extrabold"}>{children}</a>
+      </Link>
+    </div>
   )
 }
 
 export const AboutLinkBar = () => (
-  <div className={"space-x-3 text-3xl pb-6 font-bold text-gray-500 border-t-gray-300 -px-1 w-1/2 border-t-4"}>
-    <AboutLink to={"/about"}>Om oss</AboutLink>
+  <div className={"text-xl lg:text-2xl flex py-2 pb-3 mt-1 gap-4"}>
+    <AboutLink to={"/about"}>Organisasjon</AboutLink>
+    <AboutLink to={"/about/membership"}>Medlemskap</AboutLink>
+    <AboutLink to={"/about/volunteer"}>Frivillig</AboutLink>
+    <AboutLink to={"/about/board"}>Styret</AboutLink>
     <AboutLink to={"/about/statutes"}>Vedtekter</AboutLink>
   </div>
 )
@@ -49,74 +44,34 @@ export default function About() {
         }}
       />
       <AboutLinkBar />
-      <div className={"flex flex-col gap-4 lg:flex-row"}>
-        <div className={"lg:basis-1/4"}>
-          <div className={"bg-emerald-700 italic-semi text-white p-5"}>
-            <div className={"font-extrabold text-2xl italic-semi"}>
-              « Målet med Frikanalen er å styrke ytringsfrihet og deltakerdemokratiet ved å gi flere mulighet til å ytre
-              seg i TV-mediet. »
+      <div className={"flex flex-col gap-4 lg:flex-row pt-2"}>
+        <div className={"lg:basis-1/3 "}>
+          <div className={"bg-gradient-to-b from-orange-300 to-orange-400 italic-semi text-right text-gray-800 p-8 "}>
+            <div className={"font-extrabold text-xl italic-semi"}>
+              «&nbsp;Målet med Frikanalen er å styrke ytringsfrihet og deltakerdemokratiet ved å gi flere mulighet til å
+              ytre seg i TV-mediet.&nbsp;»
             </div>
             <div className={"text-right pt-2 pr-2"}>
               <Link href={"/about/statutes"} passHref>
-                <a className={"text-emerald-200 text-xl hover:text-emerald-100 no-underline"}>
+                <a className={"text-orange-900 text-xl hover:text-orange-100 no-underline"}>
                   Frikanalens formålsparagraf
                 </a>
               </Link>
             </div>
           </div>
         </div>
-        <div className={"text-justify p-4"}>
-          <h2 className={"text-3xl font-bold"}>Frikanalen er sivilsamfunnets videoplatform</h2>
-          <div className={"prose-xl max-w-prose prose-p:font-serif "}>
-            <p>
-              I samarbeid med våre medlemsorganisasjoner vil vi styrke norsk samfunnsliv og frivillighet med en
-              ukommersiell videoplattform uten forhåndssensur.
-            </p>
-            <p>
-              Vi tilbyr alle våre medlemmer adgang til en riksdekkende TV-kanal tilgjengelig på nett og mange
-              kabel-TV-bokser. Vi er nå på RiksTV og Telenor (Te-We), og i forhandlinger med Telia.
-            </p>
-            <p>
-              Det pågår også et arbeid med å tilrettelegge for brukerstyrte direktesendinger rett ut til vår TV-kanal. I
-              tillegg til dette er vi i full gang med å utvikle en god løsning for spredning av video på nett. Så følg
-              med!
-            </p>
+        <div className={"p-8  bg-gradient-to-b space-y-4 from-green-300 to-green-400 lg:pr-12 lg:pb-24"}>
+          <h2 className={"text-3xl text-gray-800 font-bold py-2"}>Frikanalen er sivilsamfunnets videoplatform</h2>
 
-            <h4>Bli med</h4>
-            <section>
-              <h5>...som medlem</h5>
-              <p>
-                Alle individer og ikke-kommersielle organisasjoner kan tegne medlemskap i Frikanalen og få sitt innhold
-                sendt på riksdekkende fjernsyn.
-              </p>
-              <p>Slik går du frem:</p>
-              <TutorialList>
-                <li>
-                  Opprett en bruker på denne nettsiden, ved å trykke på «Logg inn» oppe til høyre, og så «Registrer ny
-                  konto?»
-                </li>
-                <li>Fra din brukerprofil, opprett en ny organisasjon</li>
-                <li>For informasjon om kontingent og innmelding, se «Kontakt oss» lenger nede på denne siden</li>
-              </TutorialList>
-            </section>
-            <section>
-              <h5>...som frivillig</h5>
-              <p>
-                Frikanalen er drevet for frivilligheten av frivillige. Vi ønsker derfor alle velkomne som kunne være
-                interessert i å bidra til utvikling og drift.
-              </p>
-              <p>Vi har et API i Koa/Node og Next.JS-klient. Ta kontakt med teknisk leder om du ønsker å bidra.</p>
-            </section>
-            <h4>Kontakt aktive</h4>
-
-            <p>
-              Leder Ola Tellesbø kan nås på{" "}
-              <ExternalLink href="mailto:post@frikanalen.no">post@frikanalen.no</ExternalLink>
-            </p>
-            <p>
-              Teknisk leder Tore Sinding Bekkedal kan nås på{" "}
-              <ExternalLink href="mailto:toresbe@protonmail.com">toresbe@protonmail.com</ExternalLink>
-            </p>
+          <div className={"max-w-prose"}>
+            <div>
+              I samarbeid med våre medlemsorganisasjoner vil vi styrke norsk samfunnsliv og frivillighet med en ideellt
+              drevet videoplattform av og for medlemmer.
+            </div>
+            <div>
+              Vi tilbyr alle våre medlemmer adgang til en riksdekkende TV-kanal tilgjengelig for alle på nett og
+              kabel-TV.
+            </div>
           </div>
         </div>
       </div>
