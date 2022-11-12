@@ -1,24 +1,8 @@
-import { styled } from "@mui/system"
-import { ExternalLink } from "../modules/ui/components/ExternalLink"
+import { ExternalLink } from "../../modules/ui/components/ExternalLink"
 import React from "react"
-const breakpoint = 900
-
-const NewOrgInfoDiv = styled("div")`
-  width: 700px;
-  margin-right: 32px;
-
-  @media (max-width: ${breakpoint}px) {
-    width: 100%;
-
-    margin-left: 0px;
-    margin-bottom: 32px;
-
-    order: -1;
-  }
-`
 
 export const NewOrgInfo = () => (
-  <NewOrgInfoDiv>
+  <div className={"max-w-prose"}>
     <h2>Opprett medlemskap</h2>
     <p>Her kan du opprette en ny organisasjon i vår database.</p>
     <p>
@@ -35,5 +19,5 @@ export const NewOrgInfo = () => (
       En mal for redaktørerklæring vil være tilgjengelig for nedlasting på organisasjonens side. Utelat i så fall
       organisasjonsnummer, sett organisasjonsnavn til ditt fulle navn.
     </p>
-  </NewOrgInfoDiv>
+  </div>
 )

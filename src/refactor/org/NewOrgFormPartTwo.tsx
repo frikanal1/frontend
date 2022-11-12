@@ -6,7 +6,7 @@ import Nope from "nope-validator"
 import { styled } from "@mui/system"
 import { NewOrgInfo } from "./NewOrgInfo"
 import { ErrorMessage } from "@hookform/error-message"
-import { MutateOrganizationDocument } from "../generated/graphql"
+import { MutateOrganizationDocument } from "../../generated/graphql"
 import { useMutation } from "@apollo/client"
 
 const NewOrgBrregSchema = Nope.object().shape({

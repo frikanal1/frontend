@@ -21,8 +21,15 @@ export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: n
   return -1
 }
 
-const getPlayingNow = (now: Date, items?: Maybe<Array<Maybe<FrontpageScheduleFragment>>>) =>
-  findLastIndex(items || [], (i) => (i ? new Date(i.startsAt) <= now : true))
+const getPlayingNow = (now: Date, items?: Maybe<Array<Maybe<FrontpageScheduleFragment>>>) => {
+  if (!items?.length) return -1
+
+  const lastIndex = findLastIndex(items, (i) => (i ? new Date(i.startsAt) <= now : true))
+
+  if (items[lastIndex]?.endsAt <= now) return lastIndex
+
+  return -1
+}
 
 export const FrontpageScheduleView = () => {
   const query = useQuery(GetFrontpageDocument)
@@ -34,6 +41,8 @@ export const FrontpageScheduleView = () => {
   useInterval(() => setTime(new Date()), 1000)
 
   const currentlyPlaying = getPlayingNow(time, scheduleItems)
+
+  if (currentlyPlaying === -1) return null
 
   return (
     <div className="p-4 xl:p-8">

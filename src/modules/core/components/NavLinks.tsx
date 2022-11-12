@@ -1,63 +1,64 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { ReactNode, useContext, useRef, useState } from "react"
-import { Login } from "src/refactor/Login"
+import React, { ReactNode, useContext } from "react"
 import UserContext from "../../../refactor/UserContext"
-import { Popover } from "@mui/material"
 
 // FIXME: Resolve duplication here between AboutLink and this
-export const NavLink = ({ children, href, className }: { children: ReactNode; href?: string; className?: string }) => {
+export const NavLink = ({ children, href, className }: { children: ReactNode; href: string; className?: string }) => {
   const router = useRouter()
-  const linkRef = useRef<HTMLAnchorElement>(null)
-
-  const active = router.pathname.split("/")[1] == href?.slice(1)
+  const active = (href?: string) => router.pathname.split("/")[1] == href?.slice(1)
 
   const baseStyle = "font-black transition border-b-4 leading-8  "
-  const linkStyle = active
+  const linkStyle = active(href)
     ? "text-[#E88840] " + (href !== "/" ? "hover:border-b-[#E88840]/50 border-b-[#E88840] " : " border-b-transparent ")
     : "border-b-transparent text-gray-600 hover:text-gray-800 "
 
+  const mergedStyle = [baseStyle, linkStyle, className].join(" ")
+
   return (
-    <a ref={linkRef} href={href} className={baseStyle + linkStyle + className}>
+    <Link href={href} className={mergedStyle}>
       {children}
-    </a>
+    </Link>
   )
 }
 
-export const UserLinkOrLoginButton = () => {
+export const UserLinkOrLoginButton = ({ className = "" }: { className?: string }) => {
   const { session } = useContext(UserContext)
-  const [loginOpen, setLoginOpen] = useState<boolean>(false)
 
-  return session?.user ? (
-    <Link href={"/user"} passHref legacyBehavior>
-      <NavLink>Brukermeny</NavLink>
-    </Link>
-  ) : (
-    <div onClick={() => setLoginOpen(true)}>
-      <Popover open={loginOpen}>
-        <Login onCancel={() => setLoginOpen(false)} onSuccess={() => setLoginOpen(false)} />
-      </Popover>
-      <NavLink>Logg inn</NavLink>
-    </div>
-  );
+  switch (session) {
+    case undefined:
+      return null
+    case null:
+      return (
+        <NavLink className={className} href={"/login"}>
+          Logg inn
+        </NavLink>
+      )
+    default:
+      return (
+        <NavLink className={className} href={"/user"}>
+          Brukermeny
+        </NavLink>
+      )
+  }
+}
+
+export const MAIN_MENU: Record<string, string> = {
+  "/": "Direkte",
+  "/video": "Arkiv",
+  "/schedule": "Sendeplan",
+  "/about": "Om oss",
 }
 
 export function NavLinks({ className }: { className?: string }) {
   return (
     <nav className={className}>
-      <Link href={"/"} passHref legacyBehavior>
-        <NavLink>Direkte</NavLink>
-      </Link>
-      <Link href={"/video"} passHref legacyBehavior>
-        <NavLink>Arkiv</NavLink>
-      </Link>
-      <Link href={"/schedule"} passHref legacyBehavior>
-        <NavLink>Sendeplan</NavLink>
-      </Link>
-      <Link href={"/about"} passHref legacyBehavior>
-        <NavLink>Om oss</NavLink>
-      </Link>
+      {Object.entries(MAIN_MENU).map(([href, title]) => (
+        <NavLink key={href} href={href}>
+          {title}
+        </NavLink>
+      ))}
       <UserLinkOrLoginButton />
     </nav>
-  );
+  )
 }

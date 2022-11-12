@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react"
 import { useQuery } from "@apollo/client"
-import { GetOrganizationDocument } from "../generated/graphql"
+import { GetOrganizationDocument, Maybe } from "../generated/graphql"
 import { RequireUserIsEditor } from "./requireUserIsEditor"
 import { VideoCreationUpload, VideoUploadDone } from "./videoCreationUpload"
 import { OrganizationPageParams } from "../pages/organization/[orgId]"
@@ -9,11 +9,11 @@ import { VideoCreationForm } from "src/refactor/VideoCreationForm"
 import { VideoCreationPublish } from "./VideoCreationPublish"
 
 export interface UploadPageProps {
-  orgId: string
+  orgId: Maybe<string>
 }
 
 export const UploadVideoDialog = ({ orgId }: UploadPageProps) => {
-  const { data } = useQuery(GetOrganizationDocument, { variables: { orgId } })
+  const { data } = useQuery(GetOrganizationDocument, { variables: { orgId: orgId! }, skip: !orgId })
 
   const [mediaId, setMediaId] = useState<string>()
   const [videoId, setVideoId] = useState<string>()

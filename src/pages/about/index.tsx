@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
 
-const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
+export const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
   const router = useRouter()
 
   const isActive = router.pathname.toString() == to
@@ -21,7 +21,7 @@ const AboutLink = ({ to, children }: { to: string; children: ReactNode }) => {
         {children}
       </Link>
     </div>
-  );
+  )
 }
 
 export const AboutLinkBar = () => (
@@ -55,10 +55,9 @@ export default function About() {
               <Link
                 href={"/about/statutes"}
                 passHref
-                className={"text-orange-900 text-xl hover:text-orange-100 no-underline"}>
-                
-                  Frikanalens formålsparagraf
-                
+                className={"text-orange-900 text-xl hover:text-orange-100 no-underline"}
+              >
+                Frikanalens formålsparagraf
               </Link>
             </div>
           </div>
@@ -79,5 +78,5 @@ export default function About() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -13,7 +13,7 @@ const Line = styled("div")<{ strength: number }>`
   right: 0px;
 
   font-size: 0.9em;
-  color: ${({ theme }) => theme.palette.text.secondary};
+  color: green;
 
   &:after {
     display: block;
@@ -23,7 +23,7 @@ const Line = styled("div")<{ strength: number }>`
     height: 1px;
     margin-left: 16px;
 
-    background: ${(props) => props.theme.palette.divider};
+    background: orange;
     opacity: ${(props) => props.strength};
   }
 `

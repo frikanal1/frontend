@@ -1,13 +1,23 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import MenuIcon from "@mui/icons-material/Menu"
-import { NavLink, UserLinkOrLoginButton } from "./NavLinks"
+import { MAIN_MENU, NavLink, UserLinkOrLoginButton } from "./NavLinks"
 import { ReactNode } from "react"
 
-const MobileNavLink = ({ children, href, className }: { children: ReactNode; href?: string; className?: string }) => (
+const MobileNavLink = ({
+  children,
+  href,
+  className = "",
+}: {
+  children: ReactNode
+  href: string
+  className?: string
+}) => (
   <DropdownMenu.Item>
-    <NavLink className={"text-right my-0 md:px-3 block " + (className || "")} href={href}>
-      {children}
-    </NavLink>
+    <div className={"text-right w-32"}>
+      <NavLink className={className} href={href}>
+        {children}
+      </NavLink>
+    </div>
   </DropdownMenu.Item>
 )
 
@@ -23,15 +33,19 @@ export const MobileNavLinks = ({ className }: { className?: string }) => {
 
         <DropdownMenu.Portal>
           <DropdownMenu.Content>
+            <DropdownMenu.Arrow className={"fill-green-600"} />
+
             <div className={"bg-green-100 p-4 mr-3 rounded-lg border-2 border-green-600/50"}>
-              <MobileNavLink href={"/"}>Direkte</MobileNavLink>
-              <MobileNavLink href={"/video"}>Arkiv</MobileNavLink>
-              <MobileNavLink href={"/schedule"}>Sendeplan</MobileNavLink>
-              <MobileNavLink href={"/about"}>Om oss</MobileNavLink>
-              <MobileNavLink>
-                <UserLinkOrLoginButton />
-              </MobileNavLink>
-              <DropdownMenu.Arrow />
+              {Object.entries(MAIN_MENU).map(([href, title]) => (
+                <MobileNavLink key={href} href={href}>
+                  {title}
+                </MobileNavLink>
+              ))}
+              <DropdownMenu.Item>
+                <div className={"text-right w-32"}>
+                  <UserLinkOrLoginButton />
+                </div>
+              </DropdownMenu.Item>
             </div>
           </DropdownMenu.Content>
         </DropdownMenu.Portal>

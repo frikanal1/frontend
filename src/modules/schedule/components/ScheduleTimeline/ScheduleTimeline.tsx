@@ -1,42 +1,20 @@
-import { styled } from "@mui/system"
-import { styled as MuiStyled } from "@mui/system"
 import React, { useEffect, useRef, useState } from "react"
 import { Lines } from "./Lines"
 import { Playhead } from "./Playhead"
 import { TimelineItemList } from "./TimelineItemList"
-import { ProgramFragment } from "../../../../generated/graphql"
-
-const Container = MuiStyled("div")`
-  height: 100%;
-
-  overflow-y: scroll;
-
-  scrollbar-color: ${(props) => props.theme.palette.primary.main} transparent;
-  scrollbar-width: auto;
-
-  border: solid 1px ${(props) => props.theme.palette.divider};
-  border-radius: 3px;
-
-  box-shadow: 2px 2px 11px 2px rgba(0, 0, 0, 0.1);
-`
-
-const Inner = styled("div")`
-  height: 100%;
-  position: relative;
-
-  margin-top: 32px;
-  margin-right: 8px;
-  margin-left: 24px;
-`
+import { GetScheduleDocument } from "../../../../generated/graphql"
+import { useQuery } from "@apollo/client"
 
 export type ScheduleTimelineProps = {
-  entries?: ProgramFragment[]
+  date: Date
   /** The height of an hour, specified in pixels */
   zoom: number
+  className?: string
 }
 
-export function ScheduleTimeline(props: ScheduleTimelineProps) {
-  const { entries, zoom } = props
+export function ScheduleTimeline({ date, zoom, className }: ScheduleTimelineProps) {
+  const { data } = useQuery(GetScheduleDocument, { variables: { date } })
+  const entries = data?.schedule.items
 
   const ref = useRef<HTMLDivElement>(null)
   const timelineHeight = zoom * 24
@@ -60,8 +38,8 @@ export function ScheduleTimeline(props: ScheduleTimelineProps) {
   }, [])
 
   return (
-    <Container ref={ref}>
-      <Inner style={{ height: `${timelineHeight}px` }}>
+    <div className={"border-2 border-orange-400 rounded-md overflow-y-auto drop-shadow-xl  " + className} ref={ref}>
+      <div className={`  relative mt-8 mr-1 ml-6`}>
         <Playhead height={timelineHeight} />
         <Lines scrollTop={scrollTop} containerHeight={containerHeight} height={timelineHeight} />
         <TimelineItemList
@@ -70,7 +48,7 @@ export function ScheduleTimeline(props: ScheduleTimelineProps) {
           containerHeight={containerHeight}
           height={timelineHeight}
         />
-      </Inner>
-    </Container>
+      </div>
+    </div>
   )
 }

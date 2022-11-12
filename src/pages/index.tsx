@@ -21,9 +21,11 @@ export const Frontpage = () => (
       <Suspense>
         <LiveVideoPlayer className="aspect-video w-full" src="https://beta.frikanalen.no/stream/program.m3u8" />
       </Suspense>
-      <div className={"bg-gradient-to-b from-green-700 to-green-900"}>
-        <FrontpageScheduleView />
-      </div>
+      <Suspense>
+        <div className={"bg-gradient-to-b from-green-700 to-green-900"}>
+          <FrontpageScheduleView />
+        </div>
+      </Suspense>
     </div>
     <div className={"xl:basis-1/3 shrink-0"}>
       <FrontpageBulletins />

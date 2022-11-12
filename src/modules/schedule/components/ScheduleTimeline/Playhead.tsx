@@ -23,7 +23,7 @@ const Container = styled("div")`
     display: block;
     content: "";
 
-    background: ${(props) => props.theme.palette.primary.main};
+    background: orange;
   }
 `
 
@@ -31,7 +31,7 @@ const Time = styled("div")`
   font-size: 0.9em;
   font-weight: 600;
 
-  background: ${(props) => props.theme.palette.primary.main};
+  background: orange;
   padding: 7px;
 
   margin-left: -7px;
