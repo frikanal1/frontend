@@ -15,7 +15,7 @@ const Time = styled("span")`
   font-size: 1em;
   font-weight: 600;
 
-  color: ${(props) => props.theme.palette.text.secondary};
+  color: orange;
 
   margin-top: 1px;
 `
@@ -65,5 +65,5 @@ export function ScheduleTimelineItem({ entry }: ScheduleTimelineItemProps) {
         </Organization>
       </PrimaryInfo>
     </Container>
-  );
+  )
 }

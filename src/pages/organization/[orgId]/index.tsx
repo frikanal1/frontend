@@ -1,6 +1,5 @@
 import { styled } from "@mui/system"
 import { Meta } from "src/modules/core/components/Meta"
-import { ExternalLink } from "src/modules/ui/components/ExternalLink"
 import { Section } from "src/modules/ui/components/Section"
 import React from "react"
 import { GetServerSideProps, NextPage } from "next"
@@ -9,6 +8,7 @@ import { GetOrganizationDocument, GetOrganizationQuery } from "../../../generate
 import { useQuery } from "@apollo/client"
 import { LatestVideosGrid } from "../../../modules/organization/components/latestVideosGrid"
 import ReactMarkdown from "react-markdown"
+import Link from "next/link"
 
 const InfoSection = styled(Section)`
   margin-left: 32px;
@@ -21,7 +21,7 @@ const LegalInfo = ({ organization: { editor, postalAddress, streetAddress } }: G
     <InfoSection icon="pencil" title="Redaktør">
       {editor.name}
       <br />
-      <ExternalLink href={`mailto:${editor.email}`}>{editor.email}</ExternalLink>
+      <Link href={`mailto:${editor.email}`}>{editor.email}</Link>
     </InfoSection>
     <InfoSection icon="mail" title="Postadresse">
       {postalAddress}

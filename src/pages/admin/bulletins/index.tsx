@@ -25,8 +25,8 @@ const StyledBulletinCard = styled(Card)`
   flex-shrink: 0;
   cursor: pointer;
   :hover {
-    background-color: ${({ theme }) => theme.palette.primary.light};
-    color: ${({ theme }) => theme.palette.primary.contrastText};
+    background-color: red;
+    color: orange;
     transition: all 0.1s ease-in;
   }
 `
@@ -43,7 +43,7 @@ const BulletinCard = ({ bulletin }: { bulletin: Bulletin }) => {
         </CardContent>
       </StyledBulletinCard>
     </Link>
-  );
+  )
 }
 
 const NewBulletinCard = () => (
@@ -74,9 +74,7 @@ export const BulletinAdminPage = () => {
       <Container>
         <Meta meta={{ title: "Administrer bulletins" }} />
         <Link href={"/admin"} passHref>
-
           <h1>Administratorfunksjoner</h1>
-
         </Link>
         <h2>Bulletins</h2>
         <CardDeck>
@@ -87,7 +85,7 @@ export const BulletinAdminPage = () => {
         </CardDeck>
       </Container>
     </RequireAuthentication>
-  );
+  )
 }
 
 export default BulletinAdminPage

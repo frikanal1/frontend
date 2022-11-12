@@ -23,7 +23,7 @@ const Container = styled("div")`
   }
 
   > svg {
-    color: ${(props) => props.theme.palette.text.secondary};
+    color: orange;
     width: 64px;
     height: 64px;
 

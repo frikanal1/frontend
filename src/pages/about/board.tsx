@@ -1,5 +1,5 @@
 import { AboutLinkBar } from "./index"
-import { ExternalLink } from "../../modules/ui/components/ExternalLink"
+import Link from "next/link"
 
 export const Board = () => (
   <div>
@@ -12,11 +12,11 @@ export const Board = () => (
       </div>
       <div className={""}>
         <p>
-          Leder Ola Tellesbø kan nås på <ExternalLink href="mailto:post@frikanalen.no">post@frikanalen.no</ExternalLink>
+          Leder Ola Tellesbø kan nås på <Link href="mailto:post@frikanalen.no">post@frikanalen.no</Link>
         </p>
         <p>
           Teknisk leder Tore Sinding Bekkedal kan nås på{" "}
-          <ExternalLink href="mailto:toresbe@protonmail.com">toresbe@protonmail.com</ExternalLink>
+          <Link href="mailto:toresbe@protonmail.com">toresbe@protonmail.com</Link>
         </p>
       </div>
     </div>

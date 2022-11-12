@@ -1,5 +1,5 @@
-import { ExternalLink } from "../../modules/ui/components/ExternalLink"
 import React from "react"
+import Link from "next/link"
 
 export const NewOrgInfo = () => (
   <div className={"max-w-prose"}>
@@ -12,8 +12,8 @@ export const NewOrgInfo = () => (
     <p>
       Privatpersoner kan også melde seg inn i Frikanalen og sende innhold som en organisasjon, men de vil likevel måtte
       inkludere besøks- og postadresse i henhold til{" "}
-      <ExternalLink href="https://lovdata.no/lov/1992-12-04-127/§2-16">Kringkastingsloven §2-16</ExternalLink>, og vil
-      ikke ha medlemsrettigheter i Frikanalen, som blant annet stemmerett.
+      <Link href="https://lovdata.no/lov/1992-12-04-127/§2-16">Kringkastingsloven §2-16</Link>, og vil ikke ha
+      medlemsrettigheter i Frikanalen, som blant annet stemmerett.
     </p>
     <p>
       En mal for redaktørerklæring vil være tilgjengelig for nedlasting på organisasjonens side. Utelat i så fall
