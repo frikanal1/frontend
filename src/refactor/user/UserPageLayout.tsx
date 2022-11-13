@@ -26,7 +26,7 @@ const OrgSelector = () => {
     </div>
   )
 }
-const OrgMenu = () => {
+export const OrgMenu = () => {
   const { session } = useContext(userContext)
 
   return (
@@ -34,7 +34,7 @@ const OrgMenu = () => {
       <h3 className="text-3xl bg-gradient-to-b from-green-800 to-green-900 font-bold text-green-100 px-8 py-5">
         Organisasjoner
       </h3>
-      {(session?.user?.roles?.filter((x) => x.role === RoleType.Editor)?.length || 0) > 1 && <OrgSelector />}
+      {(session?.user?.roles?.filter((x) => x.role === RoleType.Editor)?.length || 0) > 0 && <OrgSelector />}
     </div>
   )
 }
@@ -53,13 +53,18 @@ const UserTopMenu = () => {
 
 // Base component for pages under the /user layout.
 export const UserPageLayout = ({ children }: { children: React.ReactNode }) => {
+  const { activeOrganization } = useContext(userContext)
+
   return (
     <div>
       <UserTopMenu />
       <div className={"flex w-full pt-4 gap-8"}>
         <UserMenuMeta />
         <div className={"basis-1/5 shrink-0"}>
-          <div className={"bg-gradient-to-t from-orange-500 to-orange-300 p-4 drop-shadow-xl"}>asdf</div>
+          <div className={"bg-gradient-to-t from-orange-500 to-orange-300 p-4 drop-shadow-xl"}>
+            <div>Aktiv organisasjon:</div>
+            <div>{activeOrganization?.name || <span className={"italic-semi"}>ingen organisasjon</span>}</div>
+          </div>
         </div>
         <div className={"grow"}>{children}</div>
       </div>
