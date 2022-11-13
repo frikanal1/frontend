@@ -37,6 +37,7 @@ export const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
           </InputLabel>
           <TextField
             className={"block bg-green-100"}
+            fullWidth
             {...register("email")}
             autoFocus
             autoComplete={"email"}
@@ -51,6 +52,7 @@ export const RegisterForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <TextField
             {...register("password")}
             className={"block bg-green-100"}
+            fullWidth
             type={"password"}
             autoComplete={"new-password"}
             id={"register-password"}

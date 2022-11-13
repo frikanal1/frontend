@@ -37,6 +37,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <TextField
             className={"block bg-green-100"}
             {...register("email")}
+            fullWidth
             autoFocus
             autoComplete={"email"}
             id={"login-email"}
@@ -50,6 +51,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
           <TextField
             {...register("password")}
             className={"block bg-green-100"}
+            fullWidth
             type={"password"}
             autoComplete={"current-password"}
             id={"login-password"}
