@@ -57,8 +57,6 @@ export const LiveVideoPlayer = ({ className, src }: LiveVideoPlayerProps) => (
   <div className={className}>
     <VideoJS
       options={{
-        autoplay: true,
-        muted: true,
         fluid: true,
         html5: { hls: { overrideNative: true } },
         controls: true,
