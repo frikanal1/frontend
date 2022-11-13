@@ -4,6 +4,7 @@ import { CurrentProgramme } from "./CurrentProgramme"
 import { FrontpageScheduleFragment, GetFrontpageDocument, Maybe } from "../../../generated/graphql"
 import { useQuery } from "@apollo/client"
 import { useInterval } from "usehooks-ts"
+import { add } from "date-fns"
 
 /**
  * Returns the index of the last element in the array where predicate is true, and -1
@@ -24,23 +25,27 @@ export function findLastIndex<T>(array: Array<T>, predicate: (value: T, index: n
 const getPlayingNow = (now: Date, items?: Maybe<Array<Maybe<FrontpageScheduleFragment>>>) => {
   if (!items?.length) return -1
 
-  const lastIndex = findLastIndex(items, (i) => (i ? new Date(i.startsAt) <= now : true))
+  // Find the index of the last item in the schedule
+  const currentProgramme = findLastIndex(items, (i) => new Date(i?.startsAt) <= now)
 
-  if (items[lastIndex]?.endsAt <= now) return lastIndex
+  if (new Date(items[currentProgramme]?.endsAt) <= now) return -1
 
-  return -1
+  return currentProgramme
 }
 
 export const FrontpageScheduleView = () => {
-  const query = useQuery(GetFrontpageDocument)
-  const scheduleItems = query?.data?.schedule?.items
-
+  // FIXME: I'm just using this
+  const [baseTime] = useState<Date>(new Date())
   const [time, setTime] = useState<Date>(new Date())
 
+  const { data } = useQuery(GetFrontpageDocument, { variables: { filter: { from: add(baseTime, { hours: -8 }) } } })
+  const scheduleItems = data?.schedule.items
+
+  console.log(JSON.stringify(data))
   // Update the UI every second
   useInterval(() => setTime(new Date()), 1000)
 
-  const currentlyPlaying = getPlayingNow(time, scheduleItems)
+  const currentlyPlaying = getPlayingNow(add(time, { hours: 0 }), scheduleItems)
 
   if (currentlyPlaying === -1) return null
 

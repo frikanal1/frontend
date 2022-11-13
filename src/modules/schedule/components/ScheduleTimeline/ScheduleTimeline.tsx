@@ -4,6 +4,7 @@ import { Playhead } from "./Playhead"
 import { TimelineItemList } from "./TimelineItemList"
 import { GetScheduleDocument } from "../../../../generated/graphql"
 import { useQuery } from "@apollo/client"
+import { add } from "date-fns"
 
 export type ScheduleTimelineProps = {
   date: Date
@@ -13,7 +14,7 @@ export type ScheduleTimelineProps = {
 }
 
 export function ScheduleTimeline({ date, zoom, className }: ScheduleTimelineProps) {
-  const { data } = useQuery(GetScheduleDocument, { variables: { date } })
+  const { data } = useQuery(GetScheduleDocument, { variables: { filter: { from: date, to: add(date, { days: 1 }) } } })
   const entries = data?.schedule.items
 
   const ref = useRef<HTMLDivElement>(null)
