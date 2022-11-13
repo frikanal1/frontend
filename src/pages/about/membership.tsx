@@ -23,7 +23,6 @@ export const MembershipPage = () => {
               konto?»
             </li>
             <li>Fra din brukerprofil, opprett en ny organisasjon</li>
-            <li>For informasjon om kontingent og innmelding, se «Kontakt oss» lenger nede på denne siden</li>
           </ul>
         </section>
       </div>
