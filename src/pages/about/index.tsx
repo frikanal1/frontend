@@ -28,7 +28,7 @@ export const AboutLinkBar = () => (
   <div className={"text-xl lg:text-2xl flex py-2 pb-3 mt-1 gap-4"}>
     <AboutLink to={"/about"}>Organisasjon</AboutLink>
     <AboutLink to={"/about/membership"}>Medlemskap</AboutLink>
-    <AboutLink to={"/about/volunteer"}>Frivillig</AboutLink>
+    <AboutLink to={"/about/technical"}>Teknisk</AboutLink>
     <AboutLink to={"/about/board"}>Styret</AboutLink>
     <AboutLink to={"/about/statutes"}>Vedtekter</AboutLink>
   </div>
