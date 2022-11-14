@@ -14,7 +14,7 @@ export const UserRoleCard = ({ role }: OrganizationRoleItemProps) => (
     <CardHeader
       title={
         <Link href={`/organization/${role.organization.id}`} passHref>
-          <a>{role.organization.name}</a>
+          {role.organization.name}
         </Link>
       }
       subheader={RoleName[role.role]}

@@ -17,7 +17,7 @@ export const LatestVideosSidebar = ({ className, latestVideos }: LatestVideosSid
           <span className={"font-semibold text-gray-300"}>fra </span>
           <span className={"font-bold"}>
             <Link href={`/organization/${latestVideos.id}`} passHref>
-              <a>{latestVideos.name}</a>
+              {latestVideos.name}
             </Link>
           </span>
         </h5>

@@ -24,10 +24,9 @@ type BulletinPagination {
 
 type Mutation {
     bulletin(bulletin: BulletinInput!): Bulletin!
-    login(email: String!, password: String!): User
-    logout: Boolean
     organization(organization: OrganizationInput!): Organization!
-    video: VideoMutations
+    user: UserMutations!
+    video: VideoMutations!
 }
 
 type Organization {
@@ -88,10 +87,20 @@ type Session {
 
 type User {
     email: String!
-    firstName: String
     id: ID!
-    lastName: String
+    name: String
     roles: [UserRole!]!
+}
+
+type UserMutationResult {
+    status: MutationStatus!
+    user: User
+}
+
+type UserMutations {
+    login(input: LoginInput!): UserMutationResult!
+    logout: UserMutationResult!
+    register(input: RegisterInput!): UserMutationResult!
 }
 
 type UserRole {
@@ -167,6 +176,11 @@ input BulletinInput {
     title: String
 }
 
+input LoginInput {
+    email: String!
+    password: String!
+}
+
 input OrganizationInput {
     brregId: String
     description: String
@@ -175,6 +189,11 @@ input OrganizationInput {
     name: String
     postalAddress: String
     streetAddress: String
+}
+
+input RegisterInput {
+    email: String!
+    password: String!
 }
 
 input ScheduleFilter {

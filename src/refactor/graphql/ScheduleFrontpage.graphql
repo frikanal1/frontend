@@ -1,5 +1,6 @@
 fragment FrontpageSchedule on ScheduleItem {
   startsAt
+  endsAt
   video {
     id
     title
@@ -11,8 +12,8 @@ fragment FrontpageSchedule on ScheduleItem {
   }
 }
 
-query GetFrontpage {
-  schedule(filter: {}) {
+query GetFrontpage($filter: ScheduleFilter!) {
+  schedule(filter: $filter) {
     items {
       ...FrontpageSchedule
     }

@@ -15,7 +15,7 @@ const Time = styled("span")`
   font-size: 1em;
   font-weight: 600;
 
-  color: ${(props) => props.theme.palette.text.secondary};
+  color: orange;
 
   margin-top: 1px;
 `
@@ -55,12 +55,12 @@ export function ScheduleTimelineItem({ entry }: ScheduleTimelineItemProps) {
       <PrimaryInfo>
         <Title>
           <Link href={`/video/${video.id}`} passHref>
-            <a>{video.title}</a>
+            {video.title}
           </Link>
         </Title>
         <Organization>
           <Link href={`/organization/${video.organization.id}`} passHref>
-            <a>{video.organization.name}</a>
+            {video.organization.name}
           </Link>
         </Organization>
       </PrimaryInfo>

@@ -9,7 +9,7 @@ fragment UserSession on Session {
     user {
         id
         email
-        firstName
+        name
         roles {
             role
             organization {
@@ -31,8 +31,7 @@ query GetProfile {
 fragment UserProfile on User {
     id
     email
-    firstName
-    lastName
+    name
     roles {
         ...UserRoles
     }
@@ -47,12 +46,29 @@ fragment UserRoles on UserRole {
 }
 
 mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-        id
-        email
+    user {
+        login(input: {email: $email, password: $password}) {
+            status
+            user {
+                id
+                email
+            }
+        }
     }
 }
 
 mutation Logout {
-    logout
+    user {
+        logout {
+            status
+        }
+    }
+}
+
+mutation Register($input: RegisterInput!) {
+    user {
+        register(input: $input) {
+            status
+        }
+    }
 }

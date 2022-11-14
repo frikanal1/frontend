@@ -23,7 +23,7 @@ export const VideoPageMetaBar = ({
           </span>
           <h3 className={"lg:text-4xl text-gray-300 hover:text-white opacity-90 font-semibold py-2"}>
             <Link href={`/organization/${organization.id}`} passHref>
-              <a>{organization.name}</a>
+              {organization.name}
             </Link>
           </h3>
           <div>
@@ -35,5 +35,5 @@ export const VideoPageMetaBar = ({
         </div>
       </div>
     </div>
-  )
+  );
 }

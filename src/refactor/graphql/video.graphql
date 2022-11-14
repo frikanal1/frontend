@@ -23,6 +23,17 @@ mutation CreateVideo ($title: String!, $description: String!, $mediaId: ID!, $or
     }
 }
 
+mutation UpdateVideo ($id: ID!, $title: String!, $description: String!) {
+    video {
+        update(input: {id: $id, title: $title, description: $description}) {
+            status
+            video {
+                id
+            }
+        }
+    }
+}
+
 mutation PublishVideo ($videoId: ID!) {
     video {
         publish(videoId: $videoId) {

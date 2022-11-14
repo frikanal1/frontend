@@ -12,12 +12,12 @@ export const RecentVideoItem = ({ video: { id, title, createdAt, images } }: Rec
   const router = useRouter()
   return (
     <div className={"bg-white cursor-pointer "} onClick={() => router.push(`/video/${id}`)}>
-      <div className={"flex"}>
-        <div className={"aspect-video"}>
-          <img alt={"thumbnail"} className="w-40 rounded-l-lg border-slate-700 border-1" src={images.thumbMedium} />
+      <div className={"flex items-center "}>
+        <div className={"aspect-video w-32 shrink-0 "}>
+          <img alt={"thumbnail"} className="border-slate-700 rounded-lg border-1" src={images.thumbMedium} />
         </div>
-        <div className={"pl-2 flex flex-col justify-between"}>
-          <h3 className={"font-bold text-lg text-slate-900"}>
+        <div className={"pl-2 flex flex-col justify-between max-h-full"}>
+          <h3 className={"font-bold text-md text-slate-900 overflow-hidden "}>
             <a>{title}</a>
           </h3>
           <div className={"text-slate-500"}>{format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</div>

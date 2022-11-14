@@ -25,8 +25,8 @@ const StyledBulletinCard = styled(Card)`
   flex-shrink: 0;
   cursor: pointer;
   :hover {
-    background-color: ${({ theme }) => theme.palette.primary.light};
-    color: ${({ theme }) => theme.palette.primary.contrastText};
+    background-color: red;
+    color: orange;
     transition: all 0.1s ease-in;
   }
 `
@@ -35,7 +35,7 @@ const BulletinCard = ({ bulletin }: { bulletin: Bulletin }) => {
   const { id, title, text, createdAt } = bulletin
 
   return (
-    <Link href={`bulletins/${id}`} passHref>
+    <Link href={`bulletins/${id}`} passHref legacyBehavior>
       <StyledBulletinCard>
         <CardHeader title={title} subheader={format(new Date(createdAt), "d. MMM yyyy", { locale: nb })} />
         <CardContent>
@@ -47,7 +47,7 @@ const BulletinCard = ({ bulletin }: { bulletin: Bulletin }) => {
 }
 
 const NewBulletinCard = () => (
-  <Link href={"bulletins/new"} passHref>
+  <Link href={"bulletins/new"} passHref legacyBehavior>
     <StyledBulletinCard>
       <CardContent
         sx={{
@@ -74,9 +74,7 @@ export const BulletinAdminPage = () => {
       <Container>
         <Meta meta={{ title: "Administrer bulletins" }} />
         <Link href={"/admin"} passHref>
-          <a>
-            <h1>Administratorfunksjoner</h1>
-          </a>
+          <h1>Administratorfunksjoner</h1>
         </Link>
         <h2>Bulletins</h2>
         <CardDeck>

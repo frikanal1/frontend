@@ -15,7 +15,7 @@ const Container = styled("div")``
 const Content = styled("div")`
   margin-top: 16px;
   padding: 24px;
-  border: solid 2px ${(props) => props.theme.palette.divider};
+  border: solid 2px orange;
   border-radius: 4px;
 
   @media (max-width: ${breakpoint}px) {
@@ -25,7 +25,7 @@ const Content = styled("div")`
 
 const Controls = styled("div")`
   margin: 0px -24px;
-  border-top: solid 2px ${(props) => props.theme.palette.divider};
+  border-top: solid 2px orange;
 
   padding: 0px 24px;
 

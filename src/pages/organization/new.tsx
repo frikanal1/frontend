@@ -1,7 +1,7 @@
 import { styled } from "@mui/system"
 import { Meta } from "src/modules/core/components/Meta"
 import React, { useState } from "react"
-import { NewOrgFormPartTwo, NewOrgFormPartOne } from "../../refactor/NewOrgFormPartTwo"
+import { NewOrgFormPartTwo, NewOrgFormPartOne } from "../../refactor/org/NewOrgFormPartTwo"
 import { useRouter } from "next/router"
 
 const breakpoint = 900

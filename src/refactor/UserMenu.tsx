@@ -1,39 +1,50 @@
-import { ReactNode, useState } from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { Meta } from "../modules/core/components/Meta"
 
-export type UserMenuState = "newVideo" | "organizations" | "profile"
+export type UserMenuState = "/user" | "/user/organizations" | "/user/profile" | "/logout"
 
-interface UserMenuSelectorProps {
-  onSelect: (newState: UserMenuState) => void
-  className?: string
-  menu: UserMenu
+export type UserMenu = Record<UserMenuState, string>
+
+export const USER_MENU: Record<UserMenuState, string> = {
+  "/user": "Ny video",
+  "/user/organizations": "Organisasjoner",
+  "/user/profile": "Profil",
+  "/logout": "Logg ut",
 }
 
-export type UserMenu = Record<UserMenuState, { title: string; menu: ReactNode }>
+export const UserMenuMeta = () => {
+  const router = useRouter()
 
-export const UserMenuSelector = ({ onSelect, className = "", menu }: UserMenuSelectorProps) => {
+  return (
+    <Meta
+      meta={{
+        title: `Brukermeny - ${USER_MENU[router.pathname as UserMenuState]}`,
+        description: "",
+      }}
+    />
+  )
+}
+
+export const UserMenuNavbox = ({ className = "" }: { className?: string }) => {
   const menuStyle = (active: boolean) =>
-    "transition-all duration-100 hover:text-orange-700 drop-shadow-lg hover:shadow-md p-4 pl-5  cursor-pointer font-extrabold font-wide border-b-4 " +
+    "transition-all duration-100 hover:text-orange-700 drop-shadow-lg hover:shadow-md " +
+    "p-2 md:p-3 xl:p-2 xl:pl-4 cursor-pointer font-extrabold font-wide border-b-4 " +
     (active
       ? " border-b-gray-700 bg-gradient-to-tl from-orange-400 to-orange-300 text-gray-900"
       : "border-b-gray-500 text-gray-700")
 
-  const [activeItem, setActiveItem] = useState<UserMenuState>("newVideo")
-  const onClick = (menuEntry: UserMenuState) => {
-    setActiveItem(menuEntry)
-    onSelect(menuEntry)
-  }
+  const router = useRouter()
 
   return (
-    <div className={className}>
-      <div className={"min-h-[500px] "}>
-        <div className={"text-3xl font-bold "}>
-          {Object.entries(menu).map(([key, { title }]) => (
-            <div key={key} className={menuStyle(key === activeItem)} onMouseDown={() => onClick(key as UserMenuState)}>
-              {title}
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className={["xl:text-xl font-bold min-h-[500px]", className].join(" ")}>
+      {Object.entries(USER_MENU).map(([href, title]) => (
+        <Link key={href} href={href}>
+          <div key={href} className={menuStyle(router.pathname === href)}>
+            {title}
+          </div>
+        </Link>
+      ))}
     </div>
   )
 }

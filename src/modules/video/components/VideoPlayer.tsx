@@ -13,8 +13,10 @@ export function VideoPlayer({ className, video }: VideoPlayerProps) {
   if (!video) return null
 
   return (
-    <video className={"w-full " + className ?? ""} controls poster={video.images.thumbLarge}>
-      <source src={src} />
-    </video>
+    <div className={className}>
+      <video className={"aspect-video w-full"} controls poster={video.images.thumbLarge}>
+        <source src={src} />
+      </video>
+    </div>
   )
 }

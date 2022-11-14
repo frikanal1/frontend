@@ -2,7 +2,6 @@ import React from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { CANONICAL_HOST, WEBSITE_NAME } from "../constants"
-import { useTheme } from "@mui/system"
 
 const MAX_LENGTH = 300
 
@@ -28,7 +27,6 @@ export type MetaProps = {
 
 export function Meta(props: MetaProps) {
   const router = useRouter()
-  const theme = useTheme()
 
   const { meta } = props
   const { title, description, image, type, author } = meta
@@ -69,7 +67,7 @@ export function Meta(props: MetaProps) {
       <meta charSet="utf-8" />
       <meta name="keywords" content={keywords.join(", ")} />
       <meta name="viewport" content="initial-scale=1, width=device-width" />
-      <meta name="theme-color" content={theme.palette.primary.main} />
+      <meta name="theme-color" content="#E88840" />
       <title>{title !== WEBSITE_NAME ? `${title} - ${WEBSITE_NAME}` : WEBSITE_NAME}</title>
       {ogTags}
       {twitterTags}

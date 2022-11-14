@@ -1,5 +1,5 @@
-query GetSchedule($date: DateTime!) {
-  schedule(filter: { from: $date }) {
+query GetSchedule($filter: ScheduleFilter!) {
+  schedule(filter: $filter) {
     items {
       ...Program
     }

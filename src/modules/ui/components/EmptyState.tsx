@@ -22,7 +22,7 @@ const Subtitle = styled("h2")`
 `
 
 const Icon = styled(SVGIcon)`
-  color: ${(props) => props.theme.palette.text.secondary};
+  color: orange;
   width: 64px;
   height: 64px;
 

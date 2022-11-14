@@ -38,8 +38,7 @@ export const UserProvider = ({ children }: { children?: React.ReactNode }) => {
           session.user.roles.find(({ role }) => role === RoleType.Editor)?.organization || null
 
         if (firstAndBestOrganization) {
-          const { id, name } = firstAndBestOrganization
-          setActiveOrganization({ id, name })
+          setActiveOrganization(firstAndBestOrganization)
         } else {
           setActiveOrganization(null)
         }
