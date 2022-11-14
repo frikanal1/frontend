@@ -14,7 +14,7 @@ export function VideoPlayer({ className, video }: VideoPlayerProps) {
 
   return (
     <div className={className}>
-      <video className={"aspect-video w-full"} controls poster={video.images.thumbLarge}>
+      <video className={"aspect-video w-full bg-black/75"} controls poster={video.images.thumbLarge}>
         <source src={src} />
       </video>
     </div>

@@ -1,4 +1,4 @@
-import { SearchFunction } from "./searchFunction"
+import { SearchFunction } from "../../refactor/searchFunction"
 
 const FeaturedVideo = ({ className }: { className?: string }) => {
   return (
@@ -10,15 +10,15 @@ const FeaturedVideo = ({ className }: { className?: string }) => {
   )
 }
 
-export const ArchiveIndex = () => {
+export const ArchiveHome = () => {
   return (
-    <div>
-      <SearchFunction className={"drop-shadow-xl"} />
-      <div className={" min-h-[500px] py-3 gap-8 flex flex-row"}>
+    <div className={"z-0"}>
+      <SearchFunction className={"drop-shadow-xl relative z-10"} />
+      <div className={"-z-50 min-h-[500px] py-3 gap-8 flex flex-row"}>
         <FeaturedVideo className={"drop-shadow-xl grow bg-orange-700"} />
       </div>
     </div>
   )
 }
 
-export default ArchiveIndex
+export default ArchiveHome
