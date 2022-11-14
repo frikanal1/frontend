@@ -13,9 +13,11 @@ const SearchResults = ({ results }: { results?: VideoSearchResultFragment[] }) =
       <Popover.Anchor />
       <Popover.Portal>
         <Popover.Content side={"bottom"} align={"start"}>
-          {results?.map((foo) => (
-            <SearchResult key={foo.id} result={foo} />
-          ))}
+          <div className={"bg-green-100 p-1 pb-3 pt-0"}>
+            {results?.map((foo) => (
+              <SearchResult key={foo.id} result={foo} />
+            ))}
+          </div>
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
@@ -23,9 +25,12 @@ const SearchResults = ({ results }: { results?: VideoSearchResultFragment[] }) =
 }
 
 const SearchResult = ({ result }: { result: VideoSearchResultFragment }) => (
-  <div className={"w-full bg-green-100 pl-10 pr-5 py-1"}>
+  <div className={" pl-2 pr-5 pb-[5px] text-black/80 hover:text-green-900 hover:bg-green-200"}>
     <Link href={`/video/${result.id}`}>
-      {result.organization.name}: {result.title}
+      <div className={"flex items-center"}>
+        <img className={"pr-2"} alt={""} src={result.images.thumbSmall} />
+        {result.organization.name}: {result.title}
+      </div>
     </Link>
   </div>
 )
