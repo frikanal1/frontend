@@ -7,7 +7,7 @@ export type ScheduleItemBlurbProps = {
 }
 
 export const CurrentProgramme = ({ entry }: ScheduleItemBlurbProps) => (
-  <div className={""}>
+  <div className={"lg:pb-8"}>
     <h4 className={"lg:text-3xl font-bold py-2 opacity-90 mix-blend-luminosity text-white hover:opacity-100"}>
       <Link href={`/video/${entry?.video.id}`} passHref>
         {entry?.video?.title}
@@ -19,7 +19,7 @@ export const CurrentProgramme = ({ entry }: ScheduleItemBlurbProps) => (
         {entry?.video?.organization.name}
       </Link>
     </h5>
-    <div className="break-words prose prose-invert prose-md lg:prose-xl  lg:p-1">
+    <div className="break-words prose prose-invert prose-md lg:prose-xl text-green-100 lg:py-1">
       <ReactMarkdown>{entry?.video?.description || ""}</ReactMarkdown>
     </div>
   </div>

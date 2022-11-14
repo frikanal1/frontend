@@ -15,11 +15,11 @@ Frikanalen kjører på et on-premise Kubernetes-cluster.
 
 Docker-images blir bygget av GitHub Actions.
 
-Vår frontend er skrevet i Next.JS. Vi bruker Apollo til å kommunisere vha GraphQL med vår backend.
+Vår [frontend](https://github.com/frikanalen/frontend) er skrevet i Next.JS. Vi bruker Apollo til å kommunisere vha GraphQL med vår backend.
 
-Backend er en Koa/Node-applikasjon i TypeScript.
+Vår [backend](https://github.com/frikanalen/toches) er en Koa/Node-applikasjon i TypeScript. Den eksponerer både et [REST](https://beta.frikanalen.no/api/v2/swagger)- og et [GraphQL](https://beta.frikanalen.no/api/v2/graphql)-API.
 
-Media blir lastet opp til og behandlet av vår mediebehandler.
+Media blir lastet opp til og behandlet av vår [mediebehandler](https://github.com/frikanalen/media-processor).
 
 I tillegg til en legacy-versjon som fremdeles kjører på [frikanalen.no](frikanalen.no),
 utvikler vi en ny tredje generasjons softwarestack som du bruker her nå.
@@ -34,7 +34,11 @@ export const TechInfoPage = () => {
       <AboutLinkBar />
       <div className={"flex gap-4"}>
         <div className={"lg:basis-1/4"}>
-          <div className={"bg-gradient-to-b from-green-300 to-green-400 italic-semi text-green-900 p-5 flex"}>
+          <div
+            className={
+              "bg-gradient-to-b from-green-300 to-green-400 italic-semi text-green-900 p-5 flex drop-shadow-xl"
+            }
+          >
             <div>
               <GithubLogo className={"inline h-[1em] mr-1"} />
             </div>
@@ -42,22 +46,32 @@ export const TechInfoPage = () => {
               <div className={"text-xl flex items-center"}>GitHub:</div>
               <ul className={"list-disc"}>
                 <li>
-                  <Link href="https://github.com/frikanalen/frontend">Frontend</Link>
+                  <Link className="underline" href="https://github.com/frikanalen/frontend">
+                    Frontend
+                  </Link>
                 </li>
                 <li>
-                  <Link href="https://github.com/frikanalen/toches">Backend</Link>
+                  <Link className="underline" href="https://github.com/frikanalen/toches">
+                    Backend
+                  </Link>
                 </li>
                 <li>
-                  <Link href="https://github.com/frikanalen/media-processor">Mediebehandler</Link>
+                  <Link className="underline" href="https://github.com/frikanalen/media-processor">
+                    Mediebehandler
+                  </Link>
                 </li>
                 <li>
-                  <Link href="https://github.com/frikanalen/on-air-graphics">Sendegrafikk</Link>
+                  <Link className="underline" href="https://github.com/frikanalen/on-air-graphics">
+                    Sendegrafikk
+                  </Link>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <section className={"prose bg-orange-100 text-orange-900 p-4"}>
+        <section
+          className={"prose bg-gradient-to-b from-orange-200/80 to-orange-300/80 text-orange-900 p-5 drop-shadow-xl"}
+        >
           <ReactMarkdown>{info}</ReactMarkdown>
         </section>
       </div>

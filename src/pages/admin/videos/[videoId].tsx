@@ -52,7 +52,7 @@ interface VideoAdminDetailParams extends ParsedUrlQuery {
   videoId: string
 }
 
-export const VideoEditForm = ({ video }: { video: GetVideoQuery["video"] }) => {
+export const VideoEditForm = ({ video }: { video: GetVideoQuery["video"]["get"] }) => {
   const [mutate, { loading }] = useMutation(UpdateVideoDocument)
 
   const {
@@ -99,23 +99,21 @@ export const VideoEditForm = ({ video }: { video: GetVideoQuery["video"] }) => {
 export const VideoAdminDetail = ({ videoId }: VideoAdminDetailProps) => {
   const { data } = useQuery(GetVideoDocument, { variables: { videoId } })
 
+  const video = data?.video.get
+
   return (
     <div className={"w-full"}>
       <Meta meta={{ title: "Administrer video" }} />
       <Link href={"/admin"} passHref>
-
         <h1 className={"text-4xl font-bold p-2"}>Administratorfunksjoner</h1>
-
       </Link>
       <Link href={"/admin/videos"} passHref>
-
         <h2 className={"text-2xl font-bold p-2"}>Videoer</h2>
-
       </Link>
-      {data?.video && <VideoEditForm video={data?.video} />}
+      {video && <VideoEditForm video={video} />}
       <VideoDeleteButton videoId={videoId} />
     </div>
-  );
+  )
 }
 
 export const getServerSideProps: GetServerSideProps<VideoAdminDetailProps> = async (ctx) => {

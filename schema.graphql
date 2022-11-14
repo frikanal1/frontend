@@ -64,8 +64,7 @@ type Query {
     organization(id: ID!): Organization!
     schedule(filter: ScheduleFilter!, page: Int! = 1, perPage: Int! = 20): SchedulePagination!
     session: Session!
-    video(id: ID!): Video!
-    videos(filter: VideoFilter, page: Int! = 1, perPage: Int! = 20, sort: [VideoSort!]): VideoPagination!
+    video: VideoQueries!
 }
 
 type ScheduleItem {
@@ -152,6 +151,17 @@ type VideoPagination {
     pageInfo: PaginationInfo!
 }
 
+type VideoQueries {
+    get(id: ID!): Video!
+    list(input: VideoList!): VideoPagination!
+    search(input: VideoSearch!): VideoSearchResults!
+}
+
+type VideoSearchResults {
+    count: Int!
+    items: [Video!]!
+}
+
 enum MutationStatus {
     ERROR
     SUCCESS
@@ -212,4 +222,16 @@ input VideoInput {
     mediaId: ID
     organizationId: ID
     title: String
+}
+
+input VideoList {
+    filter: VideoFilter
+    page: Int! = 1
+    perPage: Int! = 20
+    sort: [VideoSort!]
+}
+
+input VideoSearch {
+    limit: Int! = 10
+    query: String!
 }

@@ -14,7 +14,7 @@ export interface VideoPageParams extends ParsedUrlQuery {
 }
 
 interface VideoPageProps {
-  video: GetVideoQuery["video"]
+  video: GetVideoQuery["video"]["get"]
 }
 
 export const VideoPage = ({ video }: VideoPageProps) => (
@@ -40,10 +40,12 @@ export const getServerSideProps: GetServerSideProps<VideoPageProps> = async (ctx
   assert(videoId)
 
   const {
-    data: { video },
+    data: {
+      video: { get },
+    },
   } = await client.query({ query: GetVideoDocument, variables: { videoId: videoId as string } })
 
-  return { props: { video } }
+  return { props: { video: get } }
 }
 
 export default VideoPage

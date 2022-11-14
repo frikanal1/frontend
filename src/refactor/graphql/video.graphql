@@ -1,13 +1,15 @@
 query GetVideos {
-    videos {
-        items {
-            id
-            title
-            organization {
+    video {
+        list(input: {}) {
+            items {
                 id
-                name
+                title
+                organization {
+                    id
+                    name
+                }
+                createdAt
             }
-            createdAt
         }
     }
 }
@@ -52,12 +54,36 @@ mutation DeleteVideo ($videoId: ID!) {
 
 
 query GetVideo($videoId: ID!) {
-    video(id: $videoId) {
-        ...BasicVideoMetadata
-        ...VideoAssets
-        organization {
-            ...LatestVideos
+    video {
+        get(id: $videoId) {
+            ...BasicVideoMetadata
+            ...VideoAssets
+            organization {
+                ...LatestVideos
+            }
         }
+    }
+}
+
+query VideoSearch($query: String!) {
+    video {
+        search(input: {query: $query}) {
+            items {
+                ...VideoSearchResult
+            }
+        }
+    }
+}
+
+fragment VideoSearchResult on Video {
+    id
+    title
+    organization {
+        id
+        name
+    }
+    images {
+        thumbSmall
     }
 }
 

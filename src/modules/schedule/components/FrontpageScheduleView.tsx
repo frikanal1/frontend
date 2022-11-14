@@ -28,35 +28,38 @@ const getPlayingNow = (now: Date, items?: Maybe<Array<Maybe<FrontpageScheduleFra
   // Find the index of the last item in the schedule
   const currentProgramme = findLastIndex(items, (i) => new Date(i?.startsAt) <= now)
 
-  if (new Date(items[currentProgramme]?.endsAt) <= now) return -1
+  if (new Date(items[currentProgramme]?.startsAt) >= now) return -1
 
   return currentProgramme
 }
 
 export const FrontpageScheduleView = () => {
-  // FIXME: I'm just using this
-  const [baseTime] = useState<Date>(new Date())
-  const [time, setTime] = useState<Date>(new Date())
+  // Timestamp used as parameter to GraphQL query
+  const [queryTime, setQueryTime] = useState<Date>(new Date())
+  useInterval(() => setQueryTime(new Date()), 120 * 1000)
 
-  const { data } = useQuery(GetFrontpageDocument, { variables: { filter: { from: add(baseTime, { hours: -8 }) } } })
-  const scheduleItems = data?.schedule.items
+  // Timestamp used to determine which program is displayed
+  const [displayTime, setDisplayTime] = useState<Date>(new Date())
+  useInterval(() => setDisplayTime(new Date()), 1000)
 
-  console.log(JSON.stringify(data))
-  // Update the UI every second
-  useInterval(() => setTime(new Date()), 1000)
+  const { data } = useQuery(GetFrontpageDocument, {
+    variables: { filter: { from: queryTime, to: add(queryTime, { hours: 5 }) } },
+  })
 
-  const currentlyPlaying = getPlayingNow(add(time, { hours: 0 }), scheduleItems)
+  if (!data) return null
+
+  const { items } = data.schedule
+
+  const currentlyPlaying = getPlayingNow(displayTime, items)
 
   if (currentlyPlaying === -1) return null
 
   return (
     <div className="p-4 xl:p-8">
-      <CurrentProgramme entry={scheduleItems?.[currentlyPlaying]} />
-      <div className={"md:text-xl text-white opacity-60 mix-blend-luminosity font-bold font-condensed xl:pt-2"}>
-        senere
-      </div>
-      <UpcomingProgramme className="text-green-200 font-light" entry={scheduleItems?.[currentlyPlaying + 1]} />
-      <UpcomingProgramme className="text-green-300 font-light" entry={scheduleItems?.[currentlyPlaying + 2]} />
+      <CurrentProgramme entry={items?.[currentlyPlaying]} />
+      <div className={"md:text-xl text-green-100/70 font-bold font-condensed xl:pt-2"}>senere</div>
+      <UpcomingProgramme className="text-green-200 font-light" entry={items?.[currentlyPlaying + 1]} />
+      <UpcomingProgramme className="text-green-300 font-light" entry={items?.[currentlyPlaying + 2]} />
     </div>
   )
 }

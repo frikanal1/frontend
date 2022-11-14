@@ -6,11 +6,15 @@ It is in a separate repo as we are migrating away from a monorepo.
 
 ## Running locally:
 
-First, install the dependencies (obviously this requires yarn)
+### Requirements
+
+Yarn, Node, docker-compose
+
+First, install the dependencies (Requires Yarn and Node)
 
 `yarn`
 
-Then build and run the services, or just spin up a docker-compose with a database and backend with mock data:
+Then build and run the backend services, or just spin up a docker-compose with a database and backend with mock data:
 
 `docker-compose up -d`
 
