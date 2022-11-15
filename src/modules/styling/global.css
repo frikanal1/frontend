@@ -56,3 +56,17 @@ html {
     min-height: 100vh;
     height: 100%;
 }
+
+.horizontal-list::-webkit-scrollbar {
+    height: 1.5em;
+}
+
+.horizontal-list::-webkit-scrollbar-track {
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.35));
+    border-radius: 99999px;
+}
+
+.horizontal-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.4);
+    border-radius: 99999px;
+}

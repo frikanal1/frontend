@@ -1,18 +1,13 @@
 query GetVideos {
     video {
-        list(input: {}) {
+        list(input: {sort: [DATE_DESC], perPage: 20}) {
             items {
-                id
-                title
-                organization {
-                    id
-                    name
-                }
-                createdAt
+                ...BasicVideoMetadata
             }
         }
     }
 }
+
 
 mutation CreateVideo ($title: String!, $description: String!, $mediaId: ID!, $organizationId: ID!) {
     video {

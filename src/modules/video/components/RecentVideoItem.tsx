@@ -14,7 +14,7 @@ export const RecentVideoItem = ({ video: { id, title, createdAt, images } }: Rec
     <div className={"bg-white cursor-pointer "} onClick={() => router.push(`/video/${id}`)}>
       <div className={"flex items-center "}>
         <div className={"aspect-video w-32 shrink-0 "}>
-          <img alt={"thumbnail"} className="border-slate-700 rounded-lg border-1" src={images.thumbMedium} />
+          <img alt={""} className="border-slate-700 rounded-lg p-1 border-1" src={images.thumbMedium} />
         </div>
         <div className={"pl-2 flex flex-col justify-between max-h-full"}>
           <h3 className={"font-bold text-md text-slate-900 overflow-hidden "}>

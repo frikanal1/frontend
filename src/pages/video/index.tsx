@@ -1,10 +1,33 @@
 import { SearchFunction } from "../../refactor/searchFunction"
+import { BasicVideoMetadataFragment, GetVideosDocument } from "../../generated/graphql"
+import { useQuery } from "@apollo/client"
+import Link from "next/link"
+import { format } from "date-fns"
+import nb from "date-fns/locale/nb"
 
-const FeaturedVideo = ({ className }: { className?: string }) => {
+const VideoCard = ({ video }: { video: BasicVideoMetadataFragment }) => (
+  <Link href={`/video/${video.id}`} className={"snap-start"}>
+    <div className={"bg-black/60 rounded-md w-52 h-64"}>
+      <img alt={""} src={video.images.thumbLarge} />
+      <div className={"p-2"}>
+        <div className={"font-bold text-white/80"}>{video.title}</div>
+        <div className={"font-bold text-white/70"}>{video.organization.name}</div>
+        <div className={"text-white/70"}>{format(new Date(video.createdAt), "d MMMM yyyy", { locale: nb })}</div>
+      </div>
+    </div>
+  </Link>
+)
+
+const NewestVideos = ({ className }: { className?: string }) => {
+  const { data } = useQuery(GetVideosDocument)
+
+  const videos = data?.video.list.items
+
   return (
-    <div className={className}>
-      <div className={"flex p-4 h-full bg-gradient-to-bl from-transparent to-black/60 w-full"}>
-        <div className={"text-3xl font-bold text-white/95"}>Nyeste videoer</div>
+    <div className={className + " p-4 h-full bg-gradient-to-bl from-transparent via-black/10 to-black/40 w-full"}>
+      <div className={"text-3xl font-bold text-white/95 py-2"}>Nyeste videoer</div>
+      <div className={"flex py-2 gap-4 overflow-x-scroll scroll-smooth snap-x horizontal-list"}>
+        {videos?.map((v) => v && <VideoCard key={v.id} video={v} />)}
       </div>
     </div>
   )
@@ -12,10 +35,10 @@ const FeaturedVideo = ({ className }: { className?: string }) => {
 
 export const ArchiveHome = () => {
   return (
-    <div className={"z-0"}>
+    <div className={"space-y-4"}>
       <SearchFunction className={"drop-shadow-xl relative z-10"} />
-      <div className={"-z-50 min-h-[500px] py-3 gap-8 flex flex-row"}>
-        <FeaturedVideo className={"drop-shadow-xl grow bg-orange-700"} />
+      <div className={"scroll-m-0 gap-8 flex flex-row "}>
+        <NewestVideos className={"drop-shadow-xl grow bg-orange-700"} />
       </div>
     </div>
   )

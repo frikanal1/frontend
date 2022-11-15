@@ -53,7 +53,7 @@ export const SearchFunction = ({ className }: { className?: string }) => {
         }
       >
         <div className={"px-5 ml-5 py-3"}>Søk</div>
-        <div className={"bg-green-100 rounded-lg m-1 grow text-black " + (items?.length ? "rounded-b-none" : "")}>
+        <div className={"bg-green-100 rounded-lg m-1 grow text-black " + (showResults ? "rounded-b-none" : "")}>
           <div className={"relative"}>
             <form role={"search"} onSubmit={(e) => e.preventDefault()}>
               <SearchResults show={showResults} results={items} />

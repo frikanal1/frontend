@@ -36,6 +36,7 @@ export const VideoPage = ({ video }: VideoPageProps) => (
 
 export const getServerSideProps: GetServerSideProps<VideoPageProps> = async (ctx) => {
   const { videoId } = ctx.params as VideoPageParams
+  console.log(videoId)
 
   assert(videoId)
 
