@@ -68,13 +68,13 @@ export default function Playout() {
   const [index, setIndex] = useState(-1)
 
   useEffect(() => {
-    fetch("/playout/atem/program")
+    fetch("/api/playout/atem/program")
       .then((res) => res.json())
       .then((data) => setIndex(data.InputIndex))
   }, [])
 
   const setProgram = async (index: number) => {
-    await fetch("/playout/atem/program", { method: "post", body: JSON.stringify({ inputIndex: index }) })
+    await fetch("/api/playout/atem/program", { method: "post", body: JSON.stringify({ inputIndex: index }) })
     setIndex(index)
   }
 

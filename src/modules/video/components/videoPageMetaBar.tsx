@@ -14,7 +14,7 @@ export const VideoPageMetaBar = ({
 }) => {
   return (
     <div className={className}>
-      <div className={"p-4 lg:p-12 bg-gradient-to-tr from-gray-800/80 to-gray-500/80 mix-blend-luminosity "}>
+      <div className={"p-4 lg:p-6 bg-gradient-to-tr from-gray-800/80 to-gray-500/80 mix-blend-luminosity "}>
         <h2 className={"lg:text-3xl lg:pb-1 text-white font-bold mix-blend-luminosity opacity-80"}>{title}</h2>
         <div className={"py-1 lg:pt-2"}>
           <span className={"text-white opacity-60 lg:text-xl font-condensed"}>
@@ -28,7 +28,7 @@ export const VideoPageMetaBar = ({
             </Link>
           </h3>
           <div>
-            <div className={"text-white opacity-60 lg:text-xl bold font-condensed hidden lg:hidden-0"}>beskrivelse</div>
+            <div className={"text-white opacity-60 lg:text-xl bold font-condensed hidden lg:block"}>beskrivelse</div>
             <div className={"whitespace-pre-wrap break-words lg:py-2 prose-invert prose opacity-90 lg:prose-xl"}>
               <ReactMarkdown>{description}</ReactMarkdown>
             </div>

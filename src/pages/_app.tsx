@@ -19,7 +19,7 @@ const CustomApp = ({ Component, pageProps, apolloClient = client }: FKAppProps) 
     <UserProvider>
       <div
         className={
-          "max-w-[1500px] min-h-screen mx-auto w-full flex flex-col items-stretch justify-between pt-3 md:px-3 md:pt-5 xl:pt-24"
+          "max-w-[1500px] min-h-screen mx-auto w-full flex flex-col items-stretch justify-between pt-3 md:px-3 md:pt-5 xl:pt-12"
         }
       >
         <div className={"flex flex-col grow"}>

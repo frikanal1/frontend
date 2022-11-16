@@ -59,6 +59,7 @@ html {
 
 .horizontal-list::-webkit-scrollbar {
     height: 1.5em;
+    border-radius: 99999px;
 }
 
 .horizontal-list::-webkit-scrollbar-track {
