@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { useContext, useEffect } from "react"
+import { RegisterForm } from "src/modules/forms/RegisterForm"
 import userContext from "../refactor/UserContext"
-import { RegisterForm } from "../refactor/forms/RegisterForm"
 
 export const Register = () => {
   const router = useRouter()

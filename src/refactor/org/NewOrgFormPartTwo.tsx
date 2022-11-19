@@ -3,7 +3,6 @@ import { nopeResolver } from "@hookform/resolvers/nope"
 import { Button, TextField } from "@mui/material"
 import React from "react"
 import Nope from "nope-validator"
-import { styled } from "@mui/system"
 import { NewOrgInfo } from "./NewOrgInfo"
 import { ErrorMessage } from "@hookform/error-message"
 import { MutateOrganizationDocument } from "../../generated/graphql"
@@ -22,57 +21,6 @@ const NewOrgDetailSchema = Nope.object().shape({
   homepage: Nope.string().required().url(),
 })
 
-const NewOrgDivThing = styled("div")<{ horizontal?: boolean }>`
-  display: flex;
-  width: 100%;
-
-  flex-direction: ${(props) => (props.horizontal ? "row" : "column")};
-  align-items: ${(props) => (props.horizontal ? "flex-start" : "flex-end")};
-
-  animation: 0.3s alternate slidein;
-
-  @keyframes slidein {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 100;
-    }
-  }
-
-  > div {
-    flex-grow: 1;
-  }
-
-  form {
-    flex-grow: 0;
-  }
-`
-
-const NewOrgFormThing = styled("form")`
-  display: flex;
-  flex-direction: column;
-
-  gap: 1em;
-  width: 400px;
-
-  > * {
-    background-color: white;
-  }
-
-  input {
-  }
-
-  button {
-    border-radius: 5px;
-  }
-
-  .backendError {
-    white-space: "pre-wrap";
-  }
-`
-
 export const NewOrgFormPartOne = ({ onSubmit }: { onSubmit: (brregId: string) => void }) => {
   const {
     register,
@@ -81,9 +29,9 @@ export const NewOrgFormPartOne = ({ onSubmit }: { onSubmit: (brregId: string) =>
   } = useForm({ resolver: nopeResolver(NewOrgBrregSchema) })
 
   return (
-    <NewOrgDivThing>
+    <div>
       <NewOrgInfo />
-      <NewOrgFormThing onSubmit={handleSubmit(({ brregId }) => onSubmit(brregId))}>
+      <form onSubmit={handleSubmit(({ brregId }) => onSubmit(brregId))}>
         <TextField
           {...register("brregId")}
           error={!isValid}
@@ -93,8 +41,8 @@ export const NewOrgFormPartOne = ({ onSubmit }: { onSubmit: (brregId: string) =>
         />
 
         <Button type={"submit"}>Opprett</Button>
-      </NewOrgFormThing>
-    </NewOrgDivThing>
+      </form>
+    </div>
   )
 }
 
@@ -121,9 +69,9 @@ export const NewOrgFormPartTwo = ({
   const onSubmit = async (newOrg: FieldValues) => await mutate({ variables: { organization: newOrg } })
 
   return (
-    <NewOrgDivThing horizontal>
+    <div>
       <div>Før inn ytterligere informasjon</div>
-      <NewOrgFormThing onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <TextField {...register("name")} label="Organisasjonsnavn" />
         <ErrorMessage errors={errors} name={"name"} />
         <TextField {...register("homepage")} label="Hjemmeside" placeholder="https://webside.no" />
@@ -138,7 +86,7 @@ export const NewOrgFormPartTwo = ({
           name={"backend"}
           render={({ message }) => <code className={"backendError"}>{message}</code>}
         />
-      </NewOrgFormThing>
-    </NewOrgDivThing>
+      </form>
+    </div>
   )
 }

@@ -1,27 +1,4 @@
-import { styled } from "@mui/system"
 import { ProgramFragment } from "../../../../generated/graphql"
-
-const Container = styled("div")`
-  min-height: 16px;
-
-  padding: 0px 16px;
-
-  background: #0058ff7d;
-  border: solid 1px rgba(0, 0, 0, 0.1);
-
-  position: absolute;
-  left: 52px;
-  right: 0px;
-
-  z-index: 3;
-
-  border-radius: 3px;
-`
-
-const Title = styled("h3")`
-  margin-top: 16px;
-  font-size: 0.9em;
-`
 
 export type TimelineItemProps = {
   entry: ProgramFragment
@@ -41,8 +18,12 @@ export function TimelineItem(props: TimelineItemProps) {
   const renderTitle = () => {
     if (height < 48) return null
 
-    return <Title>{title}</Title>
+    return <h3>{title}</h3>
   }
 
-  return <Container style={style}>{renderTitle()}</Container>
+  return (
+    <div className={"absolute left-14 right-0 p-4 rounded-md bg-[#0058ff7d] z-30"} style={style}>
+      {renderTitle()}
+    </div>
+  )
 }

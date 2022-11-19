@@ -1,8 +1,8 @@
 import { useRouter } from "next/router"
 import { useContext, useEffect } from "react"
-import LoginForm from "src/refactor/forms/LoginForm"
 import userContext from "../refactor/UserContext"
 import Link from "next/link"
+import LoginForm from "src/modules/forms/LoginForm"
 
 export const LoginPage = () => {
   const router = useRouter()

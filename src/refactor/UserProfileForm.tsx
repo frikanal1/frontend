@@ -1,17 +1,12 @@
 import { InputLabel, TextField } from "@mui/material"
 import React, { useState } from "react"
-import { styled } from "@mui/system"
-
-const WideningForm = styled("div")`
-  flex-grow: 1;
-`
 
 export const UserProfileForm = () => {
   const [firstName, setFirstName] = useState<string>()
   const [lastName, setLastName] = useState<string>()
 
   return (
-    <WideningForm>
+    <div className={"grow"}>
       <InputLabel htmlFor={"profileFirstName"}>Fornavn</InputLabel>
 
       <TextField
@@ -28,6 +23,6 @@ export const UserProfileForm = () => {
         id={"profileLastName"}
         name="lastName"
       />
-    </WideningForm>
+    </div>
   )
 }

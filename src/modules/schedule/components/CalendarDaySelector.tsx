@@ -58,9 +58,13 @@ const CalendarNavigator = ({ currentDate, onChange }: { currentDate: Date; onCha
 
   return (
     <div className={"flex items-center text-lg font-semibold"}>
-      <IconButton onClick={() => addMonths(-1)} title="Forrige" icon="chevronLeft" />
-      <span className={"grow text-center"}>{format(currentDate, "MMMM yyyy", { locale: nb })}</span>
-      <IconButton onClick={() => addMonths(1)} title="Neste" icon="chevronRight" />
+      <div>
+        <IconButton className="w-fit" onClick={() => addMonths(-1)} title="Forrige" icon="chevronLeft" />
+      </div>
+      <div className={"grow text-center"}>{format(currentDate, "MMMM yyyy", { locale: nb })}</div>
+      <div>
+        <IconButton onClick={() => addMonths(1)} title="Neste" icon="chevronRight" />
+      </div>
     </div>
   )
 }

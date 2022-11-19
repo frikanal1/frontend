@@ -1,4 +1,3 @@
-import { styled } from "@mui/system"
 import { Meta } from "src/modules/core/components/Meta"
 import { Section } from "src/modules/ui/components/Section"
 import React from "react"
@@ -10,25 +9,19 @@ import { LatestVideosGrid } from "../../../modules/organization/components/lates
 import ReactMarkdown from "react-markdown"
 import Link from "next/link"
 
-const InfoSection = styled(Section)`
-  margin-left: 32px;
-  min-width: 200px;
-  white-space: pre-wrap;
-  line-height: 1.4;
-`
 const LegalInfo = ({ organization: { editor, postalAddress, streetAddress } }: GetOrganizationQuery) => (
-  <div className={"flex items-stretch w-full"}>
-    <InfoSection icon="pencil" title="Redaktør">
+  <div className={"flex w-full whitespace-pre-wrap leading-6 gap-4"}>
+    <Section icon="pencil" title="Redaktør">
       {editor.name}
       <br />
       <Link href={`mailto:${editor.email}`}>{editor.email}</Link>
-    </InfoSection>
-    <InfoSection icon="mail" title="Postadresse">
+    </Section>
+    <Section icon="mail" title="Postadresse">
       {postalAddress}
-    </InfoSection>
-    <InfoSection icon="home" title="Besøksadresse">
+    </Section>
+    <Section icon="home" title="Besøksadresse">
       {streetAddress}
-    </InfoSection>
+    </Section>
   </div>
 )
 

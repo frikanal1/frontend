@@ -1,8 +1,60 @@
 import { ArchivePage } from "./index"
 
-export const Search = () => (
-  <ArchivePage>
-    <div>Todo :)</div>
-  </ArchivePage>
+import { ParsedUrlQuery } from "querystring"
+import { GetServerSideProps } from "next"
+import { VideoSearchDocument, VideoSearchResultFragment } from "../../generated/graphql"
+import { useQuery } from "@apollo/client"
+import { CircularProgress } from "@mui/material"
+
+interface SearchPageProps {
+  query: string
+}
+
+interface SearchPageParams extends ParsedUrlQuery {
+  q: string
+}
+
+const VideoSearchResult = ({ video }: { video: VideoSearchResultFragment }) => (
+  <div className={"flex"}>
+    <div className={"basis-1/6"}>
+      <img alt="" src={video.images.thumbMedium} />
+    </div>
+    <div className={"p-2"}>
+      <div className={"text-lg"}>{video.title}</div>
+      <div className={"text-md"}>{video.organization.name}</div>
+    </div>
+  </div>
 )
+
+export const Search = ({ query }: SearchPageProps) => {
+  const { data, loading } = useQuery(VideoSearchDocument, { variables: { query } })
+
+  const results = data?.video.search.items
+
+  return (
+    <ArchivePage>
+      <div className={"basis-1/6"}>
+        <div className={"w-full border-2 border-dashed border-green-600 p-4"}>Søkealternativer</div>
+      </div>
+      <div className={"flex flex-col gap-4"}>
+        {loading ? (
+          <CircularProgress />
+        ) : results?.length ? (
+          results.map((video) => <VideoSearchResult key={video.id} video={video} />)
+        ) : (
+          <div>Beklager, ingen treff</div>
+        )}
+      </div>
+    </ArchivePage>
+  )
+}
+
+export const getServerSideProps: GetServerSideProps<SearchPageProps> = async (ctx) => {
+  const { q } = ctx.query
+
+  if (typeof q !== "string") throw new Error("query must be string")
+
+  return { props: { query: q } }
+}
+
 export default Search

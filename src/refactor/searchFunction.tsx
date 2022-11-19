@@ -3,7 +3,8 @@ import { useRef, useState } from "react"
 import { VideoSearchDocument, VideoSearchResultFragment } from "../generated/graphql"
 import SearchIcon from "@mui/icons-material/Search"
 import { useQuery } from "@apollo/client"
-import { CircularProgress, InputBase } from "@mui/material"
+import CircularProgress from "@mui/material/CircularProgress"
+import InputBase from "@mui/material/InputBase"
 import { useDebounce, useOnClickOutside } from "usehooks-ts"
 
 const SearchResults = ({

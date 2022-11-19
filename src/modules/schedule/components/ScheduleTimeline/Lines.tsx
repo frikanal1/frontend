@@ -1,32 +1,6 @@
-import { styled } from "@mui/system"
 import { format, setMinutes, startOfToday } from "date-fns"
 
 const VIRTUALIZATION_PADDING = 64
-
-const Line = styled("div")<{ strength: number }>`
-  display: flex;
-  align-items: center;
-  position: absolute;
-
-  height: 1px;
-  left: 0px;
-  right: 0px;
-
-  font-size: 0.9em;
-  color: green;
-
-  &:after {
-    display: block;
-    content: "";
-
-    width: 100%;
-    height: 1px;
-    margin-left: 16px;
-
-    background: orange;
-    opacity: ${(props) => props.strength};
-  }
-`
 
 export type LinesProps = {
   scrollTop: number
@@ -59,10 +33,15 @@ export function Lines(props: LinesProps) {
           top: `${y}px`,
         }
 
+        const lineStyle =
+          "flex absolute left-0 right-0 fill-green-300 " +
+          "[&:after]:block [&:after]:w-full [&:after]:h-[1px] [&:after]:bg-orange-300 [&:after]:content-[''] " +
+          "[&:after]:ml-4"
+
         return (
-          <Line key={index} style={style} strength={1}>
+          <div className={lineStyle} key={index} style={style}>
             {format(setMinutes(startOfToday(), index), "HH:mm")}
-          </Line>
+          </div>
         )
       })}
     </>

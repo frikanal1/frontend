@@ -1,23 +1,7 @@
-import { styled } from "@mui/system"
 import { Meta } from "src/modules/core/components/Meta"
 import React, { useState } from "react"
 import { NewOrgFormPartTwo, NewOrgFormPartOne } from "../../refactor/org/NewOrgFormPartTwo"
 import { useRouter } from "next/router"
-
-const breakpoint = 900
-
-const Container = styled("div")`
-  display: flex;
-  height: 100%;
-  width: 800px;
-
-  @media (max-width: ${breakpoint}px) {
-    flex-direction: column;
-  }
-  background-color: #ddd;
-  border-radius: 10px;
-  padding: 2em;
-`
 
 export const NewOrganizationPage = () => {
   // useEffect(() => {
@@ -50,7 +34,7 @@ export const NewOrganizationPage = () => {
   const redirectToNewOrg = async (newOrgId: string) => router.push(`/organization/${newOrgId}`)
 
   return (
-    <Container>
+    <div>
       <Meta
         meta={{
           title: "Opprett medlemskap",
@@ -63,7 +47,7 @@ export const NewOrganizationPage = () => {
       ) : (
         <NewOrgFormPartTwo brregId={brregId} onCreated={redirectToNewOrg} />
       )}
-    </Container>
+    </div>
   )
 }
 

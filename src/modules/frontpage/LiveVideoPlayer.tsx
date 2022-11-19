@@ -1,7 +1,6 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js"
 import "video.js/dist/video-js.min.css"
-import "videojs-mobile-ui/dist/videojs-mobile-ui.css"
-import "videojs-mobile-ui/dist/videojs-mobile-ui.min"
+
 import { useEffect, useRef } from "react"
 
 interface VideoJSProps {

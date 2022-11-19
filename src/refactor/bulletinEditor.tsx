@@ -3,7 +3,6 @@ import Nope from "nope-validator"
 import "@uiw/react-md-editor/markdown-editor.css"
 import "@uiw/react-markdown-preview/markdown.css"
 import { Bulletin, UpdateBulletinDocument, UpdateBulletinMutation } from "../generated/graphql"
-import { AdminFieldSet } from "../modules/core/components/AdminFieldSet"
 import { SaveButton } from "../modules/core/components/SaveButton"
 import { MDEditorProps } from "@uiw/react-md-editor"
 import { useMutation } from "@apollo/client"
@@ -52,7 +51,7 @@ export const BulletinEditor = ({ value, onSave }: BulletinEditorProps) => {
     })
 
   return (
-    <AdminFieldSet>
+    <div className={"space-y-2"}>
       <TextField fullWidth label="Tittel" variant="outlined" {...register("title")} />
       <ErrorMessage errors={errors} name={"title"} />
       <p>Venstre: Markdown-kode, høyre: Forhåndsvisning</p>
@@ -70,6 +69,6 @@ export const BulletinEditor = ({ value, onSave }: BulletinEditorProps) => {
         name={"backend"}
         render={({ message }) => <code className={"backendError"}>{message}</code>}
       />
-    </AdminFieldSet>
+    </div>
   )
 }

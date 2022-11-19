@@ -1,42 +1,8 @@
 import { format } from "date-fns"
 import { useRef } from "react"
-import { styled } from "@mui/system"
 
 import { useAnimation } from "src/modules/ui/hooks/useAnimation"
 import { getPreciseHours } from "../../helpers/getPreciseHours"
-
-const Container = styled("div")`
-  display: flex;
-  align-items: center;
-  position: absolute;
-
-  height: 1px;
-  left: 0px;
-  right: 0px;
-
-  z-index: 2;
-
-  &:after {
-    flex: 1;
-    height: 2px;
-
-    display: block;
-    content: "";
-
-    background: orange;
-  }
-`
-
-const Time = styled("div")`
-  font-size: 0.9em;
-  font-weight: 600;
-
-  background: orange;
-  padding: 7px;
-
-  margin-left: -7px;
-  border-radius: 3px;
-`
 
 export type PlayheadProps = {
   height: number
@@ -60,8 +26,16 @@ export function Playhead(props: PlayheadProps) {
   })
 
   return (
-    <Container ref={ref}>
-      <Time ref={timeRef}>00:00</Time>
-    </Container>
+    <div
+      className={
+        "h-[2px] absolute left-0 right-0 z-20 flex flex-col items-center" +
+        "[&:after]:content-[''] [&:after]:block [&:after]:h-[2px] [&:after]:bg-orange-300"
+      }
+      ref={ref}
+    >
+      <div className={"bg-orange-400 font-semibold -ml-[7px]"} ref={timeRef}>
+        00:00
+      </div>
+    </div>
   )
 }

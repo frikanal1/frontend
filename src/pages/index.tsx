@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic"
 import React, { Suspense } from "react"
 import { Meta } from "src/modules/core/components/Meta"
-import { FrontpageBulletins } from "../modules/bulletins/FrontpageBulletins"
+import { FrontpageBulletins } from "../modules/frontpage/FrontpageBulletins"
 import { FrontpageScheduleView } from "../modules/schedule/components/FrontpageScheduleView"
 
-const LiveVideoPlayer = dynamic(() => import("src/modules/video/components/LiveVideoPlayer"), {
+const LiveVideoPlayer = dynamic(() => import("src/modules/frontpage/LiveVideoPlayer"), {
   suspense: true,
 })
 

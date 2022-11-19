@@ -1,5 +1,5 @@
 import { Meta } from "src/modules/core/components/Meta"
-import { CalendarDaySelector } from "src/modules/core/components/CalendarDaySelector"
+import { CalendarDaySelector } from "src/modules/schedule/components/CalendarDaySelector"
 import React, { useState } from "react"
 import { ScheduleTimeline } from "src/modules/schedule/components/ScheduleTimeline/ScheduleTimeline"
 

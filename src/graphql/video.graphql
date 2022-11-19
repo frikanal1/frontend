@@ -79,6 +79,7 @@ fragment VideoSearchResult on Video {
     }
     images {
         thumbSmall
+        thumbMedium
     }
 }
 

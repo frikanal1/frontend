@@ -1,33 +1,5 @@
-import { styled } from "@mui/system"
 import { IconType } from "../types"
 import { SVGIcon } from "./SVGIcon"
-
-const Container = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 64px 0px;
-`
-
-const Title = styled("h1")`
-  font-size: 1.4em;
-  font-weight: 600;
-`
-
-const Subtitle = styled("h2")`
-  font-size: 1.1em;
-  font-weight: 500;
-
-  margin-top: 8px;
-`
-
-const Icon = styled(SVGIcon)`
-  color: orange;
-  width: 64px;
-  height: 64px;
-
-  margin-bottom: 32px;
-`
 
 export type EmptyStateProps = {
   icon: IconType
@@ -39,10 +11,10 @@ export function EmptyState(props: EmptyStateProps) {
   const { icon, title, subtitle } = props
 
   return (
-    <Container>
-      <Icon name={icon} />
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
-    </Container>
+    <div className={"flex flex-col items-center my-4"}>
+      <SVGIcon className={"fill-orange-400 w-16 h-16 mb-8"} name={icon} />
+      <h1>{title}</h1>
+      <h2>{subtitle}</h2>
+    </div>
   )
 }

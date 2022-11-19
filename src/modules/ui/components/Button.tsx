@@ -1,34 +1,20 @@
-import { styled } from "@mui/system"
 import React, { ComponentPropsWithoutRef } from "react"
-
-const Container = styled("button")<{ stretch?: boolean }>`
-  display: inline-block;
-
-  ${(props) =>
-    props.stretch &&
-    `
-    width: 100%;
-    `}
-`
-
-const Inner = styled("span")`
-  display: flex;
-  width: 100%;
-
-  user-select: none;
-`
 
 export type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   stretch?: boolean
 }
 
 function _Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
-  const { stretch, className, children, type = "button", ...rest } = props
+  const { stretch, className = "", children, type = "button", ...rest } = props
+
+  const buttonStyle = "inline-block" + stretch ? " w-full" : ""
+  const buttonContentStyleBase = "flex w-full select-none"
+  const buttonContentStyle = [className, buttonContentStyleBase].join(" ")
 
   return (
-    <Container ref={ref} stretch={stretch} type={type} {...rest}>
-      <Inner className={className}>{children}</Inner>
-    </Container>
+    <button className={buttonStyle} ref={ref} type={type} {...rest}>
+      <span className={buttonContentStyle}>{children}</span>
+    </button>
   )
 }
 
