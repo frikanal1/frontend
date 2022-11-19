@@ -11,7 +11,7 @@ export function UpcomingProgramme({ className, entry }: UpcomingProgrammeProps) 
   return (
     <div className={"flex w-full flex-col xl:flex-row " + className}>
       <div className={"grow flex flex-col"}>
-        <Link href={`/video/${entry?.video.id}`} passHref className={"font-bold truncate w-full"}>
+        <Link href={entry?.video.url || ""} passHref className={"font-bold truncate w-full"}>
           {entry?.video.title}
         </Link>
         <Link href={`/organization/${entry?.video.organization.id}`} passHref className={""}>

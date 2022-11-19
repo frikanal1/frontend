@@ -10,8 +10,9 @@ fragment Program on ScheduleItem {
   startsAt
   endsAt
   video {
-    id
+    __typename
     title
+    url
     organization {
       id
       name

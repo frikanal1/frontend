@@ -9,7 +9,7 @@ export type ScheduleItemBlurbProps = {
 export const CurrentProgramme = ({ entry }: ScheduleItemBlurbProps) => (
   <div className={"lg:pb-8"}>
     <h4 className={"lg:text-3xl font-bold py-2 opacity-90 mix-blend-luminosity text-white hover:opacity-100"}>
-      <Link href={`/video/${entry?.video.id}`} passHref>
+      <Link href={entry?.video.url!} passHref>
         {entry?.video?.title}
       </Link>
     </h4>

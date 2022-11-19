@@ -2,8 +2,9 @@ fragment FrontpageSchedule on ScheduleItem {
   startsAt
   endsAt
   video {
-    id
+    __typename
     title
+    url
     description
     organization {
       id

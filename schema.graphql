@@ -5,6 +5,13 @@ schema {
     mutation: Mutation
 }
 
+interface BasicVideoMetadata {
+    description: String!
+    organization: Organization!
+    title: String!
+    url: String!
+}
+
 interface VideoMutationError {
     message: String!
 }
@@ -20,6 +27,13 @@ type Bulletin {
 type BulletinPagination {
     items: [Bulletin!]!
     pageInfo: PaginationInfo!
+}
+
+type LiveVideo implements BasicVideoMetadata {
+    description: String!
+    organization: Organization!
+    title: String!
+    url: String!
 }
 
 type Mutation {
@@ -71,7 +85,7 @@ type ScheduleItem {
     endsAt: DateTime!
     id: ID!
     startsAt: DateTime!
-    video: Video!
+    video: BasicVideoMetadata!
 }
 
 type SchedulePagination {
@@ -107,7 +121,7 @@ type UserRole {
     role: RoleType!
 }
 
-type Video {
+type Video implements BasicVideoMetadata {
     assets: [VideoAsset!]!
     createdAt: DateTime!
     description: String!
@@ -116,6 +130,7 @@ type Video {
     organization: Organization!
     title: String!
     updatedAt: DateTime!
+    url: String!
     viewCount: Int
 }
 
