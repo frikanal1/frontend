@@ -82,9 +82,9 @@ type Query {
 }
 
 type ScheduleItem {
-    endsAt: DateTime!
+    end: DateTime!
     id: ID!
-    startsAt: DateTime!
+    start: DateTime!
     video: BasicVideoMetadata!
 }
 

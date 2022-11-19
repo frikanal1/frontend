@@ -1,6 +1,6 @@
 fragment FrontpageSchedule on ScheduleItem {
-  startsAt
-  endsAt
+  start
+  end
   video {
     __typename
     title

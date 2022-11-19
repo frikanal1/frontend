@@ -7,8 +7,8 @@ query GetSchedule($filter: ScheduleFilter!) {
 }
 
 fragment Program on ScheduleItem {
-  startsAt
-  endsAt
+  start
+  end
   video {
     __typename
     title

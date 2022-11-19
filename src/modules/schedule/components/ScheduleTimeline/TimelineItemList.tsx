@@ -25,11 +25,11 @@ export function TimelineItemList(props: TimelineItemListProps) {
 
   useEffect(() => {
     const newlyCalculated = entries?.map((entry) => {
-      const startsAt = new Date(entry.startsAt)
-      const endsAt = new Date(entry.endsAt)
+      const start = new Date(entry.start)
+      const end = new Date(entry.end)
 
-      const startHour = getPreciseHours(startsAt)
-      const endHour = getPreciseHours(endsAt)
+      const startHour = getPreciseHours(start)
+      const endHour = getPreciseHours(end)
 
       const top = (startHour / 24) * height
       const bottom = (endHour / 24) * height
@@ -51,7 +51,7 @@ export function TimelineItemList(props: TimelineItemListProps) {
 
         if (!isVisible) return null
 
-        return <TimelineItem key={entry.startsAt} entry={entry} position={top} height={height} />
+        return <TimelineItem key={entry.start} entry={entry} position={top} height={height} />
       })}
     </>
   )

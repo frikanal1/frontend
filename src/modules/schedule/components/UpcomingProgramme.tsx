@@ -19,7 +19,7 @@ export function UpcomingProgramme({ className, entry }: UpcomingProgrammeProps) 
         </Link>
       </div>
       <span className={"font-mono font-condensed text-green-400 shrink-0 font-bold"}>
-        {entry && humanizeScheduleItemDate(new Date(entry?.startsAt))}
+        {entry && humanizeScheduleItemDate(new Date(entry?.start))}
       </span>
     </div>
   )

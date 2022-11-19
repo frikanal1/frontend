@@ -26,9 +26,9 @@ const getPlayingNow = (now: Date, items?: Maybe<Array<Maybe<FrontpageScheduleFra
   if (!items?.length) return -1
 
   // Find the index of the last item in the schedule
-  const currentProgramme = findLastIndex(items, (i) => new Date(i?.startsAt) <= now)
+  const currentProgramme = findLastIndex(items, (i) => new Date(i?.start) <= now)
 
-  if (new Date(items[currentProgramme]?.startsAt) >= now) return -1
+  if (new Date(items[currentProgramme]?.start) >= now) return -1
 
   return currentProgramme
 }
