@@ -26,11 +26,11 @@ export const VideoPage = ({ video }: VideoPageProps) => (
         author: video.organization.name,
       }}
     />
-    <div className={"bg-green-800 drop-shadow-2xl h-fit"}>
+    <div className={"bg-green-800 drop-shadow-2xl h-fit grow"}>
       <VideoPlayer video={video} />
       <VideoPageMetaBar video={video} />
     </div>
-    <LatestVideosSidebar className={"lg:w-1/3 drop-shadow-md"} latestVideos={video.organization} />
+    <LatestVideosSidebar className={"lg:basis-1/3 grow-0 shrink-0 drop-shadow-md"} latestVideos={video.organization} />
   </div>
 )
 
