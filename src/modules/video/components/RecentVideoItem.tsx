@@ -12,8 +12,8 @@ export const RecentVideoItem = ({ video: { id, title, createdAt, images } }: Rec
   const router = useRouter()
   return (
     <div className={"bg-white cursor-pointer "} onClick={() => router.push(`/video/${id}`)}>
-      <div className={"flex items-center "}>
-        <div className={"aspect-video w-32 shrink-0 "}>
+      <div className={"flex items-between"}>
+        <div className={"aspect-video w-32 shrink-0"}>
           <img alt={""} className="border-slate-700 rounded-lg p-1 border-1" src={images.thumbMedium} />
         </div>
         <div className={"pl-2 flex flex-col justify-between max-h-full"}>
