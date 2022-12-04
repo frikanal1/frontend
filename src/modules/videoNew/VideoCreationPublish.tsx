@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client"
 import { Button } from "@mui/material"
 import Link from "next/link"
-import { PublishVideoDocument } from "../generated/graphql"
+import { PublishVideoDocument } from "../../generated/graphql"
 
 interface VideoCreationPublishProps {
   videoId: string
@@ -33,5 +33,5 @@ export const VideoCreationPublish = ({ videoId }: VideoCreationPublishProps) => 
         </Button>
       </div>
     </div>
-  );
+  )
 }

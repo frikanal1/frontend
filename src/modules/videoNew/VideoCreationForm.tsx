@@ -1,16 +1,16 @@
-import { CreateVideoDocument } from "../generated/graphql"
-
-interface VideoCreationFormProps {
-  mediaId?: string
-  onCreated: (videoId: string) => void
-  organizationId: string
-}
+import { CreateVideoDocument } from "../../generated/graphql"
 import Nope from "nope-validator"
 import { nopeResolver } from "@hookform/resolvers/nope"
 import { FieldValues, useForm } from "react-hook-form"
 import { useMutation } from "@apollo/client"
 import { InputLabel, TextField, Button } from "@mui/material"
 import { ErrorMessage } from "@hookform/error-message"
+
+interface VideoCreationFormProps {
+  mediaId?: string
+  onCreated: (videoId: string) => void
+  organizationId: string
+}
 
 const CreateVideoSchema = Nope.object().shape({
   title: Nope.string().required("Videoen må ha et navn"),
@@ -28,9 +28,8 @@ export const VideoCreationForm = ({ mediaId, organizationId, onCreated }: VideoC
   const [mutate] = useMutation(CreateVideoDocument, {
     onError: (e) => setError("backend", { type: "custom", message: e.toString() }),
     onCompleted: (data) => {
-      // FIXME: Better error handling
-      const videoId = data?.video?.create?.video?.id
-      if (videoId) onCreated(videoId)
+      const videoId = data.video.create.video?.id
+      videoId && onCreated(videoId)
     },
   })
 
@@ -42,40 +41,30 @@ export const VideoCreationForm = ({ mediaId, organizationId, onCreated }: VideoC
   return (
     <form>
       <div className={"flex flex-col gap-5 pt-2 pb-4"}>
-        <div>
-          <div className={"space-y-1"}>
-            <InputLabel htmlFor={"video-title"}>
-              <div className={"text-xl font-bold text-black py-1"}>Tittel</div>
-            </InputLabel>
-            <TextField
-              {...register("title")}
-              className={"bg-white rounded-md"}
-              fullWidth
-              autoFocus
-              id={"video-title"}
-            />
-            <div>
-              <ErrorMessage errors={errors} name={"title"} />
-            </div>
+        <div className={"space-y-1"}>
+          <InputLabel htmlFor={"video-title"}>
+            <div className={"text-xl font-bold text-black py-1"}>Tittel</div>
+          </InputLabel>
+          <TextField {...register("title")} className={"bg-white rounded-md"} fullWidth autoFocus id={"video-title"} />
+          <div>
+            <ErrorMessage errors={errors} name={"title"} />
           </div>
         </div>
-        <div>
-          <div className={"space-y-1"}>
-            <InputLabel htmlFor={"video-description"}>
-              <div className={"text-xl font-bold text-black"}>Beskrivelse</div>
-            </InputLabel>
-            <TextField
-              className={"bg-white rounded-md"}
-              multiline
-              fullWidth
-              minRows={4}
-              {...register("description")}
-              type={"description"}
-              id={"video-description"}
-            />
-            <div>
-              <ErrorMessage errors={errors} name={"description"} />
-            </div>
+        <div className={"space-y-1"}>
+          <InputLabel htmlFor={"video-description"}>
+            <div className={"text-xl font-bold text-black"}>Beskrivelse</div>
+          </InputLabel>
+          <TextField
+            className={"bg-white rounded-md"}
+            multiline
+            fullWidth
+            minRows={4}
+            {...register("description")}
+            type={"description"}
+            id={"video-description"}
+          />
+          <div>
+            <ErrorMessage errors={errors} name={"description"} />
           </div>
         </div>
         <div className="ml-auto">

@@ -4,51 +4,42 @@ import { useCookie } from "react-use"
 import { useTus } from "use-tus"
 
 import "regenerator-runtime/runtime"
-import FileDownloadDoneRoundedIcon from "@mui/icons-material/FileDownloadDoneRounded"
 
 import { UploadFileSelector } from "./uploadFileSelector"
-import { Maybe } from "../generated/graphql"
+import { Maybe } from "../../generated/graphql"
 import getConfig from "next/config"
 const { publicRuntimeConfig } = getConfig()
 
 const UploadProgressBar = ({ progress }: { progress: number }) => (
-  <div>
-    <Progress.Root
-      max={100}
-      value={progress}
-      className={"border-black bg-red w-full h-9 relative overflow-hidden"}
-      style={{ borderRadius: "99999px" }}
-    >
-      <Progress.Indicator
-        className={
-          "w-full h-9 bg-gradient-to-br from-green-600 to-green-900 text-green-100 font-bold text-lg flex justify-center"
-        }
+  <Progress.Root max={100} value={progress} className={" h-9 relative"}>
+    <div className={"absolute z-40 inset-1 text-center h-full font-semibold text-white mix-blend-exclusion"}>
+      {progress}%
+    </div>
+    <Progress.Indicator className={"z-20 inset-0 h-9 overflow-hidden rounded-full absolute"}>
+      <div
+        className={"w-full h-9 bg-gradient-to-br from-green-600 to-green-900 relative"}
         style={{
           transform: `translateX(-${100 - progress}%)`,
           transition: "transform 660ms cubic-bezier(0.65, 0, 0.35, 1)",
         }}
-      >
-        <div className={"my-auto"}>{progress}%</div>
-      </Progress.Indicator>
-    </Progress.Root>
-  </div>
+      />
+    </Progress.Indicator>
+    <div className={"w-full z-0  h-9 bg-gradient-to-br rounded-full from-gray-400 to-gray-300 relative"} />
+  </Progress.Root>
 )
 
 interface VideoFileUploadProps {
   onComplete: (mediaId: string) => void
 }
 
-export const VideoUploadDone = () => (
+const VideoUploadError = () => (
   <div className={"flex h-full items-center"}>
-    <div className={"text-5xl font-semibold border-black"}>
-      <FileDownloadDoneRoundedIcon sx={{ fontSize: "inherit", marginRight: ".25em", marginBottom: ".125em" }} />
-      ferdig
-    </div>
+    <div className={"text-5xl font-semibold border-black"}>Beklager, en feil har oppstått!</div>
   </div>
 )
 
 export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
-  const { upload, setUpload } = useTus({ autoStart: true })
+  const { upload, setUpload, error } = useTus({ autoStart: true })
   const [csrfToken] = useCookie("fk-csrf")
   const [uploadProgress, setUploadProgress] = useState<number>(0)
 
@@ -67,7 +58,7 @@ export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
         onProgress: (bytesSent, bytesTotal) => {
           setUploadProgress((bytesSent / bytesTotal) * 100)
         },
-        chunkSize: 2 ** 23, // or Node throws a server-side exception of some sort
+        chunkSize: 2 ** 23, // Node throws a server-side exception if larger
         onAfterResponse: (req: any) => {
           const xhr = req.getUnderlyingObject() as XMLHttpRequest
           // Kludge to get an onSuccess which also reads mediaId/jobId
@@ -93,12 +84,12 @@ export const VideoCreationUpload = ({ onComplete }: VideoFileUploadProps) => {
       <div
         className={
           "p-2 w-full " +
-          "transition appearance-none  hover:border-green-500 " +
+          "transition appearance-none hover:border-green-500 " +
           "border-[5px] border-green-600 rounded-2xl border-dashed"
         }
       >
         <UploadFileSelector handleStart={handleSetUpload} />
-        {upload && <UploadProgressBar progress={uploadProgress} />}
+        {error ? <VideoUploadError /> : upload && <UploadProgressBar progress={uploadProgress} />}
       </div>
     </div>
   )

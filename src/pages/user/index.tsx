@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import UploadVideoDialog from "../../refactor/UploadVideoDialog"
+import UploadVideoDialog from "../../modules/videoNew/UploadVideoDialog"
 import userContext from "../../refactor/UserContext"
 import { UserPageLayout } from "../../refactor/user/UserPageLayout"
 

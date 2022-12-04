@@ -1,12 +1,11 @@
 import AttachFileIcon from "@mui/icons-material/AttachFile"
 import prettyBytes from "pretty-bytes"
 import { useState } from "react"
-import { Maybe } from "../generated/graphql"
+import { Maybe } from "../../generated/graphql"
 
 export const UploadFileSelector = ({ handleStart }: { handleStart: (file: File) => void }) => {
   const [file, setFile] = useState<Maybe<File>>()
 
-  // FIXME: I used font-serif here because I haven't got
   const FileSelector = () => (
     <label className="italic-semi block lg:text-2xl w-full items-center min-h-[130px] flex cursor-pointer">
       <AttachFileIcon sx={{ fontSize: "100px", marginLeft: ".25em", marginRight: ".25em" }} />

@@ -27,7 +27,7 @@ const VideoSearchResult = ({ video }: { video: VideoSearchResultFragment }) => (
 )
 
 export const Search = ({ query }: SearchPageProps) => {
-  const { data, loading } = useQuery(VideoSearchDocument, { variables: { query } })
+  const { data, loading, error } = useQuery(VideoSearchDocument, { variables: { query } })
 
   const results = data?.video.search.items
 
@@ -37,12 +37,14 @@ export const Search = ({ query }: SearchPageProps) => {
         <div className={"w-full border-2 border-dashed border-green-600 p-4"}>Søkealternativer</div>
       </div>
       <div className={"flex flex-col gap-4"}>
-        {loading ? (
+        {error ? (
+          <div>Beklager, en feil oppstod</div>
+        ) : loading ? (
           <CircularProgress />
         ) : results?.length ? (
           results.map((video) => <VideoSearchResult key={video.id} video={video} />)
         ) : (
-          <div>Beklager, ingen treff</div>
+          <div>Ingen videoer</div>
         )}
       </div>
     </ArchivePage>
@@ -50,9 +52,9 @@ export const Search = ({ query }: SearchPageProps) => {
 }
 
 export const getServerSideProps: GetServerSideProps<SearchPageProps> = async (ctx) => {
-  const { q } = ctx.query
+  const { q } = ctx.query as SearchPageParams
 
-  if (typeof q !== "string") throw new Error("query must be string")
+  if (!q.length) throw new Error("query must be string")
 
   return { props: { query: q } }
 }
