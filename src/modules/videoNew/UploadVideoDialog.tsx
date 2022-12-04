@@ -5,7 +5,7 @@ import { RequireUserIsEditor } from "../../refactor/requireUserIsEditor"
 import { VideoCreationUpload } from "./videoCreationUpload"
 import { OrganizationPageParams } from "../../pages/organization/[orgId]"
 import { GetServerSideProps } from "next"
-import { VideoCreationForm } from "src/modules/videoNew/VideoCreationForm"
+import { VideoCreationForm } from "src/modules/forms/VideoCreationForm"
 import { VideoCreationPublish } from "./VideoCreationPublish"
 import FileDownloadDoneRoundedIcon from "@mui/icons-material/FileDownloadDoneRounded"
 

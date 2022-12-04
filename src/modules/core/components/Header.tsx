@@ -8,7 +8,7 @@ import { MobileNavLinks } from "./MobileNavLinks"
 export const Header = ({ className }: { className?: string }) => (
   <header className={className}>
     <div className={"flex items-center justify-between w-full pb-3 md:py-2 lg:py-4"}>
-      <Link href={"/"} passHref>
+      <Link aria-label="Forsiden" href={"/"} passHref>
         <Logo className={"w-40 md:w-72 xl:w-[500px] cursor-pointer"} />
       </Link>
       <MobileNavLinks className={"lg:hidden"} />

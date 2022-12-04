@@ -58,7 +58,7 @@ export const UserPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <UserTopMenu />
-      <div className={"flex w-full pt-4 gap-8"}>
+      <div className={"flex flex-col lg:flex-row w-full pt-0 lg:pt-2 gap-4 lg:gap-8"}>
         <UserMenuMeta />
         <div className={"basis-1/5 shrink-0"}>
           <div className={"bg-gradient-to-t from-orange-500 to-orange-300 p-4 drop-shadow-xl"}>

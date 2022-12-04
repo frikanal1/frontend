@@ -113,6 +113,7 @@ type UserMutationResult {
 type UserMutations {
     login(input: LoginInput!): UserMutationResult!
     logout: UserMutationResult!
+    profile(input: UserProfileInput!): UserMutationResult!
     register(input: RegisterInput!): UserMutationResult!
 }
 
@@ -224,6 +225,11 @@ input RegisterInput {
 input ScheduleFilter {
     from: DateTime
     to: DateTime
+}
+
+input UserProfileInput {
+    name: String
+    password: String
 }
 
 input VideoFilter {

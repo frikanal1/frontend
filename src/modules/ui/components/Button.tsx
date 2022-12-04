@@ -1,24 +1,24 @@
 import React, { ComponentPropsWithoutRef } from "react"
-
+import cx from "classnames"
 export type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   stretch?: boolean
 }
 
-function _Button(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
+export const Button = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
   const { stretch, className = "", children, type = "button", ...rest } = props
 
-  const buttonStyle = "inline-block" + stretch ? " w-full" : ""
-  const buttonContentStyleBase = "flex w-full select-none"
-  const buttonContentStyle = [className, buttonContentStyleBase].join(" ")
+  const buttonStyle = cx(
+    "inline-block border-2 text-black/80 border-black/50 rounded-md bg-white/50 py-1 px-3",
+    stretch && "w-full"
+  )
+  const buttonContentStyle = cx("flex select-none", className)
 
   return (
     <button className={buttonStyle} ref={ref} type={type} {...rest}>
       <span className={buttonContentStyle}>{children}</span>
     </button>
   )
-}
-
-export const Button = React.forwardRef(_Button)
+})
 
 export type ButtonWithProps<T extends object> = (
   props: ButtonProps & { ref?: React.Ref<HTMLButtonElement> } & T

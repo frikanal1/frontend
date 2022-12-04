@@ -72,3 +72,17 @@ mutation Register($input: RegisterInput!) {
         }
     }
 }
+
+mutation EditProfile($input: UserProfileInput!) {
+    user {
+        profile(input: $input) {
+            __typename
+            user {
+                __typename
+                name
+            }
+            status
+        }
+
+    }
+}
