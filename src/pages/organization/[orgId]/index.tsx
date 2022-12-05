@@ -1,16 +1,19 @@
 import { Meta } from "src/modules/core/components/Meta"
 import { Section } from "src/modules/ui/components/Section"
-import React from "react"
+import React, { useContext } from "react"
 import { GetServerSideProps, NextPage } from "next"
 import { ParsedUrlQuery } from "querystring"
-import { GetOrganizationDocument, GetOrganizationQuery } from "../../../generated/graphql"
+import { GetOrganizationDocument, GetOrganizationQuery, Organization } from "../../../generated/graphql"
 import { useQuery } from "@apollo/client"
 import { LatestVideosGrid } from "../../../modules/organization/components/latestVideosGrid"
 import ReactMarkdown from "react-markdown"
 import Link from "next/link"
+import UserContext from "../../../refactor/UserContext"
+import { Button } from "../../../modules/ui/components/Button"
+import { useRouter } from "next/router"
 
 const LegalInfo = ({ organization: { editor, postalAddress, streetAddress } }: GetOrganizationQuery) => (
-  <div className={"flex w-full whitespace-pre-wrap leading-6 gap-4"}>
+  <div className={"flex max-w-3xl whitespace-pre-wrap leading-6 justify-between"}>
     <Section icon="pencil" title="Redaktør">
       {editor.name}
       <br />
@@ -33,28 +36,51 @@ export interface OrganizationPageParams extends ParsedUrlQuery {
   orgId: string
 }
 
-export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => {
-  const { data } = useQuery(GetOrganizationDocument, { variables: { orgId } })
-
-  if (!data?.organization) return null
-
-  const { organization } = data
-
-  const { name, description, latestVideos } = organization
+const EditorPanel = ({ organization }: { organization: Pick<Organization, "id" | "name"> }) => {
+  const { setActiveOrganization } = useContext(UserContext)
+  const router = useRouter()
 
   return (
-    <div className={"pt-4"}>
+    <div className={"bg-orange-300 p-2"}>
+      <h4>Redaktørpanel</h4>
+      <Button
+        onClick={() => {
+          setActiveOrganization(organization)
+          router.push("/user")
+        }}
+      >
+        Ny video
+      </Button>
+    </div>
+  )
+}
+
+export const OrganizationPage: NextPage<OrganizationPageProps> = ({ orgId }) => {
+  const { data } = useQuery(GetOrganizationDocument, { variables: { orgId } })
+  const { session } = useContext(UserContext)
+  if (!data?.organization) return null
+  const { organization } = data
+  const { name, description, latestVideos, editor } = organization
+
+  const isEditor = editor.id === session?.user?.id
+
+  return (
+    <div className={"pt-4 max-w-5xl flex flex-col justify-between min-h-full"}>
       <Meta
         meta={{
           title: name,
           description: description || "",
         }}
       />
-      <h2 className={"text-5xl text-green-800 font-black "}>{name}</h2>
-      <div className={"description py-3"}>
-        <ReactMarkdown>{description || ""}</ReactMarkdown>
+      <div>
+        <h2 className={"text-5xl text-green-800 font-black "}>{name}</h2>
+        {isEditor && <EditorPanel organization={organization} />}
+        <div className={"description py-3"}>
+          <ReactMarkdown>{description || ""}</ReactMarkdown>
+        </div>
+        <LatestVideosGrid latestVideos={latestVideos} />
       </div>
-      <LatestVideosGrid latestVideos={latestVideos} />
+      <div id={"grow"}>&nbsp;</div>
       <LegalInfo organization={organization} />
     </div>
   )

@@ -1,41 +1,45 @@
 import userContext from "../UserContext"
 import { RoleType } from "../../generated/graphql"
 import { USER_MENU, UserMenuMeta } from "../UserMenu"
-import React, { useContext } from "react"
+import React, { useContext, useMemo } from "react"
 import { AboutLink } from "../../pages/about"
+import { MenuItem, Select } from "@mui/material"
 
 const OrgSelector = () => {
   const { activeOrganization, setActiveOrganization, session } = useContext(userContext)
+
+  const orgNames = useMemo<Record<string, string>>(() => {
+    const roles = session?.user?.roles
+    if (!roles) return {}
+    return roles.map(({ organization: { id, name } }) => ({ [id]: name }))
+  }, [session])
+
   return (
-    <div className={"p-8"}>
-      <h2 className={"text-3xl py-2"}>Velg aktiv organisasjon</h2>
-      <div className={"flex flex-wrap"}>
+    <>
+      <Select
+        fullWidth
+        defaultValue={activeOrganization?.id}
+        onChange={(e) => {
+          const id = e.target.value
+          const name = orgNames[id]
+
+          setActiveOrganization({ id, name })
+        }}
+      >
         {session?.user?.roles.map((x, idx) => (
-          <div
-            key={idx}
-            onClick={() => setActiveOrganization(x.organization)}
-            className={
-              "p-1 px-4 rounded-lg w-48 m-2 border-2 border-black " +
-              (activeOrganization?.id == x.organization.id ? "bg-black text-green-200 border-green-300" : "")
-            }
-          >
+          <MenuItem key={idx} value={x.organization.id} data-name={x.organization.name}>
             {x.organization.name}
-          </div>
+          </MenuItem>
         ))}
-      </div>
-    </div>
+      </Select>
+    </>
   )
 }
 export const OrgMenu = () => {
   const { session } = useContext(userContext)
 
   return (
-    <div className="bg-gradient-to-b from-green-100 to-green-200">
-      <h3 className="text-3xl bg-gradient-to-b from-green-800 to-green-900 font-bold text-green-100 px-8 py-5">
-        Organisasjoner
-      </h3>
-      {(session?.user?.roles?.filter((x) => x.role === RoleType.Editor)?.length || 0) > 0 && <OrgSelector />}
-    </div>
+    <form>{(session?.user?.roles?.filter((x) => x.role === RoleType.Editor)?.length || 0) > 0 && <OrgSelector />}</form>
   )
 }
 
@@ -53,7 +57,7 @@ const UserTopMenu = () => {
 
 // Base component for pages under the /user layout.
 export const UserPageLayout = ({ children }: { children: React.ReactNode }) => {
-  const { activeOrganization } = useContext(userContext)
+  const { session } = useContext(userContext)
 
   return (
     <div>
@@ -63,7 +67,9 @@ export const UserPageLayout = ({ children }: { children: React.ReactNode }) => {
         <div className={"basis-1/5 shrink-0"}>
           <div className={"bg-gradient-to-t from-orange-500 to-orange-300 p-4 drop-shadow-xl"}>
             <div>Aktiv organisasjon:</div>
-            <div>{activeOrganization?.name || <span className={"italic-semi"}>ingen organisasjon</span>}</div>
+            <div>
+              {session?.user?.roles.length ? <OrgMenu /> : <span className={"italic-semi"}>ingen organisasjon</span>}
+            </div>
           </div>
         </div>
         <div className={"grow"}>{children}</div>
