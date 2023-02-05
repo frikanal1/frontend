@@ -3,6 +3,7 @@ import { LatestVideosFragment } from "../../../generated/graphql"
 import Link from "next/link"
 import { format } from "date-fns"
 import { nb } from "date-fns/locale"
+import { VideoThumbnail } from "../../../pages/video"
 
 export type VideoGridProps = {
   videos?: LatestVideosFragment["latestVideos"]
@@ -14,19 +15,18 @@ export function HorizontalVideoGrid({ videos }: VideoGridProps) {
 
   return (
     <div className={"flex gap-4 flex-nowrap"}>
-      {videos.map(({ id, title, createdAt, images }) => (
-        <div key={id} className={"max-w-[250px] h-[300px] bg-gradient-to-b from-green-100 to-green-200 rounded-md"}>
-          <div className={"flex h-full flex-col justify-between"}>
+      {videos.map(({ id, title, createdAt, images, duration, description }) => (
+        <div key={id} className={"w-56 h-64 bg-gradient-to-t from-green-200 to-green-400 rounded-md"}>
+          <div className={"flex p-2 h-full flex-col justify-between"}>
             <Link href={`/video/${id}`} passHref>
-
-              <img className="aspect-video block" alt={"thumbnail"} src={images.thumbLarge} />
-              <div className={"p-2"}>{title}</div>
-
+              <VideoThumbnail video={{ images, duration }} />
+              <div className={"pt-2"}>{title}</div>
             </Link>
-            <div className={"p-2"}>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</div>
+            <div className={"overflow-hidden text-xs"}>{description}</div>
+            <div>lastet opp {format(new Date(createdAt), "d. MMM yyyy", { locale: nb })}</div>
           </div>
         </div>
       ))}
     </div>
-  );
+  )
 }

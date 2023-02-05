@@ -1,22 +1,49 @@
 import { SearchFunction } from "../../refactor/searchFunction"
-import { BasicVideoMetadataFragment, GetVideosDocument } from "../../generated/graphql"
+import { BasicVideoMetadataFragment, GetVideosDocument, Video } from "../../generated/graphql"
 import { useQuery } from "@apollo/client"
 import Link from "next/link"
-import { format } from "date-fns"
+import { addMinutes, format } from "date-fns"
 import nb from "date-fns/locale/nb"
+import cx from "classnames"
 
-const VideoCard = ({ video }: { video: BasicVideoMetadataFragment }) => (
-  <Link href={`/video/${video.id}`} className={"snap-start"}>
-    <div className={"bg-black/60 rounded-md w-52 h-64"}>
-      <img alt={""} src={video.images.thumbLarge} />
-      <div className={"p-2"}>
-        <div className={"font-bold text-white/80"}>{video.title}</div>
-        <div className={"font-bold text-white/70"}>{video.organization.name}</div>
-        <div className={"text-white/70"}>{format(new Date(video.createdAt), "d MMMM yyyy", { locale: nb })}</div>
+export const formatVideoDuration = (seconds?: number | null): string => {
+  if (!seconds) return ""
+
+  const duration = addMinutes(new Date(seconds * 1000), new Date().getTimezoneOffset())
+  return format(duration, duration.getHours() ? "H:mm:ss" : "mm:ss")
+}
+
+export const VideoThumbnail = ({
+  video,
+  className,
+}: {
+  video: Pick<Video, "duration" | "images">
+  className?: string
+}) => {
+  return (
+    <div className={cx("relative", className)}>
+      <div className={"absolute bg-gray-800/50 leading-4 p-1 right-0 bottom-0 m-1 text-white"}>
+        {formatVideoDuration(video.duration)}
       </div>
+      <img alt={""} src={video.images.thumbLarge} />
     </div>
-  </Link>
-)
+  )
+}
+
+const VideoCard = ({ video }: { video: BasicVideoMetadataFragment }) => {
+  return (
+    <Link href={`/video/${video.id}`} className={"snap-start"}>
+      <div className={"bg-black/60 rounded-md w-52 h-64"}>
+        <VideoThumbnail video={video} />
+        <div className={"p-2"}>
+          <div className={"font-bold text-white/80"}>{video.title}</div>
+          <div className={"font-bold text-white/70"}>{video.organization.name}</div>
+          <div className={"text-white/70"}>{format(new Date(video.createdAt), "d MMMM yyyy", { locale: nb })}</div>
+        </div>
+      </div>
+    </Link>
+  )
+}
 
 const NewestVideos = ({ className }: { className?: string }) => {
   const { data } = useQuery(GetVideosDocument)

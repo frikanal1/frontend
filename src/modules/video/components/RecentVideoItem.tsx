@@ -3,19 +3,19 @@ import { nb } from "date-fns/locale"
 import React from "react"
 import { Video } from "../../../generated/graphql"
 import { useRouter } from "next/router"
+import { VideoThumbnail } from "../../../pages/video"
 
 export type RecentVideoItemProps = {
-  video: Pick<Video, "id" | "title" | "createdAt" | "images">
+  video: Pick<Video, "id" | "title" | "createdAt" | "images" | "duration">
 }
 
-export const RecentVideoItem = ({ video: { id, title, createdAt, images } }: RecentVideoItemProps) => {
+export const RecentVideoItem = ({ video }: RecentVideoItemProps) => {
   const router = useRouter()
+  const { id, title, createdAt } = video
   return (
     <div className={"bg-white cursor-pointer "} onClick={() => router.push(`/video/${id}`)}>
       <div className={"flex items-between"}>
-        <div className={"aspect-video w-32 shrink-0"}>
-          <img alt={""} className="border-slate-700 rounded-lg p-1 border-1" src={images.thumbMedium} />
-        </div>
+        <VideoThumbnail className={"w-40"} video={video} />
         <div className={"pl-2 flex flex-col justify-between max-h-full"}>
           <h3 className={"font-bold text-md text-slate-900 overflow-hidden "}>
             <a>{title}</a>
