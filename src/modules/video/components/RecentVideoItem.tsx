@@ -15,7 +15,7 @@ export const RecentVideoItem = ({ video }: RecentVideoItemProps) => {
   return (
     <div className={"bg-white cursor-pointer "} onClick={() => router.push(`/video/${id}`)}>
       <div className={"flex items-between"}>
-        <VideoThumbnail className={"w-40"} video={video} />
+        <VideoThumbnail className={"basis-40 flex-none"} video={video} />
         <div className={"pl-2 flex flex-col justify-between max-h-full"}>
           <h3 className={"font-bold text-md text-slate-900 overflow-hidden "}>
             <a>{title}</a>
