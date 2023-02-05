@@ -2,18 +2,19 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { Meta } from "../modules/core/components/Meta"
 
-export type UserMenuState = "/user" | "/user/organizations" | "/user/profile" | "/logout"
+export type UserMenuState = "/user" | "/user/organizations" | "/user/profile" | "/logout" | "/user/schedule"
 
 export type UserMenu = Record<UserMenuState, string>
 
-export const USER_MENU: Record<UserMenuState, string> = {
+export const USER_MENU: UserMenu = {
   "/user": "Ny video",
   "/user/organizations": "Organisasjoner",
   "/user/profile": "Profil",
+  "/user/schedule": "Sendeplan",
   "/logout": "Logg ut",
 }
 
-export const UserMenuMeta = () => {
+export const UserPageMeta = () => {
   const router = useRouter()
 
   return (

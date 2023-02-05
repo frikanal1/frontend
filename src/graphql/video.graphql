@@ -96,6 +96,7 @@ fragment BasicVideoMetadata on Video {
     title
     description
     createdAt
+    duration
     organization {
         id
         name

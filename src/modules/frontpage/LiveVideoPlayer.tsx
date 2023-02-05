@@ -20,9 +20,6 @@ export const VideoJS = ({ options, onReady }: VideoJSProps) => {
       if (!videoElement) return
 
       const player = (playerRef.current = videojs(videoElement, options, () => {
-        player.tech().on("usage", (e) => {
-          console.log(e.name)
-        })
         onReady && onReady(player)
       }))
 
@@ -57,7 +54,7 @@ export const LiveVideoPlayer = ({ className, src }: LiveVideoPlayerProps) => (
     <VideoJS
       options={{
         fluid: true,
-        html5: { hls: { overrideNative: true } },
+        html5: { vhs: { overrideNative: true } },
         controls: true,
         sources: [{ src, type: "application/x-mpegURL" }],
       }}
