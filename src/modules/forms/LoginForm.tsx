@@ -64,7 +64,7 @@ export const LoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
       </div>
       <div className={"py-4"}>
         <Button
-          className="p-2 w-full text-xl bg-green-100 text-green-900"
+          className="p-2 w-full text-xl bg-green-100 text-green-900 hover:bg-green-200"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
         >
