@@ -1,22 +1,7 @@
-fragment FrontpageSchedule on ScheduleItem {
-  start
-  end
-  video {
-    __typename
-    title
-    url
-    description
-    organization {
-      id
-      name
-    }
-  }
-}
-
 query GetFrontpage($filter: ScheduleFilter!) {
   schedule(filter: $filter) {
     items {
-      ...FrontpageSchedule
+      ...Program
     }
   }
 }

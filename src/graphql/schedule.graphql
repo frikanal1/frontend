@@ -7,12 +7,14 @@ query GetSchedule($filter: ScheduleFilter!) {
 }
 
 fragment Program on ScheduleItem {
+  id
   start
   end
   video {
     __typename
     title
     url
+    description
     organization {
       id
       name

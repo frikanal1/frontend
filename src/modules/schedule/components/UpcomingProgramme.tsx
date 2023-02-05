@@ -1,15 +1,16 @@
 import Link from "next/link"
 import { humanizeScheduleItemDate } from "../helpers/humanizeScheduleItemDate"
-import { FrontpageScheduleFragment } from "../../../generated/graphql"
+import { ProgramFragment } from "../../../generated/graphql"
+import cx from "classnames"
 
 export interface UpcomingProgrammeProps {
   className?: string
-  entry?: FrontpageScheduleFragment
+  entry?: ProgramFragment
 }
 
 export function UpcomingProgramme({ className, entry }: UpcomingProgrammeProps) {
   return (
-    <div className={"flex w-full flex-col xl:flex-row " + className}>
+    <div className={cx("flex w-full flex-col xl:flex-row pb-2", className)}>
       <div className={"grow flex flex-col"}>
         <Link href={entry?.video.url || ""} passHref className={"font-bold truncate w-full"}>
           {entry?.video.title}
@@ -18,7 +19,7 @@ export function UpcomingProgramme({ className, entry }: UpcomingProgrammeProps) 
           {entry?.video.organization.name}
         </Link>
       </div>
-      <span className={"font-mono font-condensed text-green-400 shrink-0 font-bold"}>
+      <span className={"font-condensed text-green-400 shrink-0 font-bold"}>
         {entry && humanizeScheduleItemDate(new Date(entry?.start))}
       </span>
     </div>
