@@ -12,21 +12,20 @@ export type VideoPlayerProps = {
 
 export function VideoPlayer({ className, video }: VideoPlayerProps) {
   const formats = [
-    { assetType: "webm", mimeType: "video/webm" },
-    { assetType: "theora", mimeType: "video/ogg" },
+    { assetType: "webm", type: "video/webm" },
+    { assetType: "theora", type: "video/ogg" },
   ]
 
   const sources: SourceObject[] = formats
-    .map(({ assetType, mimeType }) => {
+    .map(({ assetType, type }) => {
       const src = getAssetURI(video.assets, assetType)!
 
       return {
         src,
-        mimeType,
+        type,
       }
     })
-    .filter(({ src }) => !!src)
-
+    .filter(({ src }) => src)
   if (!video) return null
 
   return (
