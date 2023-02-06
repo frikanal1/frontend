@@ -5,7 +5,7 @@ import { useSchedule } from "./useSchedule"
 
 export const FrontpageScheduleView = () => {
   const { schedule, current } = useSchedule()
-  if (!schedule) return null
+  if (!schedule?.length) return null
 
   return (
     <div className="p-4 xl:px-8 xl:py-6">

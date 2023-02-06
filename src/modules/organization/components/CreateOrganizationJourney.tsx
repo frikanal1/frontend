@@ -12,7 +12,7 @@ export const CreateOrganizationJourney = () => {
   const redirectToNewOrg = async (newOrgId: string) => router.push(`/organization/${newOrgId}`)
 
   return (
-    <div className={"bg-gradient-to-b from-green-100 to-green-200"}>
+    <div className={"shadow-lg bg-gradient-to-b from-green-100 to-green-200"}>
       <h3 className="text-3xl bg-gradient-to-b from-green-800 to-green-900 font-bold text-green-100 px-8 py-5">
         Ny organisasjon - del {brregData ? "2" : "1"}
       </h3>
