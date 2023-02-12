@@ -12,6 +12,7 @@ export type VideoPlayerProps = {
 
 export function VideoPlayer({ className, video }: VideoPlayerProps) {
   const formats = [
+    { assetType: "hls", type: "application/vnd.apple.mpegurl" },
     { assetType: "webm", type: "video/webm" },
     { assetType: "theora", type: "video/ogg" },
   ]
