@@ -3,7 +3,7 @@ import { RoleType } from "../../generated/graphql"
 import { USER_MENU, UserPageMeta } from "../UserMenu"
 import React, { useContext, useMemo } from "react"
 import { MenuItem, Select } from "@mui/material"
-import { AboutLink } from "../../pages/about/aboutLinkBar"
+import { AboutLink } from "../../modules/core/components/aboutLinkBar"
 
 const OrgSelector = () => {
   const { activeOrganization, setActiveOrganization, session } = useContext(userContext)
