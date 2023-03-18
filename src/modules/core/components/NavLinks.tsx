@@ -13,9 +13,9 @@ export const NavLink = ({ children, href, className }: { children: ReactNode; hr
     <Link
       href={href}
       className={cx(
-        "font-bold transition border-b-4 leading-8",
+        "font-bold transition border-b-4 leading-8 border-b-transparent",
         {
-          "text-[#E88840] border-b-transparent": active(href),
+          "text-[#E88840]": active(href),
           "text-gray-600 hover:text-gray-800": !active(href),
           "hover:border-b-[#E88840]/50 border-b-[#E88840]": active(href) && href !== "/",
         },
