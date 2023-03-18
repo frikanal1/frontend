@@ -51,8 +51,8 @@ const NewestVideos = ({ className }: { className?: string }) => {
   const videos = data?.video.list.items
 
   return (
-    <div className={className + " p-4 h-full bg-gradient-to-bl from-transparent via-black/10 to-black/40 w-full"}>
-      <div className={"text-3xl font-bold text-white/95 pb-1"}>Nyeste videoer</div>
+    <div className={cx(className, "p-4 border-orange-300 bg-white/40 border-4 rounded-xl shadow-lg")}>
+      <div className={"text-3xl font-bold text-black/95 pb-1"}>Nyeste videoer</div>
       <div className={"flex py-2 gap-4 overflow-x-scroll scroll-smooth snap-x horizontal-list"}>
         {videos?.map((v) => v && <VideoCard key={v.id} video={v} />)}
       </div>
@@ -70,7 +70,7 @@ export const ArchivePage = ({ children }: { children: React.ReactNode }) => (
 export const ArchiveHome = () => {
   return (
     <ArchivePage>
-      <NewestVideos className={"drop-shadow-xl grow bg-orange-700"} />
+      <NewestVideos className={"drop-shadow-xl grow"} />
     </ArchivePage>
   )
 }

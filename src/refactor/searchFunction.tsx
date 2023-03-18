@@ -6,6 +6,7 @@ import { useQuery } from "@apollo/client"
 import CircularProgress from "@mui/material/CircularProgress"
 import InputBase from "@mui/material/InputBase"
 import { useDebounce, useOnClickOutside } from "usehooks-ts"
+import cx from "classnames"
 
 const SearchResults = ({
   results,
@@ -60,9 +61,11 @@ const SearchResult = ({ result }: { result: VideoSearchResultFragment }) => (
 )
 export const SearchFunction = ({ className }: { className?: string }) => {
   const [query, setQuery] = useState<string>("")
+
   // Every time the query changes, a half-second timeout before we search,
   // so a user typing will not trigger as many searches as keypresses.
   const debouncedQuery = useDebounce<string>(query, 500)
+
   const { data, loading } = useQuery(VideoSearchDocument, { variables: { query: debouncedQuery } })
 
   const [showResults, setShowResults] = useState<boolean>()
@@ -75,17 +78,15 @@ export const SearchFunction = ({ className }: { className?: string }) => {
     <div ref={ref} className={className}>
       <div
         className={
-          "z-50 bg-gradient-to-b from-green-600 to-green-800 p-2 flex font-bold text-2xl text-white/95 items-center"
+          "bg-gradient-to-b from-green-500 to-green-700 pl-10 gap-4 p-3 flex font-bold text-2xl text-white/95 items-center"
         }
       >
-        <div className={"px-5 ml-5 py-3 hidden lg:block"}>Søk</div>
-        <div className={"bg-green-100 rounded-lg m-1 grow text-black " + (showResults ? "rounded-b-none" : "")}>
-          <div className={"relative "}>
-            <form role={"search"} className={"flex"} action={"/video/search"}>
+        <div className={"max-lg:hidden"}>Søk</div>
+        <div className={cx("bg-green-100 rounded-lg m-1 grow text-black", { "rounded-b-none": showResults })}>
+          <div className={"relative"}>
+            <form role={"search"} className={"flex items-center"} action={"/video/search"}>
               <SearchResults show={showResults} results={items} loading={loading} />
-              <span className={"mx-2"}>
-                <SearchIcon />
-              </span>
+              <SearchIcon className={"mx-2"} />
               <InputBase
                 onClick={() => setShowResults(true)}
                 value={query}
