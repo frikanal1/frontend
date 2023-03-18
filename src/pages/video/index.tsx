@@ -33,7 +33,7 @@ export const VideoThumbnail = ({
 const VideoCard = ({ video }: { video: BasicVideoMetadataFragment }) => {
   return (
     <Link href={`/video/${video.id}`} className={"snap-start"}>
-      <div className={"bg-black/60 rounded-md w-52 h-64"}>
+      <div className={"bg-black/60 rounded-md w-52 h-full"}>
         <VideoThumbnail video={video} />
         <div className={"p-2"}>
           <div className={"font-bold text-white/80"}>{video.title}</div>
@@ -51,9 +51,9 @@ const NewestVideos = ({ className }: { className?: string }) => {
   const videos = data?.video.list.items
 
   return (
-    <div className={cx(className, "p-4 border-orange-300 bg-white/40 border-4 rounded-xl shadow-lg")}>
-      <div className={"text-3xl font-bold text-black/95 pb-1"}>Nyeste videoer</div>
-      <div className={"flex py-2 gap-4 overflow-x-scroll scroll-smooth snap-x horizontal-list"}>
+    <div className={cx(className, "p-4 border-orange-300 bg-white/40 border-4 space-y-2 rounded-xl shadow-lg w-full")}>
+      <div className={"text-3xl font-bold text-black/95"}>Nyeste videoer</div>
+      <div className={"flex gap-4 pb-2 overflow-x-scroll scroll-x-smooth snap-x horizontal-list"}>
         {videos?.map((v) => v && <VideoCard key={v.id} video={v} />)}
       </div>
     </div>

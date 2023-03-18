@@ -78,7 +78,7 @@ export const SearchFunction = ({ className }: { className?: string }) => {
     <div ref={ref} className={className}>
       <div
         className={
-          "bg-gradient-to-b from-green-500 to-green-700 pl-10 gap-4 p-3 flex font-bold text-2xl text-white/95 items-center"
+          "bg-gradient-to-b from-green-500 to-green-700 lg:pl-10 gap-4 p-3 flex font-bold text-2xl text-white/95 items-center"
         }
       >
         <div className={"max-lg:hidden"}>Søk</div>
