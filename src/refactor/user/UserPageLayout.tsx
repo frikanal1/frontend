@@ -2,8 +2,8 @@ import userContext from "../UserContext"
 import { RoleType } from "../../generated/graphql"
 import { USER_MENU, UserPageMeta } from "../UserMenu"
 import React, { useContext, useMemo } from "react"
-import { AboutLink } from "../../pages/about"
 import { MenuItem, Select } from "@mui/material"
+import { AboutLink } from "../../pages/about/aboutLinkBar"
 
 const OrgSelector = () => {
   const { activeOrganization, setActiveOrganization, session } = useContext(userContext)

@@ -1,5 +1,5 @@
-import { AboutLinkBar } from "./index"
 import Link from "next/link"
+import { AboutLinkBar } from "./aboutLinkBar"
 
 export const Board = () => (
   <div>

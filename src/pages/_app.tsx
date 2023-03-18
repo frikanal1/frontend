@@ -24,7 +24,7 @@ const CustomApp = ({ Component, pageProps, apolloClient = client }: FKAppProps) 
       >
         <div className={"flex flex-col grow"}>
           <Header className={"px-2 md:px-0"} />
-          <main className="flex flex-col grow">
+          <main style={{ isolation: "isolate" }} className="flex flex-col grow">
             <Component {...pageProps} />
           </main>
         </div>

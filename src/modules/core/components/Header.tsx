@@ -13,6 +13,6 @@ export const Header = ({ className }: { className?: string }) => (
       </Link>
       <MobileNavLinks className={"lg:hidden"} />
     </div>
-    <NavLinks className={"max-lg:hidden lg:flex gap-4 align-center text-xl lg:text-3xl pt-4"} />
+    <NavLinks className={"max-lg:hidden flex gap-4 text-xl lg:text-3xl pt-4"} />
   </header>
 )

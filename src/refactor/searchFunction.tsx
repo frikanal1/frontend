@@ -18,7 +18,7 @@ const SearchResults = ({
   loading?: boolean
 }) => {
   const className =
-    "bg-gradient-to-b from-green-100 to-green-300 rounded-b-lg  top-full left-0 w-full absolute flex flex-col"
+    "bg-gradient-to-b from-green-100 to-green-300 rounded-b-lg  top-full left-0 w-full absolute flex flex-col z-100"
 
   if (!show) return null
 
@@ -48,13 +48,11 @@ const SearchResult = ({ result }: { result: VideoSearchResultFragment }) => (
   <div className={"pl-2 pr-5 pb-[5px] text-black/80 hover:text-green-900 hover:bg-green-200"}>
     <Link href={`/video/${result.id}`}>
       <div className={"flex gap-2 lg:items-center text-sm lg:text-lg"}>
-        <img
-          className={"lg:basis-8 md:w-16 lg:w-32 grow-0 aspect-video block hidden md:block"}
-          alt={""}
-          src={result.images.thumbSmall}
-        />
-        <div className={"basis-1/7 lg:block"}>{result.organization.name}</div>
-        <div className={"grow"}>{result.title}</div>
+        <img className={"w-8 lg:w-24 aspect-video max-md:hidden"} alt={""} src={result.images.thumbSmall} />
+        <div>
+          <div className={"max-lg:inline"}>{result.title}</div>
+          <div className={"max-lg:inline max-lg:pl-1 text-black/50"}>{result.organization.name}</div>
+        </div>
       </div>
     </Link>
   </div>

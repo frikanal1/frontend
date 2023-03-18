@@ -62,7 +62,7 @@ const NewestVideos = ({ className }: { className?: string }) => {
 
 export const ArchivePage = ({ children }: { children: React.ReactNode }) => (
   <div className={"space-y-4"}>
-    <SearchFunction className={"drop-shadow-xl"} />
+    <SearchFunction className={"drop-shadow-xl relative z-20"} />
     <div className={"scroll-m-0 gap-8 flex flex-row"}>{children}</div>
   </div>
 )

@@ -1,4 +1,4 @@
-import { AboutLinkBar } from "./index"
+import { AboutLinkBar } from "./aboutLinkBar"
 
 export const MembershipPage = () => {
   return (
