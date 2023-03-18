@@ -2,21 +2,26 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { ReactNode, useContext } from "react"
 import UserContext from "../../../refactor/UserContext"
+import cx from "classnames"
 
 // FIXME: Resolve duplication here between AboutLink and this
 export const NavLink = ({ children, href, className }: { children: ReactNode; href: string; className?: string }) => {
   const router = useRouter()
   const active = (href?: string) => router.pathname.split("/")[1] == href?.slice(1)
 
-  const baseStyle = "font-black transition border-b-4 leading-8  "
-  const linkStyle = active(href)
-    ? "text-[#E88840] " + (href !== "/" ? "hover:border-b-[#E88840]/50 border-b-[#E88840] " : " border-b-transparent ")
-    : "border-b-transparent text-gray-600 hover:text-gray-800 "
-
-  const mergedStyle = [baseStyle, linkStyle, className].join(" ")
-
   return (
-    <Link href={href} className={mergedStyle}>
+    <Link
+      href={href}
+      className={cx(
+        "font-bold transition border-b-4 leading-8",
+        {
+          "text-[#E88840] border-b-transparent": active(href),
+          "text-gray-600 hover:text-gray-800": !active(href),
+          "hover:border-b-[#E88840]/50 border-b-[#E88840]": active(href) && href !== "/",
+        },
+        className
+      )}
+    >
       {children}
     </Link>
   )

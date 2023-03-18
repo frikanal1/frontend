@@ -17,7 +17,7 @@ export const Frontpage = () => (
         type: "website",
       }}
     />
-    <div className="xl:grow  drop-shadow-2xl border-t-[#E88840] border-t-4 ">
+    <div className="xl:grow drop-shadow-2xl border-t-[#E88840] border-t-4">
       <Suspense>
         <LiveVideoPlayer className="aspect-video w-full" src="https://beta.frikanalen.no/stream/program.m3u8" />
       </Suspense>
