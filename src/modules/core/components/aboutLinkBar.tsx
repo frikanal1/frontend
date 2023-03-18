@@ -22,6 +22,7 @@ export const AboutLink = ({ to, children }: { to: string; children: ReactNode })
     </div>
   )
 }
+
 export const AboutLinkBar = () => (
   <div className={"text-xl lg:text-2xl flex py-2 pb-3 mt-1 gap-4"}>
     <AboutLink to={"/about"}>Organisasjon</AboutLink>

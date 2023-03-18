@@ -1,6 +1,6 @@
 import { Meta } from "src/modules/core/components/Meta"
 import React from "react"
-import { AboutLinkBar } from "./aboutLinkBar"
+import { AboutLinkBar } from "../../modules/core/components/aboutLinkBar"
 
 export default function About() {
   return (

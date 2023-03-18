@@ -1,6 +1,6 @@
 import { Meta } from "src/modules/core/components/Meta"
 import Link from "next/link"
-import { AboutLinkBar } from "./aboutLinkBar"
+import { AboutLinkBar } from "../../modules/core/components/aboutLinkBar"
 
 const Sitat = () => (
   <div className={"lg:basis-1/3 "}>

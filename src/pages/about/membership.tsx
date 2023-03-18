@@ -1,4 +1,4 @@
-import { AboutLinkBar } from "./aboutLinkBar"
+import { AboutLinkBar } from "../../modules/core/components/aboutLinkBar"
 
 export const MembershipPage = () => {
   return (

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { AboutLinkBar } from "./aboutLinkBar"
+import { AboutLinkBar } from "../../modules/core/components/aboutLinkBar"
 
 export const Board = () => (
   <div>
